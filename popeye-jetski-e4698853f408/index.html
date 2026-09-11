@@ -80,14 +80,19 @@
     margin-top: 46px; border-top: 1px solid var(--n900); border-bottom: 1px solid var(--n900);
     overflow: hidden; padding: 15px 0; position: relative;
   }
+  .marquee + .marquee { margin-top: 0; border-top: 0; }
   .marquee .track { display: flex; width: max-content; animation: slide 38s linear infinite; }
+  .marquee.rev .track { animation: slide-rev 46s linear infinite; }
   .marquee span {
     font-size: 12px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase;
     color: var(--n500); padding-right: 38px; white-space: nowrap;
   }
   .marquee span b { color: var(--n200); font-weight: 500; }
   .marquee .dot { color: var(--ocean); }
+  .marquee.rev span { color: var(--n700); }
+  .marquee.rev span b { color: var(--n500); }
   @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes slide-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
   /* ---------- hero statement ---------- */
   header.hero .wrap { padding-top: 88px; padding-bottom: 72px; }
@@ -232,8 +237,20 @@
   .order b { display: block; font-weight: 600; font-size: 18px; letter-spacing: -.025em; margin-bottom: 4px; color: var(--moon); }
   .order span { color: var(--n400); font-size: 16px; }
 
-  /* ---------- iridescent band ---------- */
+  /* ---------- grain over everything, the way the site's hero render carries it ---------- */
+  .grain-page {
+    position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: .035;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>");
+  }
+
+  /* ---------- iridescent bands ---------- */
   .iri { position: relative; height: 300px; overflow: hidden; margin-top: 90px; background: #05070c; }
+  .iri.hero-band { height: 260px; margin-top: 0; }
+  .iri.hero-band .caption {
+    font-size: clamp(15px, 2.2vw, 20px); font-weight: 500; letter-spacing: -.02em;
+    color: var(--n200); padding-bottom: 22px;
+  }
+  .iri.hero-band .caption b { color: var(--moon); font-weight: 600; }
   .iri canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .iri .grain {
     position: absolute; inset: 0; opacity: .16; mix-blend-mode: overlay; pointer-events: none;
@@ -248,8 +265,22 @@
 
   /* ---------- offers ---------- */
   .offers .wrap { padding-top: 66px; padding-bottom: 80px; }
-  .offer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--n800); margin-top: 34px; }
-  .offer { background: var(--onyx); padding: 36px 32px; display: flex; flex-direction: column; }
+  /* Six named rows, shared by both cards through subgrid, so the kicker, the title, the body,
+     the price and the button sit on the same line across the pair however long the lists are.
+     Without this the shorter card floats its price and its button out of step with the other. */
+  .offer-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-rows: auto auto auto 1fr auto auto auto;
+    gap: 1px; background: var(--n800); margin-top: 34px;
+  }
+  .offer {
+    background: var(--onyx); padding: 36px 32px;
+    display: grid; grid-row: span 7; grid-template-rows: subgrid; align-content: start;
+  }
+  @supports not (grid-template-rows: subgrid) {
+    .offer-grid { grid-template-rows: none; }
+    .offer { display: flex; flex-direction: column; grid-row: auto; }
+  }
   .offer .kicker {
     font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .18em;
     color: var(--n600); margin: 0 0 14px;
@@ -264,7 +295,8 @@
     font-variant-numeric: tabular-nums;
   }
   .offer .price small { font-weight: 400; font-size: 12px; color: var(--n600); letter-spacing: .16em; text-transform: uppercase; }
-  .offer .spacer { flex: 1; }
+  .offer .spacer { display: none; }
+  @supports not (grid-template-rows: subgrid) { .offer .spacer { display: block; flex: 1; } }
   .btn {
     display: inline-block; text-align: center; text-decoration: none;
     font-weight: 600; font-size: 13.5px; letter-spacing: .12em; text-transform: uppercase;
@@ -288,11 +320,17 @@
   .colophon a { color: var(--n300); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
   .colophon a:hover { color: var(--moon); }
   .colophon .tag { font-size: 13px; color: var(--n600); letter-spacing: -.01em; text-transform: none; font-weight: 400; }
-  .endmark { overflow: hidden; padding: 10px 0 30px; }
+  /* The closing wordmark scrolls and is the way back to the studio. */
+  .endmark { display: block; overflow: hidden; padding: 16px 0 34px; text-decoration: none; }
+  .endmark .track { display: flex; width: max-content; animation: slide 44s linear infinite; }
   .endmark .big {
-    margin: 0; padding: 0 var(--gut); font-weight: 700; color: #121212;
-    font-size: clamp(46px, 15.6vw, 250px); line-height: .8; letter-spacing: -.055em; white-space: nowrap;
+    margin: 0; padding-right: 64px; font-weight: 700; color: #141414;
+    font-size: clamp(46px, 15.6vw, 250px); line-height: .82; letter-spacing: -.055em; white-space: nowrap;
+    transition: color .3s ease;
   }
+  .endmark:hover .big { color: #1f1f1f; }
+  .endmark:hover .big .dot { color: var(--ocean); }
+  .endmark .big .dot { color: #141414; transition: color .3s ease; }
 
   /* ---------- reveal ---------- */
   html.js .rv { opacity: 0; transform: translateY(18px); }
@@ -321,6 +359,7 @@
 
 <div class="progress" id="progress" aria-hidden="true"></div>
 <div class="grid-lines" aria-hidden="true"></div>
+<div class="grain-page" aria-hidden="true"></div>
 
 <div class="layer">
 
@@ -347,6 +386,21 @@
     <span><b>Free teardown</b> <em class="dot">&middot;</em> 8 findings <em class="dot">&middot;</em> 1 of them is giving rides away <em class="dot">&middot;</em> checked on the live site <em class="dot">&middot;</em> </span>
     <span><b>Free teardown</b> <em class="dot">&middot;</em> 8 findings <em class="dot">&middot;</em> 1 of them is giving rides away <em class="dot">&middot;</em> checked on the live site <em class="dot">&middot;</em> </span>
   </div>
+</div>
+
+<div class="marquee rev" aria-hidden="true">
+  <div class="track">
+    <span>Jetski tours <em class="dot">&middot;</em> Jet Car <em class="dot">&middot;</em> Flyboard <em class="dot">&middot;</em> Paddle <em class="dot">&middot;</em> Kayak <em class="dot">&middot;</em> Donut <em class="dot">&middot;</em> Umm Suqeim 1 <em class="dot">&middot;</em> </span>
+    <span>Jetski tours <em class="dot">&middot;</em> Jet Car <em class="dot">&middot;</em> Flyboard <em class="dot">&middot;</em> Paddle <em class="dot">&middot;</em> Kayak <em class="dot">&middot;</em> Donut <em class="dot">&middot;</em> Umm Suqeim 1 <em class="dot">&middot;</em> </span>
+    <span>Jetski tours <em class="dot">&middot;</em> Jet Car <em class="dot">&middot;</em> Flyboard <em class="dot">&middot;</em> Paddle <em class="dot">&middot;</em> Kayak <em class="dot">&middot;</em> Donut <em class="dot">&middot;</em> Umm Suqeim 1 <em class="dot">&middot;</em> </span>
+    <span>Jetski tours <em class="dot">&middot;</em> Jet Car <em class="dot">&middot;</em> Flyboard <em class="dot">&middot;</em> Paddle <em class="dot">&middot;</em> Kayak <em class="dot">&middot;</em> Donut <em class="dot">&middot;</em> Umm Suqeim 1 <em class="dot">&middot;</em> </span>
+  </div>
+</div>
+
+<div class="iri hero-band">
+  <canvas data-iri="warm" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <p class="caption"><b>Eight findings.</b> One of them is live right now.</p>
 </div>
 
 <header class="hero">
@@ -553,7 +607,7 @@
 </div>
 
 <div class="iri">
-  <canvas id="iri" aria-hidden="true"></canvas>
+  <canvas data-iri="cool" aria-hidden="true"></canvas>
   <div class="grain" aria-hidden="true"></div>
   <p class="caption">Everything you need. One studio.</p>
 </div>
@@ -623,7 +677,14 @@
       <a href="mailto:hello@terraflow.studio">hello@terraflow.studio</a>
     </div>
   </div>
-  <div class="endmark" aria-hidden="true"><p class="big">TERRAFLOW.STUDIO</p></div>
+  <a class="endmark" href="https://terraflow.studio" target="_blank" rel="noopener" aria-label="Terraflow Studio">
+    <span class="track">
+      <span class="big">TERRAFLOW<span class="dot">.</span>STUDIO</span>
+      <span class="big">TERRAFLOW<span class="dot">.</span>STUDIO</span>
+      <span class="big">TERRAFLOW<span class="dot">.</span>STUDIO</span>
+      <span class="big">TERRAFLOW<span class="dot">.</span>STUDIO</span>
+    </span>
+  </a>
 </footer>
 
 </div><!-- /layer -->
@@ -702,49 +763,72 @@
   window.addEventListener("scroll", progress, { passive: true });
   progress();
 
-  // Iridescent band. Slow moving chromatic field, drawn rather than stock.
-  var cv = document.getElementById("iri");
-  if (cv && cv.getContext) {
-    var ctx = cv.getContext("2d"), t = 0, raf;
+  // Iridescent bands. A slow chromatic field, drawn rather than stock, one warm and one cool.
+  // Each only runs while it is on screen.
+  var PALETTES = {
+    warm: [
+      [0.24, 0.21, 0.38, 0.17, 0.30, "255,138,76", .40],
+      [0.50, 0.13, 0.70, 0.23, 0.28, "0,153,255", .58],
+      [0.76, 0.19, 0.34, 0.11, 0.30, "255,74,140", .34],
+      [0.62, 0.09, 0.16, 0.27, 0.21, "255,209,102", .26]
+    ],
+    cool: [
+      [0.22, 0.21, 0.34, 0.17, 0.30, "0,153,255", .62],
+      [0.52, 0.13, 0.66, 0.23, 0.27, "0,209,178", .42],
+      [0.78, 0.19, 0.38, 0.11, 0.29, "122,86,255", .46],
+      [0.66, 0.09, 0.18, 0.27, 0.20, "255,110,180", .26]
+    ]
+  };
+
+  [].slice.call(document.querySelectorAll("canvas[data-iri]")).forEach(function (cv) {
+    if (!cv.getContext) return;
+    var ctx = cv.getContext("2d");
+    if (!ctx) return;
+    var spec = PALETTES[cv.getAttribute("data-iri")] || PALETTES.cool;
+    var t = Math.random() * 10, raf = null, rect;
+
     function size() {
       var r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
-      cv.width = Math.max(1, r.width * d); cv.height = Math.max(1, r.height * d);
+      cv.width = Math.max(1, Math.round(r.width * d));
+      cv.height = Math.max(1, Math.round(r.height * d));
       ctx.setTransform(d, 0, 0, d, 0, 0);
       return r;
     }
-    var rect = size();
-    window.addEventListener("resize", function () { rect = size(); if (reduce) draw(); });
+    rect = size();
+    window.addEventListener("resize", function () { rect = size(); draw(); });
 
-    function blob(x, y, r, c1, c2) {
+    function blob(x, y, r, rgb, a) {
       var g = ctx.createRadialGradient(x, y, 0, x, y, r);
-      g.addColorStop(0, c1); g.addColorStop(1, c2);
+      g.addColorStop(0, "rgba(" + rgb + "," + a + ")");
+      g.addColorStop(1, "rgba(" + rgb + ",0)");
       ctx.fillStyle = g;
       ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
     }
     function draw() {
       var w = rect.width, h = rect.height;
+      if (!w || !h) return;
       ctx.clearRect(0, 0, w, h);
       ctx.fillStyle = "#05070c"; ctx.fillRect(0, 0, w, h);
       ctx.globalCompositeOperation = "lighter";
       ctx.filter = "blur(56px)";
       var s = Math.max(w, h);
-      blob(w * (0.22 + 0.10 * Math.sin(t * 0.21)), h * (0.34 + 0.20 * Math.cos(t * 0.17)), s * 0.30, "rgba(0,153,255,.62)", "rgba(0,153,255,0)");
-      blob(w * (0.52 + 0.14 * Math.cos(t * 0.13)), h * (0.66 + 0.16 * Math.sin(t * 0.23)), s * 0.27, "rgba(0,209,178,.42)", "rgba(0,209,178,0)");
-      blob(w * (0.78 + 0.11 * Math.sin(t * 0.19)), h * (0.38 + 0.22 * Math.cos(t * 0.11)), s * 0.29, "rgba(122,86,255,.46)", "rgba(122,86,255,0)");
-      blob(w * (0.66 + 0.16 * Math.sin(t * 0.09)), h * (0.18 + 0.14 * Math.sin(t * 0.27)), s * 0.20, "rgba(255,110,180,.26)", "rgba(255,110,180,0)");
+      spec.forEach(function (p, i) {
+        var fx = i % 2 ? Math.cos : Math.sin;
+        var fy = i % 2 ? Math.sin : Math.cos;
+        blob(w * (p[0] + 0.13 * fx(t * p[1])), h * (p[2] + 0.19 * fy(t * p[3])), s * p[4], p[5], p[6]);
+      });
       ctx.filter = "none";
       ctx.globalCompositeOperation = "source-over";
     }
     function loop() { t += 0.006; draw(); raf = requestAnimationFrame(loop); }
-    if (reduce) { draw(); }
-    else {
-      var vis = new IntersectionObserver(function (e) {
-        if (e[0].isIntersecting) { if (!raf) loop(); }
-        else if (raf) { cancelAnimationFrame(raf); raf = null; }
-      }, { threshold: 0 });
-      vis.observe(cv);
-    }
-  }
+
+    draw();
+    if (reduce || !("IntersectionObserver" in window)) return;
+    new IntersectionObserver(function (e) {
+      if (e[0].isIntersecting) { if (!raf) loop(); }
+      else if (raf) { cancelAnimationFrame(raf); raf = null; }
+    }, { threshold: 0 }).observe(cv);
+  });
 })();
 </script>
 </body>
