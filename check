@@ -10,6 +10,20 @@ dir="${1:?usage: ./check <folder>}"
 f="${dir%/}/index.html"
 [ -f "$f" ] || { echo "no such page: $f" >&2; exit 2; }
 
+# A build is only done when GitHub has built THE COMMIT YOU JUST PUSHED. Asking for
+# "status: built" alone answers yes on the previous build and a 404 follows.
+wait_for_build() {
+  local sha; sha=$(git rev-parse HEAD | cut -c1-8)
+  local i
+  for i in $(seq 1 60); do
+    if [ "$(gh api repos/Obitus599/terraflow-notes/pages/builds/latest 2>/dev/null \
+            | python3 -c 'import sys,json;d=json.load(sys.stdin);print(d.get("commit","")[:8], d.get("status"))')" \
+         = "$sha built" ]; then echo "github has built $sha"; return 0; fi
+    sleep 8
+  done
+  echo "github has not built $sha yet" >&2; return 1
+}
+
 fail=0
 say() { printf '%-34s %s\n' "$1" "$2"; }
 bad() { say "$1" "FAIL  $2"; fail=1; }
