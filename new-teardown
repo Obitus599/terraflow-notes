@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Start a teardown page for a prospect who said yes.
+#
+#   ./new-teardown popeye-jetski
+#
+# Copies _template into a folder with a random tail, because these pages name a real business
+# and describe faults that cost them money until they fix them. The link is the credential.
+set -euo pipefail
+
+cd "$(dirname "$0")"
+
+if [ $# -lt 1 ]; then
+  echo "usage: ./new-teardown <short-name>    e.g. ./new-teardown aroma-waxing" >&2
+  exit 2
+fi
+
+name=$(printf '%s' "$1" | tr '[:upper:] ' '[:lower:]-' | tr -cd 'a-z0-9-')
+if [ -z "$name" ]; then echo "that name has nothing usable in it" >&2; exit 2; fi
+
+tail=$(head -c 6 /dev/urandom | od -An -tx1 | tr -d ' \n')
+slug="${name}-${tail}"
+
+if [ -e "$slug" ]; then echo "$slug already exists" >&2; exit 1; fi
+
+cp -r _template "$slug"
+echo "$slug"
+echo
+echo "  1. write it:    $slug/index.html        every {{...}} has to go"
+echo "  2. check it:    ./check $slug"
+echo "  3. publish:     git add -A && git commit && git push"
+echo "  4. link:        https://notes.terraflow.studio/$slug/"

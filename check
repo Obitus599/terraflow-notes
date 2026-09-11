@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Refuses to pass a teardown page that still has placeholders, breaks the house style, or
+# swaps in a typeface that is not Switzer. Run it before every push.
+#
+#   ./check popeye-jetski-e4698853f408
+set -euo pipefail
+cd "$(dirname "$0")"
+
+dir="${1:?usage: ./check <folder>}"
+f="${dir%/}/index.html"
+[ -f "$f" ] || { echo "no such page: $f" >&2; exit 2; }
+
+fail=0
+say() { printf '%-34s %s\n' "$1" "$2"; }
+bad() { say "$1" "FAIL  $2"; fail=1; }
+ok()  { say "$1" "ok    $2"; }
+
+n=$(grep -c '{{' "$f" || true)
+[ "$n" -eq 0 ] && ok "placeholders" "none left" || bad "placeholders" "$n still in the page"
+
+n=$(grep -c '—\|–' "$f" || true)
+[ "$n" -eq 0 ] && ok "em and en dashes" "none" || bad "em and en dashes" "$n found, house style is plain hyphens"
+
+n=$(grep -ciE 'synergy|elevate your brand|unlock growth|next level|holistic|bespoke|cutting-edge|seamless|empower|leverage|game-changer|disrupt|growth hacking|passionate about' "$f" || true)
+[ "$n" -eq 0 ] && ok "agency jargon" "none" || bad "agency jargon" "$n hits"
+
+n=$(grep -ociE '\b(quietly|plainly|genuinely|basically|really|actually)\b' "$f" || true)
+[ "$n" -eq 0 ] && ok "sincerity adverbs" "none" || bad "sincerity adverbs" "$n hits"
+
+n=$(grep -oE 'font-family:[^;]*' "$f" | grep -vc Switzer || true)
+[ "$n" -eq 0 ] && ok "typeface" "Switzer only" || bad "typeface" "$n rules name something else"
+
+grep -q 'api.fontshare.com/v2/css' "$f" && ok "font source" "Fontshare" || bad "font source" "Switzer is not being loaded"
+grep -q 'https://terraflow.studio' "$f" && ok "link to the studio" "present" || bad "link to the studio" "missing"
+grep -q 'cal.com/hello-terraflow-studio' "$f" && ok "free call" "wired" || bad "free call" "cal.com link missing"
+grep -q 'buy.stripe.com/' "$f" && ok "paid teardown" "wired" || bad "paid teardown" "stripe link missing"
+grep -q 'noindex' "$f" && ok "search engines" "excluded" || bad "search engines" "no noindex, this page would get indexed"
+grep -q 'what is already working\|already working' "$f" && ok "the good news section" "present" \
+  || bad "the good news section" "every teardown names something that works"
+
+echo
+if [ "$fail" -eq 0 ]; then echo "$dir is ready to push."; else echo "$dir is not ready."; exit 1; fi
