@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Popeye Jetski site notes | Terraflow Studio</title>
+<meta name="description" content="Eight things costing Popeye Jetski bookings, checked on the live site on 11 September 2026.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap">
+<style>
+  /* Popeye Jetski's own identity: Kanit, #db1529 red, #eec256 gold, white ground.
+     Single theme on purpose, so the page feels like their site and not like ours.
+     Every colour is painted explicitly so it holds on any background. */
+  :root {
+    --red:        #db1529;
+    --red-dark:   #a80f1f;
+    --red-soft:   #fdecee;
+    --gold:       #eec256;
+    --gold-soft:  #fdf6e6;
+    --ink:        #15151c;
+    --ink-soft:   #4a4a58;
+    --ink-faint:  #7c7c8c;
+    --line:       #e2e2ea;
+    --line-soft:  #eeeef4;
+    --ground:     #ffffff;
+    --ground-alt: #fbfbfd;
+    --ok:         #1f7a4d;
+    --ok-soft:    #e8f5ee;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: Kanit, "Helvetica Neue", Arial, sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 22px; }
+
+  /* ---------------- header ---------------- */
+  .topbar { background: var(--red); color: #fff; }
+  .topbar .wrap {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 10px; padding-top: 14px; padding-bottom: 14px;
+  }
+  .topbar .brand { font-weight: 600; font-size: 15px; letter-spacing: .02em; }
+  .topbar .by { font-size: 12.5px; font-weight: 300; opacity: .9; letter-spacing: .04em; }
+
+  header.hero { background: var(--ground-alt); border-bottom: 1px solid var(--line); }
+  header.hero .wrap { padding-top: 54px; padding-bottom: 44px; }
+  .eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--red); margin: 0 0 14px;
+  }
+  h1 {
+    font-weight: 700; font-size: clamp(31px, 6vw, 50px); line-height: 1.06;
+    letter-spacing: -.02em; margin: 0 0 18px; text-wrap: balance;
+  }
+  h1 em { font-style: normal; color: var(--red); }
+  .lede { font-size: 18.5px; color: var(--ink-soft); margin: 0; max-width: 60ch; }
+  .meta {
+    margin: 26px 0 0; padding-top: 18px; border-top: 1px solid var(--line);
+    font-size: 13px; color: var(--ink-faint); letter-spacing: .02em;
+  }
+  .meta b { color: var(--ink); font-weight: 500; }
+
+  /* ---------------- tally ---------------- */
+  .tally {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+    gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft);
+    margin: 34px 0 0;
+  }
+  .tally > div { background: var(--ground); padding: 15px 17px; }
+  .tally dt {
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: .11em;
+    color: var(--ink-faint); margin: 0 0 5px; font-weight: 500;
+  }
+  .tally dd {
+    margin: 0; font-weight: 600; font-size: 25px; letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .tally .bad dd { color: var(--red); }
+  .tally .good dd { color: var(--ok); }
+
+  /* ---------------- sections ---------------- */
+  h2 {
+    font-weight: 600; font-size: 12.5px; text-transform: uppercase; letter-spacing: .17em;
+    color: var(--ink-faint); margin: 58px 0 0; padding-bottom: 10px;
+    border-bottom: 2px solid var(--red);
+  }
+  .finding { padding: 28px 0; border-bottom: 1px solid var(--line-soft); }
+  .finding:last-of-type { border-bottom: 0; }
+  .chip {
+    display: inline-block; font-size: 10.5px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .08em; padding: 4px 9px; margin-bottom: 12px; border-radius: 2px;
+  }
+  .chip.now  { background: var(--red); color: #fff; }
+  .chip.lose { background: var(--gold-soft); color: #8a6413; border: 1px solid var(--gold); }
+  .chip.tidy { background: var(--line-soft); color: var(--ink-soft); }
+  .finding h3 {
+    font-weight: 600; font-size: 23px; line-height: 1.25; letter-spacing: -.018em;
+    margin: 0 0 10px; text-wrap: balance;
+  }
+  .finding p { margin: 0 0 13px; max-width: 63ch; }
+  .finding p:last-child { margin-bottom: 0; }
+
+  .quote {
+    background: var(--ground-alt); border-left: 4px solid var(--red);
+    padding: 15px 18px; margin: 0 0 12px; font-size: 15.5px;
+  }
+  .quote .q {
+    display: block; font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--red); margin-bottom: 4px;
+  }
+  .same { font-size: 13px; font-weight: 500; color: var(--red); margin: 0 0 13px; letter-spacing: .01em; }
+
+  .price-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 14px; }
+  .price-card { border: 1px solid var(--line); padding: 12px 17px; min-width: 152px; background: var(--ground); }
+  .price-card .who {
+    display: block; font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--ink-faint); margin-bottom: 3px; font-weight: 500;
+  }
+  .price-card .amt { font-weight: 600; font-size: 25px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .price-card.zero { border-color: var(--red); background: var(--red-soft); }
+  .price-card.zero .amt { color: var(--red); }
+
+  .list { margin: 0 0 14px; padding: 0; list-style: none; }
+  .list li {
+    display: flex; gap: 14px; padding: 7px 0; border-bottom: 1px dotted var(--line);
+    font-size: 15.5px;
+  }
+  .list li:last-child { border-bottom: 0; }
+  .list .name { flex: 1; }
+  .list .state { font-size: 12px; font-weight: 500; letter-spacing: .03em; white-space: nowrap; padding-top: 3px; }
+  .list .state.bad { color: var(--red); }
+  .list .state.good { color: var(--ok); }
+
+  .slots {
+    display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px;
+    padding: 14px 16px; background: var(--ground-alt); border: 1px solid var(--line);
+  }
+  .slot { font-size: 12.5px; padding: 4px 9px; border: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+  .slot.gone { color: var(--ink-faint); text-decoration: line-through; border-color: var(--line-soft); }
+  .slot.open { color: var(--ok); border-color: var(--ok); }
+
+  .note { font-size: 13px; color: var(--ink-faint); margin: 0; }
+
+  .working {
+    background: var(--ok-soft); border: 1px solid #bfe0cd; padding: 22px 24px; margin: 22px 0 0;
+  }
+  .working h3 { font-weight: 600; font-size: 19px; margin: 0 0 12px; letter-spacing: -.015em; }
+  .working p { margin: 0 0 11px; max-width: 63ch; }
+  .working p:last-child { margin-bottom: 0; }
+
+  .order { counter-reset: step; margin: 20px 0 0; padding: 0; list-style: none; }
+  .order li {
+    counter-increment: step; display: grid; grid-template-columns: 38px 1fr; gap: 16px;
+    padding: 16px 0; border-bottom: 1px solid var(--line-soft); align-items: baseline;
+  }
+  .order li:last-child { border-bottom: 0; }
+  .order li::before {
+    content: counter(step, decimal-leading-zero);
+    font-weight: 700; font-size: 19px; color: var(--red); font-variant-numeric: tabular-nums;
+  }
+  .order b { display: block; font-weight: 600; font-size: 17px; letter-spacing: -.01em; margin-bottom: 2px; }
+  .order span { color: var(--ink-soft); font-size: 15.5px; }
+
+  /* ---------------- offers ---------------- */
+  .offers { background: var(--ink); color: #fff; margin-top: 64px; }
+  .offers .wrap { padding-top: 52px; padding-bottom: 52px; }
+  .offers h2 { color: rgba(255,255,255,.5); border-bottom-color: var(--gold); margin-top: 0; }
+  .offer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 26px; }
+  .offer {
+    background: #1e1e27; border: 1px solid #33333f; padding: 26px 24px;
+    display: flex; flex-direction: column;
+  }
+  .offer.paid { border-color: var(--gold); }
+  .offer .kicker {
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .13em;
+    color: var(--gold); margin: 0 0 10px;
+  }
+  .offer h3 { font-weight: 600; font-size: 21px; line-height: 1.25; margin: 0 0 10px; letter-spacing: -.015em; color: #fff; }
+  .offer p { margin: 0 0 16px; font-size: 15.5px; color: #c3c3d0; }
+  .offer ul { margin: 0 0 20px; padding-left: 18px; font-size: 15px; color: #c3c3d0; }
+  .offer ul li { margin-bottom: 5px; }
+  .offer .price {
+    font-weight: 700; font-size: 30px; letter-spacing: -.02em; color: #fff; margin: 0 0 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .offer .price small { font-weight: 300; font-size: 14px; color: #9a9aab; letter-spacing: 0; }
+  .offer .spacer { flex: 1; }
+  .btn {
+    display: inline-block; text-align: center; text-decoration: none;
+    font-weight: 600; font-size: 15.5px; letter-spacing: .02em;
+    padding: 14px 22px; border-radius: 3px; transition: background .15s ease, color .15s ease;
+  }
+  .btn-red { background: var(--red); color: #fff; }
+  .btn-red:hover { background: var(--red-dark); }
+  .btn-gold { background: var(--gold); color: #241c05; }
+  .btn-gold:hover { background: #f5d183; }
+  .btn[aria-disabled="true"] { background: #3a3a46; color: #9a9aab; cursor: not-allowed; }
+  .offer .fine { margin: 12px 0 0; font-size: 12.5px; color: #8e8e9e; }
+
+  /* ---------------- footer ---------------- */
+  footer { background: var(--ground-alt); border-top: 1px solid var(--line); }
+  footer .wrap { padding-top: 34px; padding-bottom: 44px; }
+  footer p { margin: 0 0 10px; max-width: 62ch; color: var(--ink-soft); font-size: 15.5px; }
+  .sign { font-weight: 600; font-size: 17px; color: var(--ink); margin-top: 18px; }
+  .sign span { display: block; font-weight: 300; font-size: 12.5px; color: var(--ink-faint); letter-spacing: .06em; text-transform: uppercase; margin-top: 4px; }
+
+  a { color: var(--red); }
+  a:focus-visible, .btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  @media (max-width: 600px) { body { font-size: 16px; } .offers .wrap { padding-top: 42px; padding-bottom: 42px; } }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span class="brand">Popeye Jetski Rental</span>
+    <span class="by">Site notes by Terraflow Studio</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Free teardown &middot; as promised</p>
+    <h1>Eight things your website is doing, <em>and one of them is giving rides away</em></h1>
+    <p class="lede">
+      I went through popeyejetski.com the way a tourist would, on the pages that take money.
+      One item is live right now and I would fix it today. The booking system itself is fine,
+      and I say where below so nobody wastes a day on it.
+    </p>
+    <p class="meta">Checked on the live site <b>11 September 2026</b> for <b>Nicolas Benrezkallah</b></p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <dl class="tally">
+    <div class="bad"><dt>Free by mistake</dt><dd>1 ride</dd></div>
+    <div class="bad"><dt>Take money, no date</dt><dd>5 of 12</dd></div>
+    <div><dt>Homepage weight</dt><dd>4.6 MB</dd></div>
+    <div class="good"><dt>Booking flow</dt><dd>Works</dd></div>
+  </dl>
+
+  <h2>Fix today</h2>
+
+  <section class="finding">
+    <span class="chip now">Costs money now</span>
+    <h3>Your 30 minute Jet Car is priced at zero</h3>
+    <div class="price-row">
+      <div class="price-card"><span class="who">Jet Car, 20 min</span><span class="amt">AED 600</span></div>
+      <div class="price-card zero"><span class="who">Jet Car, 30 min</span><span class="amt">AED 0</span></div>
+    </div>
+    <p>
+      The longer ride is free and the shorter one is 600. I put the 30 minute Jet Car in the
+      basket and went through to your checkout: subtotal zero, total zero, and the button that
+      places the order is live and waiting. I stopped there. I did not place an order and I have
+      not taken a free ride off you.
+    </p>
+    <p>
+      Anyone who finds that page can book a Jet Car for nothing, and it will look like a normal
+      booking at your end. It is one number in one product. Change it before you read the rest
+      of this.
+    </p>
+  </section>
+
+  <h2>Losing you bookings</h2>
+
+  <section class="finding">
+    <span class="chip lose">Turns people away</span>
+    <h3>Your FAQ tells people they need a licence</h3>
+    <div class="quote">
+      <span class="q">I have never driven a Jet Ski, can I take part in the trip?</span>
+      Yes, our Popeye instructors are here to take care of you as well as explain to you how to
+      use the Jet Ski. Book your ride here!
+    </div>
+    <div class="quote">
+      <span class="q">Do I need a boat or Jetski license to drive the Jetski?</span>
+      Yes, our Popeye instructors are here to take care of you as well as explain to you how to
+      use the Jet Ski. Book your ride here!
+    </div>
+    <p class="same">Both answers are the same sentence, word for word.</p>
+    <p>
+      Somebody pasted the first answer under the second question. Read the second one on its own,
+      which is how a nervous tourist reads it, and it says yes, you need a licence. They do not
+      read the rest. They close the tab and book with someone else.
+    </p>
+    <p>
+      This is the one question a first timer asks before handing over a card, and it is currently
+      answered wrong on your homepage.
+    </p>
+  </section>
+
+  <section class="finding">
+    <span class="chip lose">You lose the date</span>
+    <h3>Five activities take payment without asking when</h3>
+    <ul class="list">
+      <li><span class="name">Jetski tours, 30 / 60 / 90 / 120 min</span><span class="state good">date and time</span></li>
+      <li><span class="name">Initiation training, 20 min</span><span class="state good">date and time</span></li>
+      <li><span class="name">Experienced training, 45 min</span><span class="state good">date and time</span></li>
+      <li><span class="name">Jet Car, 20 min</span><span class="state good">date and time</span></li>
+      <li><span class="name">Jet Car, 30 min</span><span class="state bad">no date at all</span></li>
+      <li><span class="name">Flyboard</span><span class="state bad">no date at all</span></li>
+      <li><span class="name">Stand up paddle</span><span class="state bad">no date at all</span></li>
+      <li><span class="name">Kayak</span><span class="state bad">no date at all</span></li>
+      <li><span class="name">Donut ride</span><span class="state bad">no date at all</span></li>
+    </ul>
+    <p>
+      Seven of your twelve activities ask for a day and a time. The other five just say Add to
+      cart. Someone pays for a flyboard session and you have no idea when they are turning up,
+      so your staff find out when they walk onto the jetty.
+    </p>
+    <p>
+      The clearest sign this is a settings mistake and not a decision: your Jet Car 20 minute
+      asks for a date and your Jet Car 30 minute does not. Same machine, same jetty, two
+      different behaviours.
+    </p>
+  </section>
+
+  <section class="finding">
+    <span class="chip lose">Dead end</span>
+    <h3>Two "Book your ride here!" links go back to the same page</h3>
+    <p>
+      Both sit inside your FAQ answers, exactly where somebody has just been reassured and is
+      ready to book. Clicking either one reloads the page they are already on. That is the most
+      expensive moment on the site to waste, because you had them.
+    </p>
+    <p class="note">The same pair of links behaves the same way on your Services page.</p>
+  </section>
+
+  <section class="finding">
+    <span class="chip lose">Split inbox</span>
+    <h3>You have two WhatsApp numbers on the same page</h3>
+    <ul class="list">
+      <li><span class="name">Floating green button, every page</span><span class="state">04 433 2733</span></li>
+      <li><span class="name">Footer icon, Google listing, your own code</span><span class="state">055 285 1012</span></li>
+    </ul>
+    <p>
+      Both are real Popeye accounts, so nothing is broken. The problem is that enquiries land in
+      two places and whoever watches one does not see the other. The floating button also opens
+      with an empty message, so you get a "hi" with no clue which ride they were looking at.
+    </p>
+  </section>
+
+  <h2>Worth tidying</h2>
+
+  <section class="finding">
+    <span class="chip tidy">No confirmation</span>
+    <h3>Your contact form drops people back on the homepage</h3>
+    <p>
+      The form reaches your CRM correctly. What the visitor sees afterwards is the homepage
+      again, with nothing telling them it went through. Most people assume it failed and either
+      send it twice or give up. A one line thank you page fixes it, and it also lets you count
+      how many enquiries the site brings you.
+    </p>
+  </section>
+
+  <section class="finding">
+    <span class="chip tidy">Unproven claim</span>
+    <h3>You say 4.9 out of 5 and nobody can tell where it came from</h3>
+    <p>
+      Your homepage shows 4.9 and ten thousand positive reviews. The word Google does not appear
+      anywhere on the page, and the review data is not in your code either, so Google cannot show
+      your stars in search results. You are carrying the best asset you have, a decade of happy
+      customers, in a way that neither a visitor nor Google can verify.
+    </p>
+  </section>
+
+  <section class="finding">
+    <span class="chip tidy">Slow on a phone</span>
+    <h3>The homepage pulls 4.6 MB before anyone sees a price</h3>
+    <ul class="list">
+      <li><span class="name">Scripts, 65 separate files</span><span class="state">1.4 MB</span></li>
+      <li><span class="name">Images, 28 files</span><span class="state">2.0 MB</span></li>
+      <li><span class="name">One logo file, shown at 83 pixels wide</span><span class="state bad">706 KB</span></li>
+      <li><span class="name">Requests to load one page</span><span class="state">219</span></li>
+    </ul>
+    <p>
+      Your server is quick, well under a second, so this is weight rather than hosting. The
+      706 KB file is the one to look at first. It is displayed in a box smaller than a postage
+      stamp and it is heavier than every stylesheet on the site put together.
+    </p>
+    <p class="note">Measured in a real browser with the cache cleared, 11 September 2026.</p>
+  </section>
+
+  <h2>What is already working</h2>
+
+  <div class="working">
+    <h3>Your booking system is fine, including same day</h3>
+    <div class="slots" aria-label="Time slots offered for today when checked at 13:11">
+      <span class="slot gone">7:30 AM</span>
+      <span class="slot gone">8:30 AM</span>
+      <span class="slot gone">9:30 AM</span>
+      <span class="slot gone">10:30 AM</span>
+      <span class="slot gone">11:30 AM</span>
+      <span class="slot gone">12:30 PM</span>
+      <span class="slot open">1:30 PM</span>
+      <span class="slot open">2:30 PM</span>
+      <span class="slot open">3:30 PM</span>
+      <span class="slot open">4:30 PM</span>
+      <span class="slot open">5:30 PM</span>
+    </div>
+    <p>
+      I picked today at ten past one in the afternoon. The morning slots that had already gone
+      were correctly closed off, everything from half one onward was open, and the evening hours
+      you do not run were hidden. Date, time, basket, checkout with VAT, on to the card page. It
+      all holds together.
+    </p>
+    <p>
+      I am telling you this because a list of problems with no ending is useless. The engine
+      under your bookings is sound. What is wrong sits on top of it, in a price field, an FAQ
+      answer and a handful of settings.
+    </p>
+  </div>
+
+  <h2>The order I would do them in</h2>
+
+  <ol class="order">
+    <li><div><b>Price the 30 minute Jet Car</b><span>One field. Every hour it stays at zero is a ride you might give away.</span></div></li>
+    <li><div><b>Rewrite the licence answer</b><span>Start it with No. Something like: no licence needed, our instructors take you out and show you everything.</span></div></li>
+    <li><div><b>Put a date on the other five activities</b><span>Copy the settings off your Jet Car 20 minute, which already does it properly.</span></div></li>
+    <li><div><b>Point the two FAQ links at a booking page</b><span>Ten minutes, and it catches people at the exact moment they decide.</span></div></li>
+    <li><div><b>Pick one WhatsApp number</b><span>Then put the ride name into the opening message so you know what they are asking about.</span></div></li>
+  </ol>
+
+</div>
+
+<section class="offers">
+  <div class="wrap">
+    <h2>If you want a hand</h2>
+    <div class="offer-grid">
+
+      <div class="offer">
+        <p class="kicker">No charge</p>
+        <h3>Twenty minutes on a call</h3>
+        <p>
+          I will walk your developer through these eight items so nobody has to interpret my
+          notes. Bring whoever touches the site.
+        </p>
+        <ul>
+          <li>Screen share, we go through the list</li>
+          <li>You keep the recording</li>
+          <li>No pitch at the end</li>
+        </ul>
+        <div class="spacer"></div>
+        <p class="price">Free <small>&middot; 30 minutes</small></p>
+        <a class="btn btn-red" href="https://cal.com/hello-terraflow-studio-snvz0j/30min" target="_blank" rel="noopener">Pick a time</a>
+      </div>
+
+      <div class="offer paid">
+        <p class="kicker">If the free one was useful</p>
+        <h3>The whole marketing picture, not just the site</h3>
+        <p>
+          Same treatment, applied to everything that brings you customers. Written up the same
+          way, with the evidence attached.
+        </p>
+        <ul>
+          <li>Google listing, reviews and maps ranking</li>
+          <li>What you rank for against the other Dubai operators</li>
+          <li>Your Instagram and TikTok against theirs</li>
+          <li>Where your booking money leaks, start to finish</li>
+          <li>Paid ads, what to run and what to stop</li>
+        </ul>
+        <div class="spacer"></div>
+        <p class="price">AED 50 <small>&middot; one payment</small></p>
+        <a class="btn btn-gold" href="STRIPE_PAYMENT_LINK" data-pending="stripe">Get the full teardown</a>
+        <p class="fine">Delivered within five working days. Not what you hoped for? Tell me and I refund it.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>
+      That is the lot. Nothing here needs a new website, and I am not building up to a pitch for
+      one. The first three are settings on pages you already have, and between them they are the
+      difference between a booking and a closed tab.
+    </p>
+    <p>
+      If you would rather just take this and get on with it, that is completely fine. It is
+      yours either way.
+    </p>
+    <div class="sign">Alex<span>Terraflow Studio &middot; Dubai</span></div>
+  </div>
+</footer>
+
+</body>
+</html>
