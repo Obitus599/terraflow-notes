@@ -1,0 +1,8 @@
+# Repository files that exist for us, not for the people we send links to. The teardown pages
+# themselves are the only thing this site serves.
+exclude:
+  - README.md
+  - _template
+  - check
+  - new-teardown
+  - .gitignore
