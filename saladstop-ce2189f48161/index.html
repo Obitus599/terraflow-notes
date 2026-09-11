@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SaladStop site notes | Terraflow Studio</title>
+<meta name="description" content="Five things slowing SaladStop down, checked on the live site on 11 September 2026.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600,700&display=swap">
+<script>document.documentElement.className += " js";</script>
+<style>
+  /* Terraflow Studio. Onyx ground, Moon type, one Ocean moment, one iridescent moment.
+     Switzer only. Square corners. Giant cropped display type. Hairline grid. */
+  :root {
+    --onyx:#0A0A0A; --n900:#171717; --n800:#262626; --n700:#404040; --n600:#525252;
+    --n500:#737373; --n400:#A3A3A3; --n300:#D4D4D4; --n200:#E5E5E5; --moon:#FAFAFA;
+    --ocean:#0099FF;
+    --gut: 28px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--onyx); color: var(--moon);
+    font-family: Switzer, "Helvetica Neue", Arial, sans-serif;
+    font-weight: 400; font-size: 17px; line-height: 1.6; letter-spacing: -.01em;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  img { max-width: 100%; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 var(--gut); position: relative; }
+
+  /* hairline column grid, the same device the site uses behind everything */
+  .grid-lines {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(to right,
+      transparent, transparent calc(25% - 1px), #1a1a1a calc(25% - 1px), #1a1a1a 25%);
+  }
+  .layer { position: relative; z-index: 1; }
+
+  /* ---------- read progress ---------- */
+  .progress {
+    position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+    background: var(--ocean); z-index: 60; transition: width .12s linear;
+  }
+
+  /* ---------- top bar ---------- */
+  .bar { border-bottom: 1px solid var(--n900); position: sticky; top: 0; z-index: 50;
+         background: rgba(10,10,10,.86); backdrop-filter: blur(14px); }
+  .bar .row {
+    max-width: 1440px; margin: 0 auto; padding: 16px var(--gut);
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .tfs { font-weight: 600; font-size: 14px; letter-spacing: .04em; color: var(--moon); text-decoration: none; }
+  .bar .mid { font-size: 13px; color: var(--n400); text-decoration: none; letter-spacing: -.01em; }
+  .bar .mid:hover { color: var(--moon); }
+  .bar .end {
+    font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--n400); text-decoration: none; white-space: nowrap;
+  }
+  .bar .end:hover { color: var(--moon); }
+  @media (max-width: 720px) { .bar .mid { display: none; } }
+
+  /* ---------- giant name ---------- */
+  .nameplate { padding: 64px 0 0; overflow: hidden; }
+  .nameplate .big {
+    margin: 0; padding: 0 var(--gut); font-weight: 700;
+    font-size: clamp(56px, 15.6vw, 260px); line-height: .82; letter-spacing: -.055em;
+    color: var(--moon); white-space: nowrap;
+  }
+  .nameplate .sub {
+    display: flex; flex-wrap: wrap; gap: 8px 26px; justify-content: space-between;
+    max-width: 1440px; margin: 26px auto 0; padding: 0 var(--gut);
+    font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--n500);
+  }
+
+  /* ---------- marquee ---------- */
+  .marquee {
+    margin-top: 46px; border-top: 1px solid var(--n900); border-bottom: 1px solid var(--n900);
+    overflow: hidden; padding: 15px 0; position: relative;
+  }
+  .marquee + .marquee { margin-top: 0; border-top: 0; }
+  .marquee .track { display: flex; width: max-content; animation: slide 38s linear infinite; }
+  .marquee.rev .track { animation: slide-rev 46s linear infinite; }
+  .marquee span {
+    font-size: 12px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--n500); padding-right: 38px; white-space: nowrap;
+  }
+  .marquee span b { color: var(--n200); font-weight: 500; }
+  .marquee .dot { color: var(--ocean); }
+  .marquee.rev span { color: var(--n700); }
+  .marquee.rev span b { color: var(--n500); }
+  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes slide-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+  /* ---------- hero statement ---------- */
+  header.hero .wrap { padding-top: 88px; padding-bottom: 72px; }
+  .eyebrow {
+    display: flex; align-items: baseline; gap: 14px;
+    font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--n500); margin: 0 0 34px;
+  }
+  .eyebrow .num { color: var(--n300); font-weight: 600; }
+  h1 {
+    font-weight: 700; font-size: clamp(36px, 7.2vw, 68px); line-height: 1.0;
+    letter-spacing: -.05em; margin: 0 0 30px; color: var(--moon);
+  }
+  h1 .w { display: inline-block; }
+  html.js h1 .w { opacity: 0; transform: translateY(.42em); }
+  html.js h1.lit .w { animation: rise .74s cubic-bezier(.2,.75,.25,1) forwards; }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+  .lede { font-size: 19px; line-height: 1.55; color: var(--n400); margin: 0; max-width: 58ch; }
+  .meta {
+    margin: 44px 0 0; padding-top: 20px; border-top: 1px solid var(--n900);
+    font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--n600);
+  }
+  .meta b { color: var(--n300); font-weight: 500; }
+
+  /* ---------- tally ---------- */
+  .tally {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1px; background: var(--n800);
+    border-top: 1px solid var(--n800); border-bottom: 1px solid var(--n800);
+  }
+  .tally > div { background: var(--onyx); padding: 28px 24px; }
+  .tally dt {
+    font-size: 10.5px; font-weight: 500; text-transform: uppercase; letter-spacing: .14em;
+    color: var(--n600); margin: 0 0 12px;
+  }
+  .tally dd {
+    margin: 0; font-weight: 700; font-size: 30px; letter-spacing: -.04em;
+    font-variant-numeric: tabular-nums; color: var(--moon);
+  }
+  .tally .accent dd { color: var(--ocean); }
+  .tally dd .unit { font-size: 17px; font-weight: 500; color: var(--n500); letter-spacing: -.01em; }
+
+  /* ---------- sections ---------- */
+  h2 {
+    display: flex; align-items: baseline; gap: 14px;
+    font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--n500); margin: 84px 0 0; padding-bottom: 16px;
+    border-bottom: 1px solid var(--n800);
+  }
+  h2 .num { color: var(--n300); font-weight: 600; }
+
+  .finding {
+    padding: 38px 0 38px 0; border-bottom: 1px solid var(--n900);
+    position: relative; padding-left: 22px;
+  }
+  .finding::before {
+    content: ""; position: absolute; left: 0; top: 38px; bottom: 38px; width: 1px;
+    background: var(--n800); transition: background .3s ease, transform .3s ease;
+  }
+  .finding:hover::before { background: var(--ocean); }
+  .finding:last-of-type { border-bottom: 0; }
+  .chip {
+    display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .13em; padding: 5px 10px; margin-bottom: 16px;
+  }
+  .chip.now  { background: var(--moon); color: var(--onyx); }
+  .chip.lose { border: 1px solid var(--n600); color: var(--n300); }
+  .chip.tidy { color: var(--n500); padding-left: 0; }
+  .finding h3 {
+    font-weight: 700; font-size: 26px; line-height: 1.18; letter-spacing: -.034em;
+    margin: 0 0 14px; text-wrap: balance; color: var(--moon);
+  }
+  .finding p { margin: 0 0 14px; max-width: 62ch; color: var(--n300); }
+  .finding p:last-child { margin-bottom: 0; }
+
+  /* the one big number */
+  .bignum { margin: 4px 0 22px; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px 44px; }
+  .bignum .col .k {
+    display: block; font-size: 10px; font-weight: 500; text-transform: uppercase;
+    letter-spacing: .14em; color: var(--n600); margin-bottom: 6px;
+  }
+  .bignum .col .v {
+    font-weight: 700; font-size: clamp(38px, 8vw, 76px); line-height: .9;
+    letter-spacing: -.05em; color: var(--n700); font-variant-numeric: tabular-nums;
+  }
+  .bignum .col.hit .v { color: var(--ocean); }
+
+  .quote {
+    border-left: 2px solid var(--n700); padding: 4px 0 4px 20px; margin: 0 0 16px;
+    font-size: 16px; color: var(--n300); max-width: 62ch;
+  }
+  .quote .q {
+    display: block; font-size: 10.5px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .13em; color: var(--n500); margin-bottom: 6px;
+  }
+  .same {
+    font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--moon); margin: 0 0 18px;
+  }
+
+  .list { margin: 0 0 16px; padding: 0; list-style: none; max-width: 62ch; }
+  .list li {
+    display: flex; gap: 18px; padding: 10px 0; border-bottom: 1px solid var(--n900);
+    font-size: 16px; color: var(--n300);
+  }
+  .list li:last-child { border-bottom: 0; }
+  .list .name { flex: 1; }
+  .list .state {
+    font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+    white-space: nowrap; padding-top: 4px; color: var(--n600);
+  }
+  .list .state.bad { color: var(--moon); }
+
+  .slots { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 18px; }
+  .slot {
+    font-size: 12px; font-weight: 500; padding: 5px 10px; border: 1px solid var(--n800);
+    font-variant-numeric: tabular-nums; color: var(--n600); letter-spacing: 0;
+  }
+  .slot.open { border-color: var(--n500); color: var(--n200); }
+
+  .note { font-size: 13px; color: var(--n600); margin: 0; max-width: 62ch; }
+
+  .working { background: var(--n900); padding: 36px 38px; margin: 28px 0 0; }
+  .working h3 { font-weight: 700; font-size: 22px; margin: 0 0 16px; letter-spacing: -.03em; color: var(--moon); }
+  .working p { margin: 0 0 13px; max-width: 62ch; color: var(--n300); }
+  .working p:last-child { margin-bottom: 0; }
+
+  .order { counter-reset: step; margin: 28px 0 0; padding: 0; list-style: none; }
+  .order li {
+    counter-increment: step; display: grid; grid-template-columns: 56px 1fr; gap: 18px;
+    padding: 22px 0; border-bottom: 1px solid var(--n900); align-items: baseline;
+    transition: padding-left .25s ease;
+  }
+  .order li:hover { padding-left: 8px; }
+  .order li:last-child { border-bottom: 0; }
+  .order li::before {
+    content: counter(step, decimal-leading-zero);
+    font-weight: 600; font-size: 12px; letter-spacing: .14em; color: var(--n600);
+    font-variant-numeric: tabular-nums;
+  }
+  .order b { display: block; font-weight: 600; font-size: 18px; letter-spacing: -.025em; margin-bottom: 4px; color: var(--moon); }
+  .order span { color: var(--n400); font-size: 16px; }
+
+  /* ---------- grain over everything, the way the site's hero render carries it ---------- */
+  .grain-page {
+    position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: .035;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>");
+  }
+
+  /* ---------- iridescent bands ---------- */
+  .iri { position: relative; height: 300px; overflow: hidden; margin-top: 90px; background: #05070c; }
+  .iri.hero-band { height: 260px; margin-top: 0; }
+  .iri.hero-band .caption {
+    font-size: clamp(15px, 2.2vw, 20px); font-weight: 500; letter-spacing: -.02em;
+    color: var(--n200); padding-bottom: 22px;
+  }
+  .iri.hero-band .caption b { color: var(--moon); font-weight: 600; }
+  .iri canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .iri .grain {
+    position: absolute; inset: 0; opacity: .16; mix-blend-mode: overlay; pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='.5'/></svg>");
+  }
+  .iri .caption {
+    position: absolute; inset: auto 0 0 0; padding: 0 var(--gut) 26px;
+    max-width: 880px; margin: 0 auto;
+    font-size: clamp(19px, 3.2vw, 30px); font-weight: 600; letter-spacing: -.035em;
+    line-height: 1.12; color: var(--moon); text-shadow: 0 2px 30px rgba(0,0,0,.55);
+  }
+
+  /* ---------- offers ---------- */
+  .offers .wrap { padding-top: 66px; padding-bottom: 80px; }
+  /* Six named rows, shared by both cards through subgrid, so the kicker, the title, the body,
+     the price and the button sit on the same line across the pair however long the lists are.
+     Without this the shorter card floats its price and its button out of step with the other. */
+  .offer-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-rows: auto auto auto 1fr auto auto auto;
+    gap: 1px; background: var(--n800); margin-top: 34px;
+  }
+  .offer {
+    background: var(--onyx); padding: 36px 32px;
+    display: grid; grid-row: span 7; grid-template-rows: subgrid; align-content: start;
+  }
+  @supports not (grid-template-rows: subgrid) {
+    .offer-grid { grid-template-rows: none; }
+    .offer { display: flex; flex-direction: column; grid-row: auto; }
+  }
+  .offer .kicker {
+    font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .18em;
+    color: var(--n600); margin: 0 0 14px;
+  }
+  .offer h3 { font-weight: 700; font-size: 24px; line-height: 1.18; margin: 0 0 14px; letter-spacing: -.032em; color: var(--moon); }
+  .offer p { margin: 0 0 20px; font-size: 16px; color: var(--n400); }
+  .offer ul { margin: 0 0 24px; padding: 0; list-style: none; font-size: 15.5px; color: var(--n400); }
+  .offer ul li { padding: 8px 0; border-bottom: 1px solid var(--n900); }
+  .offer ul li:last-child { border-bottom: 0; }
+  .offer .price {
+    font-weight: 700; font-size: 38px; letter-spacing: -.045em; color: var(--moon); margin: 0 0 22px;
+    font-variant-numeric: tabular-nums;
+  }
+  .offer .price small { font-weight: 400; font-size: 12px; color: var(--n600); letter-spacing: .16em; text-transform: uppercase; }
+  .offer .spacer { display: none; }
+  @supports not (grid-template-rows: subgrid) { .offer .spacer { display: block; flex: 1; } }
+  .btn {
+    display: inline-block; text-align: center; text-decoration: none;
+    font-weight: 600; font-size: 13.5px; letter-spacing: .12em; text-transform: uppercase;
+    padding: 18px 26px; transition: background .16s ease, color .16s ease, border-color .16s ease;
+  }
+  .btn-line { border: 1px solid var(--n600); color: var(--moon); }
+  .btn-line:hover { border-color: var(--moon); background: var(--moon); color: var(--onyx); }
+  .btn-ocean { background: var(--ocean); color: var(--onyx); }
+  .btn-ocean:hover { background: #33adff; }
+  .offer .fine { margin: 16px 0 0; font-size: 12.5px; color: var(--n600); }
+
+  /* ---------- footer ---------- */
+  footer { border-top: 1px solid var(--n800); }
+  footer .wrap { padding-top: 56px; padding-bottom: 30px; }
+  footer p { margin: 0 0 14px; max-width: 60ch; color: var(--n400); font-size: 16px; }
+  .sign { font-weight: 600; font-size: 17px; color: var(--moon); margin-top: 26px; letter-spacing: -.02em; }
+  .colophon {
+    margin-top: 50px; padding-top: 26px; border-top: 1px solid var(--n900);
+    display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: center; justify-content: space-between;
+  }
+  .colophon a { color: var(--n300); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
+  .colophon a:hover { color: var(--moon); }
+  .colophon .tag { font-size: 13px; color: var(--n600); letter-spacing: -.01em; text-transform: none; font-weight: 400; }
+  /* The closing wordmark scrolls and is the way back to the studio. */
+  .endmark { display: block; overflow: hidden; padding: 16px 0 34px; text-decoration: none; }
+  .endmark .track { display: flex; width: max-content; animation: slide 44s linear infinite; }
+  .endmark .big {
+    margin: 0; padding-right: 64px; font-weight: 700; color: #141414;
+    font-size: clamp(46px, 15.6vw, 250px); line-height: .82; letter-spacing: -.055em; white-space: nowrap;
+    transition: color .3s ease;
+  }
+  .endmark:hover .big { color: #1f1f1f; }
+  .endmark:hover .big .dot { color: var(--ocean); }
+  .endmark .big .dot { color: #141414; transition: color .3s ease; }
+
+  /* ---------- reveal ---------- */
+  html.js .rv { opacity: 0; transform: translateY(18px); }
+  html.js .rv.in { opacity: 1; transform: none; transition: opacity .66s ease, transform .66s cubic-bezier(.2,.75,.25,1); }
+
+  a { color: var(--moon); }
+  a:focus-visible, .btn:focus-visible { outline: 2px solid var(--ocean); outline-offset: 3px; }
+
+  @media (max-width: 620px) {
+    :root { --gut: 20px; }
+    body { font-size: 16px; }
+    header.hero .wrap { padding-top: 54px; padding-bottom: 46px; }
+    .working { padding: 26px 22px; }
+    .offer { padding: 28px 24px; }
+    .iri { height: 220px; }
+    .grid-lines { background-image: repeating-linear-gradient(to right, transparent, transparent calc(50% - 1px), #1a1a1a calc(50% - 1px), #1a1a1a 50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+    html.js .rv, html.js h1 .w { opacity: 1 !important; transform: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="grid-lines" aria-hidden="true"></div>
+<div class="grain-page" aria-hidden="true"></div>
+
+<div class="layer">
+
+<div class="bar">
+  <div class="row">
+    <a class="tfs" href="https://terraflow.studio" target="_blank" rel="noopener">TF.S</a>
+    <a class="mid" href="mailto:hello@terraflow.studio">hello@terraflow.studio</a>
+    <a class="end" href="https://terraflow.studio" target="_blank" rel="noopener">Terraflow.Studio</a>
+  </div>
+</div>
+
+<div class="nameplate">
+  <h2 class="big" style="border:0;padding-bottom:0;margin:0;display:block;color:var(--moon);letter-spacing:-.055em;text-transform:none;font-size:clamp(56px,15.6vw,260px)">SALADSTOP</h2>
+  <div class="sub">
+    <span>Salads, wraps &amp; bowls &middot; Singapore</span>
+    <span>Site notes &middot; 11 Sep 2026</span>
+  </div>
+</div>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span><b>Free teardown</b> <em class="dot">&middot;</em> 5 findings <em class="dot">&middot;</em> 9.5 MB to look at lunch <em class="dot">&middot;</em> checked on the live site <em class="dot">&middot;</em> </span>
+    <span><b>Free teardown</b> <em class="dot">&middot;</em> 5 findings <em class="dot">&middot;</em> 9.5 MB to look at lunch <em class="dot">&middot;</em> checked on the live site <em class="dot">&middot;</em> </span>
+    <span><b>Free teardown</b> <em class="dot">&middot;</em> 5 findings <em class="dot">&middot;</em> 9.5 MB to look at lunch <em class="dot">&middot;</em> checked on the live site <em class="dot">&middot;</em> </span>
+    <span><b>Free teardown</b> <em class="dot">&middot;</em> 5 findings <em class="dot">&middot;</em> 9.5 MB to look at lunch <em class="dot">&middot;</em> checked on the live site <em class="dot">&middot;</em> </span>
+  </div>
+</div>
+
+<div class="marquee rev" aria-hidden="true">
+  <div class="track">
+    <span>Salads <em class="dot">&middot;</em> Wraps <em class="dot">&middot;</em> Protein bowls <em class="dot">&middot;</em> Warm bowls <em class="dot">&middot;</em> Acai <em class="dot">&middot;</em> Smoothies <em class="dot">&middot;</em> Singapore <em class="dot">&middot;</em> </span>
+    <span>Salads <em class="dot">&middot;</em> Wraps <em class="dot">&middot;</em> Protein bowls <em class="dot">&middot;</em> Warm bowls <em class="dot">&middot;</em> Acai <em class="dot">&middot;</em> Smoothies <em class="dot">&middot;</em> Singapore <em class="dot">&middot;</em> </span>
+    <span>Salads <em class="dot">&middot;</em> Wraps <em class="dot">&middot;</em> Protein bowls <em class="dot">&middot;</em> Warm bowls <em class="dot">&middot;</em> Acai <em class="dot">&middot;</em> Smoothies <em class="dot">&middot;</em> Singapore <em class="dot">&middot;</em> </span>
+    <span>Salads <em class="dot">&middot;</em> Wraps <em class="dot">&middot;</em> Protein bowls <em class="dot">&middot;</em> Warm bowls <em class="dot">&middot;</em> Acai <em class="dot">&middot;</em> Smoothies <em class="dot">&middot;</em> Singapore <em class="dot">&middot;</em> </span>
+  </div>
+</div>
+
+<div class="iri hero-band">
+  <canvas data-iri="warm" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <p class="caption"><b>Five findings.</b> The first one is two pictures.</p>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow"><span class="num">01</span> <span>For Sundar Meenakshi, via Jas Randhawa</span></p>
+    <h1 id="h1">Two photographs of salad weigh more than your entire ordering site</h1>
+    <p class="lede rv">
+      Jas passed me your way, so here it is. I went through saladstop.com.sg on a phone, the way
+      somebody deciding on lunch would. It pulls 9.5 MB and two salad photos are 2.9 of that.
+      Keeping the ordering system on its own site was a good decision, and I say why below.
+    </p>
+    <p class="meta rv">Checked on the live site <b>11 September 2026</b> &nbsp;&middot;&nbsp; five findings, worst first</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <dl class="tally rv">
+    <div class="accent"><dt>Homepage on a phone</dt><dd><span data-count="9.5" data-dp="1">9.5</span> <span class="unit">MB</span></dd></div>
+    <div><dt>Two salad photos</dt><dd><span data-count="2.9" data-dp="1">2.9</span> <span class="unit">MB</span></dd></div>
+    <div><dt>Ways to phone you</dt><dd><span data-count="0">0</span> <span class="unit"></span></dd></div>
+    <div><dt>Ordering site</dt><dd>Fast</dd></div>
+  </dl>
+
+  <h2 class="rv"><span class="num">02</span> <span>Fix today</span></h2>
+
+  <section class="finding rv">
+    <span class="chip now">Costs you hungry people</span>
+    <h3>Two photographs of salad are 2.9 megabytes of your homepage</h3>
+    <div class="bignum">
+      <div class="col"><span class="k">Tuna San</span><span class="v">1.5 MB</span></div>
+      <div class="col hit"><span class="k">Hail Caesar</span><span class="v">1.4 MB</span></div>
+    </div>
+    <p>
+      Both are PNGs. PNG is a format for logos and screenshots, where every pixel has to be
+      exact. For a photograph it stores far more than the eye can use. The same two images as
+      WebP land at roughly a tenth of the size and nobody can tell the difference on a phone.
+    </p>
+    <p>
+      The whole homepage pulls 9.5 MB on an iPhone with an empty cache. Your customer is deciding
+      what to eat, usually standing up, often on office wifi at noon. That is the worst possible
+      moment to make somebody wait, and food photography is the one thing on the page you cannot
+      afford to have arrive late.
+    </p>
+  </section>
+
+  <h2 class="rv"><span class="num">03</span> <span>Costing you orders</span></h2>
+
+  <section class="finding rv">
+    <span class="chip lose">Invisible to search</span>
+    <h3>None of your stores are described in a way Google can read</h3>
+    <p>
+      Your locations page lists where to find you. In the code behind it there is no restaurant
+      data and no business location data of any kind, on that page or anywhere else on the site.
+      Google is told you are an organisation with a website, and nothing about a single shop.
+    </p>
+    <p>
+      That is the data behind "salad near me" and the map pin with your hours on it. Somebody two
+      streets from one of your stores searching at lunchtime is the easiest order you will ever
+      take, and you are competing for it with one hand behind your back.
+    </p>
+  </section>
+
+  <section class="finding rv">
+    <span class="chip lose">No main heading</span>
+    <h3>Your homepage has fifteen subheadings and no heading</h3>
+    <p>
+      There is no H1 on the page. Fifteen H2s underneath it, but nothing at the top saying what
+      this page is. That single tag is the strongest on-page signal there is, and on the homepage
+      of a national salad brand it is empty.
+    </p>
+    <p>
+      It is also the thing a screen reader announces first. One line of code fixes both.
+    </p>
+  </section>
+
+  <section class="finding rv">
+    <span class="chip lose">No way to call</span>
+    <h3>Nobody can phone you</h3>
+    <ul class="list">
+      <li><span class="name">Homepage</span><span class="state bad">no phone</span></li>
+      <li><span class="name">Locations</span><span class="state bad">no phone</span></li>
+      <li><span class="name">Contact us</span><span class="state">email only</span></li>
+      <li><span class="name">FAQ</span><span class="state">email only</span></li>
+    </ul>
+    <p>
+      There is not a single tappable phone number on the site, including the page that exists to
+      tell people where your shops are. Somebody with a catering order for forty people, or a
+      question about an allergy twenty minutes before lunch, has one option: send an email and
+      wait.
+    </p>
+    <p>
+      If that is deliberate, and for a lot of chains it is, then the locations page should say so
+      and point them somewhere. Right now it just looks like an oversight.
+    </p>
+  </section>
+
+  <h2 class="rv"><span class="num">04</span> <span>Worth tidying</span></h2>
+
+  <section class="finding rv">
+    <span class="chip tidy">Heavy for what it does</span>
+    <h3>Five megabytes of code to show pictures and an Order Now button</h3>
+    <ul class="list">
+      <li><span class="name">JavaScript</span><span class="state bad">2.6 MB</span></li>
+      <li><span class="name">Stylesheets</span><span class="state bad">2.4 MB</span></li>
+      <li><span class="name">Largest single stylesheet</span><span class="state bad">529 KB</span></li>
+      <li><span class="name">Images</span><span class="state">3.8 MB</span></li>
+    </ul>
+    <p>
+      Your marketing site is a set of pages that describe the food and then hand people over to
+      the ordering system. It is carrying more code than most banking apps. Almost all of that is
+      a page builder shipping every feature it has whether the page uses it or not, and most of
+      it can be stripped without touching how anything looks.
+    </p>
+  </section>
+
+  <h2 class="rv"><span class="num">05</span> <span>What is already working</span></h2>
+
+  <div class="working rv">
+    <h3>Keeping ordering on its own site was the right call</h3>
+    <p>
+      order.saladstop.com.sg answers in under half a second, against about one and a half seconds
+      for the marketing site. Splitting them means the pages people browse can be as heavy as
+      your marketing team likes without ever slowing down the screen where money changes hands.
+      Plenty of chains put everything in one WordPress and regret it.
+    </p>
+    <p>
+      Your menu structure is also good. Breakfast, seasonals, protein bowls, create your own, all
+      properly separated rather than dumped in one long list. I am telling you this because a
+      list of problems with no ending is useless. The shape of the thing is right. What is wrong
+      is weight, and a few pieces of information Google never receives.
+    </p>
+  </div>
+
+  <h2 class="rv"><span class="num">06</span> <span>The order I would do them in</span></h2>
+
+  <ol class="order rv">
+    <li><div><b>Convert the food photography to WebP</b><span>Starting with the two that are 2.9 MB between them. An afternoon, and it is most of the 9.5.</span></div></li>
+    <li><div><b>Add business data for every store</b><span>Name, address, hours, phone, per location. This is the one that shows up as money in the map results.</span></div></li>
+    <li><div><b>Put a real heading on the homepage</b><span>One line. It is the largest signal you are currently not sending.</span></div></li>
+    <li><div><b>Decide about the phone</b><span>Either publish numbers on the locations page or say on it that everything goes through email.</span></div></li>
+    <li><div><b>Strip the unused page builder code</b><span>Half of the 5 MB is features these pages never use.</span></div></li>
+  </ol>
+</div>
+
+<div class="iri">
+  <canvas data-iri="cool" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <p class="caption">Everything you need. One studio.</p>
+</div>
+
+<section class="offers">
+  <div class="wrap">
+    <h2 class="rv" style="margin-top:52px"><span class="num">07</span> <span>If you want a hand</span></h2>
+    <div class="offer-grid rv">
+
+      <div class="offer">
+        <p class="kicker">No charge</p>
+        <h3>Twenty minutes on a call</h3>
+        <p>
+          I will walk your developer through these five items so nobody has to interpret my
+          notes. Bring whoever touches the site.
+        </p>
+        <ul>
+          <li>Screen share, we go through the list</li>
+          <li>You keep the recording</li>
+          <li>No pitch at the end</li>
+        </ul>
+        <div class="spacer"></div>
+        <p class="price">Free <small>30 minutes</small></p>
+        <a class="btn btn-line" href="https://cal.com/hello-terraflow-studio-snvz0j/30min" target="_blank" rel="noopener">Pick a time</a>
+      </div>
+
+      <div class="offer">
+        <p class="kicker">If the free one was useful</p>
+        <h3>The whole marketing picture, not just the site</h3>
+        <p>
+          Same treatment, applied to everything that brings you customers. Written up the same
+          way, with the evidence attached.
+        </p>
+        <ul>
+          <li>Google listing, reviews and maps ranking</li>
+          <li>What you rank for against the other Singapore healthy-food chains</li>
+          <li>Your Instagram and TikTok against theirs</li>
+          <li>Where your booking money leaks, start to finish</li>
+          <li>Paid ads, what to run and what to stop</li>
+        </ul>
+        <div class="spacer"></div>
+        <p class="price">AED 50 <small>one payment</small></p>
+        <a class="btn btn-ocean" href="https://buy.stripe.com/00w14neik3TW7a38lDbQY00" target="_blank" rel="noopener">Get the full teardown</a>
+        <p class="fine">Delivered within five working days. Not what you hoped for? Tell me and I refund it.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>
+      That is the lot. Nothing here needs a new website, and I am not building up to a pitch for
+      one. The first two are an afternoon between them, and they are the ones a hungry person and Google both notice.
+    </p>
+    <p>
+      If you would rather just take this and get on with it, that is completely fine. It is
+      yours either way.
+    </p>
+    <div class="sign">Alex</div>
+
+    <div class="colophon">
+      <a href="https://terraflow.studio" target="_blank" rel="noopener">terraflow.studio</a>
+      <span class="tag">Design isn't just about grabbing attention, it's about holding it.</span>
+      <a href="mailto:hello@terraflow.studio">hello@terraflow.studio</a>
+    </div>
+  </div>
+  <a class="endmark" href="https://terraflow.studio" target="_blank" rel="noopener" aria-label="Terraflow Studio">
+    <span class="track">
+      <span class="big">TERRAFLOW<span class="dot">.</span>STUDIO</span>
+      <span class="big">TERRAFLOW<span class="dot">.</span>STUDIO</span>
+      <span class="big">TERRAFLOW<span class="dot">.</span>STUDIO</span>
+      <span class="big">TERRAFLOW<span class="dot">.</span>STUDIO</span>
+    </span>
+  </a>
+</footer>
+
+</div><!-- /layer -->
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Headline rises word by word, the way the site introduces its display type.
+  var h1 = document.getElementById("h1");
+  if (h1 && !reduce) {
+    var original = h1.textContent;
+    try {
+      var words = original.trim().split(/\s+/);
+      h1.textContent = "";
+      words.forEach(function (w, i) {
+        var s = document.createElement("span");
+        s.className = "w";
+        s.textContent = w;
+        s.style.animationDelay = (i * 34) + "ms";
+        h1.appendChild(s);
+        if (i < words.length - 1) h1.appendChild(document.createTextNode(" "));
+      });
+      requestAnimationFrame(function () { h1.classList.add("lit"); });
+    } catch (err) {
+      // Never lose the headline to a clever effect.
+      h1.textContent = original;
+      h1.classList.add("lit");
+    }
+  }
+
+  // Reveal on scroll. Without JS or with reduced motion everything is simply visible.
+  var rv = [].slice.call(document.querySelectorAll(".rv"));
+  if (reduce || !("IntersectionObserver" in window)) {
+    rv.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("in");
+        io.unobserve(e.target);
+        var n = e.target.querySelectorAll("[data-count]");
+        if (n.length) [].slice.call(n).forEach(count);
+      });
+    }, { rootMargin: "0px 0px -12% 0px", threshold: .08 });
+    rv.forEach(function (el) { io.observe(el); });
+  }
+
+  // Failsafe. If anything above goes wrong, nothing stays invisible: an unread page is a
+  // worse outcome than a missed animation.
+  setTimeout(function () {
+    document.querySelectorAll(".rv:not(.in)").forEach(function (el) { el.classList.add("in"); });
+    if (h1) h1.classList.add("lit");
+  }, 2600);
+
+  function count(el) {
+    var target = parseFloat(el.getAttribute("data-count"));
+    var dp = parseInt(el.getAttribute("data-dp") || "0", 10);
+    var start = performance.now(), dur = 900;
+    function step(now) {
+      var p = Math.min(1, (now - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = (target * eased).toFixed(dp);
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = target.toFixed(dp);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Read progress.
+  var bar = document.getElementById("progress");
+  function progress() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + "%";
+  }
+  window.addEventListener("scroll", progress, { passive: true });
+  progress();
+
+  // Iridescent bands. A slow chromatic field, drawn rather than stock, one warm and one cool.
+  // Each only runs while it is on screen.
+  var PALETTES = {
+    warm: [
+      [0.24, 0.21, 0.38, 0.17, 0.30, "255,138,76", .40],
+      [0.50, 0.13, 0.70, 0.23, 0.28, "0,153,255", .58],
+      [0.76, 0.19, 0.34, 0.11, 0.30, "255,74,140", .34],
+      [0.62, 0.09, 0.16, 0.27, 0.21, "255,209,102", .26]
+    ],
+    cool: [
+      [0.22, 0.21, 0.34, 0.17, 0.30, "0,153,255", .62],
+      [0.52, 0.13, 0.66, 0.23, 0.27, "0,209,178", .42],
+      [0.78, 0.19, 0.38, 0.11, 0.29, "122,86,255", .46],
+      [0.66, 0.09, 0.18, 0.27, 0.20, "255,110,180", .26]
+    ]
+  };
+
+  [].slice.call(document.querySelectorAll("canvas[data-iri]")).forEach(function (cv) {
+    if (!cv.getContext) return;
+    var ctx = cv.getContext("2d");
+    if (!ctx) return;
+    var spec = PALETTES[cv.getAttribute("data-iri")] || PALETTES.cool;
+    var t = Math.random() * 10, raf = null, rect;
+
+    function size() {
+      var r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
+      cv.width = Math.max(1, Math.round(r.width * d));
+      cv.height = Math.max(1, Math.round(r.height * d));
+      ctx.setTransform(d, 0, 0, d, 0, 0);
+      return r;
+    }
+    rect = size();
+    window.addEventListener("resize", function () { rect = size(); draw(); });
+
+    function blob(x, y, r, rgb, a) {
+      var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, "rgba(" + rgb + "," + a + ")");
+      g.addColorStop(1, "rgba(" + rgb + ",0)");
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    }
+    function draw() {
+      var w = rect.width, h = rect.height;
+      if (!w || !h) return;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#05070c"; ctx.fillRect(0, 0, w, h);
+      ctx.globalCompositeOperation = "lighter";
+      ctx.filter = "blur(56px)";
+      var s = Math.max(w, h);
+      spec.forEach(function (p, i) {
+        var fx = i % 2 ? Math.cos : Math.sin;
+        var fy = i % 2 ? Math.sin : Math.cos;
+        blob(w * (p[0] + 0.13 * fx(t * p[1])), h * (p[2] + 0.19 * fy(t * p[3])), s * p[4], p[5], p[6]);
+      });
+      ctx.filter = "none";
+      ctx.globalCompositeOperation = "source-over";
+    }
+    function loop() { t += 0.006; draw(); raf = requestAnimationFrame(loop); }
+
+    draw();
+    if (reduce || !("IntersectionObserver" in window)) return;
+    new IntersectionObserver(function (e) {
+      if (e[0].isIntersecting) { if (!raf) loop(); }
+      else if (raf) { cancelAnimationFrame(raf); raf = null; }
+    }, { threshold: 0 }).observe(cv);
+  });
+})();
+</script>
+</body>
+</html>
