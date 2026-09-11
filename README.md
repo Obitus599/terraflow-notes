@@ -19,7 +19,8 @@ would embarrass a prospect if a person went looking through the commit history.
 ## Adding a prospect
 
 1. Copy an existing folder, rename it `<name>-<12 random hex>`.
-2. Match their site: pull the fonts and the two or three colours off their own pages first.
+2. Keep the Terraflow brand: Switzer from Fontshare, Onyx #0A0A0A ground, Moon #FAFAFA type,
+   one Ocean #0099FF moment, square corners. The `terraflow-brand` skill governs it.
 3. Keep the evidence in `~/terraflow/outbound/teardowns/<domain>-<date>/`, never in here.
 
 ## DNS

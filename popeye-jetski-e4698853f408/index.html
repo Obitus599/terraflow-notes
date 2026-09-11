@@ -6,253 +6,274 @@
 <title>Popeye Jetski site notes | Terraflow Studio</title>
 <meta name="description" content="Eight things costing Popeye Jetski bookings, checked on the live site on 11 September 2026.">
 <meta name="robots" content="noindex, nofollow">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600,700&display=swap">
 <style>
-  /* Popeye Jetski's own identity: Kanit, #db1529 red, #eec256 gold, white ground.
-     Single theme on purpose, so the page feels like their site and not like ours.
-     Every colour is painted explicitly so it holds on any background. */
+  /* Terraflow Studio. Onyx ground, Moon type, one Ocean moment.
+     Switzer only. Square corners. Tight negative tracking. Dark is the default mode. */
   :root {
-    --red:        #db1529;
-    --red-dark:   #a80f1f;
-    --red-soft:   #fdecee;
-    --gold:       #eec256;
-    --gold-soft:  #fdf6e6;
-    --ink:        #15151c;
-    --ink-soft:   #4a4a58;
-    --ink-faint:  #7c7c8c;
-    --line:       #e2e2ea;
-    --line-soft:  #eeeef4;
-    --ground:     #ffffff;
-    --ground-alt: #fbfbfd;
-    --ok:         #1f7a4d;
-    --ok-soft:    #e8f5ee;
+    --onyx:    #0A0A0A;
+    --n900:    #171717;
+    --n800:    #262626;
+    --n700:    #404040;
+    --n600:    #525252;
+    --n500:    #737373;
+    --n400:    #A3A3A3;
+    --n300:    #D4D4D4;
+    --n200:    #E5E5E5;
+    --n100:    #F5F5F5;
+    --moon:    #FAFAFA;
+    --ocean:   #0099FF;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
-    background: var(--ground);
-    color: var(--ink);
-    font-family: Kanit, "Helvetica Neue", Arial, sans-serif;
-    font-weight: 300;
+    background: var(--onyx);
+    color: var(--moon);
+    font-family: Switzer, "Helvetica Neue", Arial, sans-serif;
+    font-weight: 400;
     font-size: 17px;
-    line-height: 1.65;
+    line-height: 1.6;
+    letter-spacing: -.01em;
     -webkit-font-smoothing: antialiased;
   }
   img { max-width: 100%; }
-  .wrap { max-width: 780px; margin: 0 auto; padding: 0 22px; }
+  .wrap { max-width: 840px; margin: 0 auto; padding: 0 28px; }
 
-  /* ---------------- header ---------------- */
-  .topbar { background: var(--red); color: #fff; }
-  .topbar .wrap {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-    gap: 10px; padding-top: 14px; padding-bottom: 14px;
+  /* ---------- wordmark bar ---------- */
+  .bar { border-bottom: 1px solid var(--n800); }
+  .bar .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 18px; padding-top: 22px; padding-bottom: 22px;
   }
-  .topbar .brand { font-weight: 600; font-size: 15px; letter-spacing: .02em; }
-  .topbar .by { font-size: 12.5px; font-weight: 300; opacity: .9; letter-spacing: .04em; }
+  .mark {
+    font-weight: 600; font-size: 13px; letter-spacing: .24em;
+    text-decoration: none; color: var(--moon); white-space: nowrap;
+  }
+  .mark .studio { color: var(--n500); }
+  .mark:hover .studio { color: var(--n300); }
+  .bar .where {
+    font-size: 11px; font-weight: 500; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--n500); white-space: nowrap;
+  }
 
-  header.hero { background: var(--ground-alt); border-bottom: 1px solid var(--line); }
-  header.hero .wrap { padding-top: 54px; padding-bottom: 44px; }
+  /* ---------- hero ---------- */
+  header.hero .wrap { padding-top: 84px; padding-bottom: 62px; }
   .eyebrow {
-    font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
-    color: var(--red); margin: 0 0 14px;
+    display: flex; align-items: baseline; gap: 14px;
+    font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--n500); margin: 0 0 30px;
   }
+  .eyebrow .num { color: var(--n300); font-weight: 600; }
   h1 {
-    font-weight: 700; font-size: clamp(31px, 6vw, 50px); line-height: 1.06;
-    letter-spacing: -.02em; margin: 0 0 18px; text-wrap: balance;
+    font-weight: 700; font-size: clamp(34px, 6.6vw, 60px); line-height: 1.03;
+    letter-spacing: -.045em; margin: 0 0 26px; text-wrap: balance; color: var(--moon);
   }
-  h1 em { font-style: normal; color: var(--red); }
-  .lede { font-size: 18.5px; color: var(--ink-soft); margin: 0; max-width: 60ch; }
+  .lede { font-size: 19px; line-height: 1.55; color: var(--n400); margin: 0; max-width: 58ch; }
   .meta {
-    margin: 26px 0 0; padding-top: 18px; border-top: 1px solid var(--line);
-    font-size: 13px; color: var(--ink-faint); letter-spacing: .02em;
+    margin: 40px 0 0; padding-top: 20px; border-top: 1px solid var(--n800);
+    font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--n600);
   }
-  .meta b { color: var(--ink); font-weight: 500; }
+  .meta b { color: var(--n300); font-weight: 500; }
 
-  /* ---------------- tally ---------------- */
+  /* ---------- tally ---------- */
   .tally {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
-    gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft);
-    margin: 34px 0 0;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px; background: var(--n800); border-top: 1px solid var(--n800);
+    border-bottom: 1px solid var(--n800);
   }
-  .tally > div { background: var(--ground); padding: 15px 17px; }
+  .tally > div { background: var(--onyx); padding: 24px 22px; }
   .tally dt {
-    font-size: 10.5px; text-transform: uppercase; letter-spacing: .11em;
-    color: var(--ink-faint); margin: 0 0 5px; font-weight: 500;
+    font-size: 10.5px; font-weight: 500; text-transform: uppercase; letter-spacing: .14em;
+    color: var(--n600); margin: 0 0 10px;
   }
   .tally dd {
-    margin: 0; font-weight: 600; font-size: 25px; letter-spacing: -.02em;
-    font-variant-numeric: tabular-nums;
+    margin: 0; font-weight: 700; font-size: 27px; letter-spacing: -.035em;
+    font-variant-numeric: tabular-nums; color: var(--moon);
   }
-  .tally .bad dd { color: var(--red); }
-  .tally .good dd { color: var(--ok); }
+  .tally .accent dd { color: var(--ocean); }
 
-  /* ---------------- sections ---------------- */
+  /* ---------- sections ---------- */
   h2 {
-    font-weight: 600; font-size: 12.5px; text-transform: uppercase; letter-spacing: .17em;
-    color: var(--ink-faint); margin: 58px 0 0; padding-bottom: 10px;
-    border-bottom: 2px solid var(--red);
+    display: flex; align-items: baseline; gap: 14px;
+    font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--n500); margin: 78px 0 0; padding-bottom: 16px;
+    border-bottom: 1px solid var(--n800);
   }
-  .finding { padding: 28px 0; border-bottom: 1px solid var(--line-soft); }
+  h2 .num { color: var(--n300); font-weight: 600; }
+
+  .finding { padding: 36px 0; border-bottom: 1px solid var(--n900); }
   .finding:last-of-type { border-bottom: 0; }
   .chip {
-    display: inline-block; font-size: 10.5px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: .08em; padding: 4px 9px; margin-bottom: 12px; border-radius: 2px;
+    display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .13em; padding: 5px 10px; margin-bottom: 16px;
   }
-  .chip.now  { background: var(--red); color: #fff; }
-  .chip.lose { background: var(--gold-soft); color: #8a6413; border: 1px solid var(--gold); }
-  .chip.tidy { background: var(--line-soft); color: var(--ink-soft); }
+  .chip.now  { background: var(--moon); color: var(--onyx); }
+  .chip.lose { border: 1px solid var(--n600); color: var(--n300); }
+  .chip.tidy { color: var(--n500); padding-left: 0; }
   .finding h3 {
-    font-weight: 600; font-size: 23px; line-height: 1.25; letter-spacing: -.018em;
-    margin: 0 0 10px; text-wrap: balance;
+    font-weight: 700; font-size: 25px; line-height: 1.2; letter-spacing: -.03em;
+    margin: 0 0 14px; text-wrap: balance; color: var(--moon);
   }
-  .finding p { margin: 0 0 13px; max-width: 63ch; }
+  .finding p { margin: 0 0 14px; max-width: 62ch; color: var(--n300); }
   .finding p:last-child { margin-bottom: 0; }
 
   .quote {
-    background: var(--ground-alt); border-left: 4px solid var(--red);
-    padding: 15px 18px; margin: 0 0 12px; font-size: 15.5px;
+    border-left: 2px solid var(--n700); padding: 4px 0 4px 20px; margin: 0 0 16px;
+    font-size: 16px; color: var(--n300); max-width: 62ch;
   }
   .quote .q {
-    display: block; font-size: 11px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: .07em; color: var(--red); margin-bottom: 4px;
+    display: block; font-size: 10.5px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .13em; color: var(--n500); margin-bottom: 6px;
   }
-  .same { font-size: 13px; font-weight: 500; color: var(--red); margin: 0 0 13px; letter-spacing: .01em; }
+  .same {
+    font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--moon); margin: 0 0 18px;
+  }
 
-  .price-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 14px; }
-  .price-card { border: 1px solid var(--line); padding: 12px 17px; min-width: 152px; background: var(--ground); }
+  .price-row { display: flex; flex-wrap: wrap; gap: 1px; background: var(--n800); margin: 0 0 18px; }
+  .price-card { background: var(--onyx); padding: 20px 24px; min-width: 168px; flex: 1; }
   .price-card .who {
-    display: block; font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em;
-    color: var(--ink-faint); margin-bottom: 3px; font-weight: 500;
+    display: block; font-size: 10px; font-weight: 500; text-transform: uppercase;
+    letter-spacing: .14em; color: var(--n600); margin-bottom: 8px;
   }
-  .price-card .amt { font-weight: 600; font-size: 25px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-  .price-card.zero { border-color: var(--red); background: var(--red-soft); }
-  .price-card.zero .amt { color: var(--red); }
+  .price-card .amt {
+    font-weight: 700; font-size: 30px; letter-spacing: -.035em;
+    font-variant-numeric: tabular-nums; color: var(--n400);
+  }
+  .price-card.zero .amt { color: var(--ocean); }
 
-  .list { margin: 0 0 14px; padding: 0; list-style: none; }
+  .list { margin: 0 0 16px; padding: 0; list-style: none; max-width: 62ch; }
   .list li {
-    display: flex; gap: 14px; padding: 7px 0; border-bottom: 1px dotted var(--line);
-    font-size: 15.5px;
+    display: flex; gap: 18px; padding: 10px 0; border-bottom: 1px solid var(--n900);
+    font-size: 16px; color: var(--n300);
   }
   .list li:last-child { border-bottom: 0; }
   .list .name { flex: 1; }
-  .list .state { font-size: 12px; font-weight: 500; letter-spacing: .03em; white-space: nowrap; padding-top: 3px; }
-  .list .state.bad { color: var(--red); }
-  .list .state.good { color: var(--ok); }
-
-  .slots {
-    display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px;
-    padding: 14px 16px; background: var(--ground-alt); border: 1px solid var(--line);
+  .list .state {
+    font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+    white-space: nowrap; padding-top: 4px; color: var(--n600);
   }
-  .slot { font-size: 12.5px; padding: 4px 9px; border: 1px solid var(--line); font-variant-numeric: tabular-nums; }
-  .slot.gone { color: var(--ink-faint); text-decoration: line-through; border-color: var(--line-soft); }
-  .slot.open { color: var(--ok); border-color: var(--ok); }
+  .list .state.bad { color: var(--moon); }
 
-  .note { font-size: 13px; color: var(--ink-faint); margin: 0; }
-
-  .working {
-    background: var(--ok-soft); border: 1px solid #bfe0cd; padding: 22px 24px; margin: 22px 0 0;
+  .slots { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 18px; }
+  .slot {
+    font-size: 12px; font-weight: 500; padding: 5px 10px; border: 1px solid var(--n800);
+    font-variant-numeric: tabular-nums; color: var(--n600); letter-spacing: 0;
   }
-  .working h3 { font-weight: 600; font-size: 19px; margin: 0 0 12px; letter-spacing: -.015em; }
-  .working p { margin: 0 0 11px; max-width: 63ch; }
+  .slot.open { border-color: var(--n500); color: var(--n200); }
+
+  .note { font-size: 13px; color: var(--n600); margin: 0; max-width: 62ch; }
+
+  .working { background: var(--n900); padding: 34px 36px; margin: 26px 0 0; }
+  .working h3 { font-weight: 700; font-size: 21px; margin: 0 0 16px; letter-spacing: -.028em; color: var(--moon); }
+  .working p { margin: 0 0 13px; max-width: 62ch; color: var(--n300); }
   .working p:last-child { margin-bottom: 0; }
 
-  .order { counter-reset: step; margin: 20px 0 0; padding: 0; list-style: none; }
+  .order { counter-reset: step; margin: 26px 0 0; padding: 0; list-style: none; }
   .order li {
-    counter-increment: step; display: grid; grid-template-columns: 38px 1fr; gap: 16px;
-    padding: 16px 0; border-bottom: 1px solid var(--line-soft); align-items: baseline;
+    counter-increment: step; display: grid; grid-template-columns: 52px 1fr; gap: 18px;
+    padding: 20px 0; border-bottom: 1px solid var(--n900); align-items: baseline;
   }
   .order li:last-child { border-bottom: 0; }
   .order li::before {
     content: counter(step, decimal-leading-zero);
-    font-weight: 700; font-size: 19px; color: var(--red); font-variant-numeric: tabular-nums;
-  }
-  .order b { display: block; font-weight: 600; font-size: 17px; letter-spacing: -.01em; margin-bottom: 2px; }
-  .order span { color: var(--ink-soft); font-size: 15.5px; }
-
-  /* ---------------- offers ---------------- */
-  .offers { background: var(--ink); color: #fff; margin-top: 64px; }
-  .offers .wrap { padding-top: 52px; padding-bottom: 52px; }
-  .offers h2 { color: rgba(255,255,255,.5); border-bottom-color: var(--gold); margin-top: 0; }
-  .offer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 26px; }
-  .offer {
-    background: #1e1e27; border: 1px solid #33333f; padding: 26px 24px;
-    display: flex; flex-direction: column;
-  }
-  .offer.paid { border-color: var(--gold); }
-  .offer .kicker {
-    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .13em;
-    color: var(--gold); margin: 0 0 10px;
-  }
-  .offer h3 { font-weight: 600; font-size: 21px; line-height: 1.25; margin: 0 0 10px; letter-spacing: -.015em; color: #fff; }
-  .offer p { margin: 0 0 16px; font-size: 15.5px; color: #c3c3d0; }
-  .offer ul { margin: 0 0 20px; padding-left: 18px; font-size: 15px; color: #c3c3d0; }
-  .offer ul li { margin-bottom: 5px; }
-  .offer .price {
-    font-weight: 700; font-size: 30px; letter-spacing: -.02em; color: #fff; margin: 0 0 4px;
+    font-weight: 600; font-size: 12px; letter-spacing: .14em; color: var(--n600);
     font-variant-numeric: tabular-nums;
   }
-  .offer .price small { font-weight: 300; font-size: 14px; color: #9a9aab; letter-spacing: 0; }
+  .order b { display: block; font-weight: 600; font-size: 18px; letter-spacing: -.025em; margin-bottom: 4px; color: var(--moon); }
+  .order span { color: var(--n400); font-size: 16px; }
+
+  /* ---------- offers ---------- */
+  .offers { border-top: 1px solid var(--n800); margin-top: 84px; }
+  .offers .wrap { padding-top: 66px; padding-bottom: 76px; }
+  .offer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--n800); margin-top: 34px; }
+  .offer { background: var(--onyx); padding: 34px 32px; display: flex; flex-direction: column; }
+  .offer .kicker {
+    font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .18em;
+    color: var(--n600); margin: 0 0 14px;
+  }
+  .offer h3 { font-weight: 700; font-size: 23px; line-height: 1.2; margin: 0 0 14px; letter-spacing: -.03em; color: var(--moon); }
+  .offer p { margin: 0 0 20px; font-size: 16px; color: var(--n400); }
+  .offer ul { margin: 0 0 24px; padding: 0; list-style: none; font-size: 15.5px; color: var(--n400); }
+  .offer ul li { padding: 7px 0; border-bottom: 1px solid var(--n900); }
+  .offer ul li:last-child { border-bottom: 0; }
+  .offer .price {
+    font-weight: 700; font-size: 34px; letter-spacing: -.04em; color: var(--moon); margin: 0 0 20px;
+    font-variant-numeric: tabular-nums;
+  }
+  .offer .price small { font-weight: 400; font-size: 13px; color: var(--n600); letter-spacing: .1em; text-transform: uppercase; }
   .offer .spacer { flex: 1; }
   .btn {
     display: inline-block; text-align: center; text-decoration: none;
-    font-weight: 600; font-size: 15.5px; letter-spacing: .02em;
-    padding: 14px 22px; border-radius: 3px; transition: background .15s ease, color .15s ease;
+    font-weight: 600; font-size: 14px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 17px 26px; transition: background .16s ease, color .16s ease, border-color .16s ease;
   }
-  .btn-red { background: var(--red); color: #fff; }
-  .btn-red:hover { background: var(--red-dark); }
-  .btn-gold { background: var(--gold); color: #241c05; }
-  .btn-gold:hover { background: #f5d183; }
-  .btn[aria-disabled="true"] { background: #3a3a46; color: #9a9aab; cursor: not-allowed; }
-  .offer .fine { margin: 12px 0 0; font-size: 12.5px; color: #8e8e9e; }
+  .btn-line { border: 1px solid var(--n600); color: var(--moon); }
+  .btn-line:hover { border-color: var(--moon); background: var(--moon); color: var(--onyx); }
+  .btn-ocean { background: var(--ocean); color: var(--onyx); }
+  .btn-ocean:hover { background: #33adff; }
+  .offer .fine { margin: 16px 0 0; font-size: 12.5px; color: var(--n600); }
 
-  /* ---------------- footer ---------------- */
-  footer { background: var(--ground-alt); border-top: 1px solid var(--line); }
-  footer .wrap { padding-top: 34px; padding-bottom: 44px; }
-  footer p { margin: 0 0 10px; max-width: 62ch; color: var(--ink-soft); font-size: 15.5px; }
-  .sign { font-weight: 600; font-size: 17px; color: var(--ink); margin-top: 18px; }
-  .sign span { display: block; font-weight: 300; font-size: 12.5px; color: var(--ink-faint); letter-spacing: .06em; text-transform: uppercase; margin-top: 4px; }
+  /* ---------- footer ---------- */
+  footer { border-top: 1px solid var(--n800); }
+  footer .wrap { padding-top: 54px; padding-bottom: 64px; }
+  footer p { margin: 0 0 14px; max-width: 60ch; color: var(--n400); font-size: 16px; }
+  .sign { font-weight: 600; font-size: 17px; color: var(--moon); margin-top: 26px; letter-spacing: -.02em; }
+  .colophon {
+    margin-top: 48px; padding-top: 26px; border-top: 1px solid var(--n900);
+    display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: space-between;
+  }
+  .colophon a { color: var(--n300); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
+  .colophon a:hover { color: var(--moon); }
+  .colophon .tag { font-size: 13px; color: var(--n600); letter-spacing: -.01em; text-transform: none; font-weight: 400; }
 
-  a { color: var(--red); }
-  a:focus-visible, .btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
-  @media (max-width: 600px) { body { font-size: 16px; } .offers .wrap { padding-top: 42px; padding-bottom: 42px; } }
+  a { color: var(--moon); }
+  a:focus-visible, .btn:focus-visible { outline: 2px solid var(--ocean); outline-offset: 3px; }
+  @media (max-width: 620px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 22px; }
+    header.hero .wrap { padding-top: 54px; padding-bottom: 44px; }
+    .working { padding: 26px 24px; }
+    .offer { padding: 28px 24px; }
+  }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 </head>
 <body>
 
-<div class="topbar">
+<div class="bar">
   <div class="wrap">
-    <span class="brand">Popeye Jetski Rental</span>
-    <span class="by">Site notes by Terraflow Studio</span>
+    <a class="mark" href="https://terraflow.studio" target="_blank" rel="noopener">TERRAFLOW<span class="studio">.STUDIO</span></a>
+    <span class="where">Based in Dubai</span>
   </div>
 </div>
 
 <header class="hero">
   <div class="wrap">
-    <p class="eyebrow">Free teardown &middot; as promised</p>
-    <h1>Eight things your website is doing, <em>and one of them is giving rides away</em></h1>
+    <p class="eyebrow"><span class="num">01</span> <span>Free teardown &middot; Popeye Jetski Rental</span></p>
+    <h1>Eight things your website is doing, and one of them is giving rides away</h1>
     <p class="lede">
       I went through popeyejetski.com the way a tourist would, on the pages that take money.
       One item is live right now and I would fix it today. The booking system itself is fine,
       and I say where below so nobody wastes a day on it.
     </p>
-    <p class="meta">Checked on the live site <b>11 September 2026</b> for <b>Nicolas Benrezkallah</b></p>
+    <p class="meta">Checked on the live site <b>11 September 2026</b> &nbsp;&middot;&nbsp; for <b>Nicolas Benrezkallah</b></p>
   </div>
 </header>
 
 <div class="wrap">
-
   <dl class="tally">
-    <div class="bad"><dt>Free by mistake</dt><dd>1 ride</dd></div>
-    <div class="bad"><dt>Take money, no date</dt><dd>5 of 12</dd></div>
+    <div class="accent"><dt>Free by mistake</dt><dd>1 ride</dd></div>
+    <div><dt>Take money, no date</dt><dd>5 of 12</dd></div>
     <div><dt>Homepage weight</dt><dd>4.6 MB</dd></div>
-    <div class="good"><dt>Booking flow</dt><dd>Works</dd></div>
+    <div><dt>Booking flow</dt><dd>Works</dd></div>
   </dl>
 
-  <h2>Fix today</h2>
+  <h2><span class="num">02</span> <span>Fix today</span></h2>
 
   <section class="finding">
     <span class="chip now">Costs money now</span>
@@ -274,7 +295,7 @@
     </p>
   </section>
 
-  <h2>Losing you bookings</h2>
+  <h2><span class="num">03</span> <span>Losing you bookings</span></h2>
 
   <section class="finding">
     <span class="chip lose">Turns people away</span>
@@ -289,7 +310,7 @@
       Yes, our Popeye instructors are here to take care of you as well as explain to you how to
       use the Jet Ski. Book your ride here!
     </div>
-    <p class="same">Both answers are the same sentence, word for word.</p>
+    <p class="same">Both answers are the same sentence, word for word</p>
     <p>
       Somebody pasted the first answer under the second question. Read the second one on its own,
       which is how a nervous tourist reads it, and it says yes, you need a licence. They do not
@@ -305,10 +326,10 @@
     <span class="chip lose">You lose the date</span>
     <h3>Five activities take payment without asking when</h3>
     <ul class="list">
-      <li><span class="name">Jetski tours, 30 / 60 / 90 / 120 min</span><span class="state good">date and time</span></li>
-      <li><span class="name">Initiation training, 20 min</span><span class="state good">date and time</span></li>
-      <li><span class="name">Experienced training, 45 min</span><span class="state good">date and time</span></li>
-      <li><span class="name">Jet Car, 20 min</span><span class="state good">date and time</span></li>
+      <li><span class="name">Jetski tours, 30 / 60 / 90 / 120 min</span><span class="state">date and time</span></li>
+      <li><span class="name">Initiation training, 20 min</span><span class="state">date and time</span></li>
+      <li><span class="name">Experienced training, 45 min</span><span class="state">date and time</span></li>
+      <li><span class="name">Jet Car, 20 min</span><span class="state">date and time</span></li>
       <li><span class="name">Jet Car, 30 min</span><span class="state bad">no date at all</span></li>
       <li><span class="name">Flyboard</span><span class="state bad">no date at all</span></li>
       <li><span class="name">Stand up paddle</span><span class="state bad">no date at all</span></li>
@@ -352,7 +373,7 @@
     </p>
   </section>
 
-  <h2>Worth tidying</h2>
+  <h2><span class="num">04</span> <span>Worth tidying</span></h2>
 
   <section class="finding">
     <span class="chip tidy">No confirmation</span>
@@ -393,17 +414,17 @@
     <p class="note">Measured in a real browser with the cache cleared, 11 September 2026.</p>
   </section>
 
-  <h2>What is already working</h2>
+  <h2><span class="num">05</span> <span>What is already working</span></h2>
 
   <div class="working">
     <h3>Your booking system is fine, including same day</h3>
     <div class="slots" aria-label="Time slots offered for today when checked at 13:11">
-      <span class="slot gone">7:30 AM</span>
-      <span class="slot gone">8:30 AM</span>
-      <span class="slot gone">9:30 AM</span>
-      <span class="slot gone">10:30 AM</span>
-      <span class="slot gone">11:30 AM</span>
-      <span class="slot gone">12:30 PM</span>
+      <span class="slot">7:30 AM</span>
+      <span class="slot">8:30 AM</span>
+      <span class="slot">9:30 AM</span>
+      <span class="slot">10:30 AM</span>
+      <span class="slot">11:30 AM</span>
+      <span class="slot">12:30 PM</span>
       <span class="slot open">1:30 PM</span>
       <span class="slot open">2:30 PM</span>
       <span class="slot open">3:30 PM</span>
@@ -423,7 +444,7 @@
     </p>
   </div>
 
-  <h2>The order I would do them in</h2>
+  <h2><span class="num">06</span> <span>The order I would do them in</span></h2>
 
   <ol class="order">
     <li><div><b>Price the 30 minute Jet Car</b><span>One field. Every hour it stays at zero is a ride you might give away.</span></div></li>
@@ -432,12 +453,11 @@
     <li><div><b>Point the two FAQ links at a booking page</b><span>Ten minutes, and it catches people at the exact moment they decide.</span></div></li>
     <li><div><b>Pick one WhatsApp number</b><span>Then put the ride name into the opening message so you know what they are asking about.</span></div></li>
   </ol>
-
 </div>
 
 <section class="offers">
   <div class="wrap">
-    <h2>If you want a hand</h2>
+    <h2 style="margin-top:0"><span class="num">07</span> <span>If you want a hand</span></h2>
     <div class="offer-grid">
 
       <div class="offer">
@@ -453,11 +473,11 @@
           <li>No pitch at the end</li>
         </ul>
         <div class="spacer"></div>
-        <p class="price">Free <small>&middot; 30 minutes</small></p>
-        <a class="btn btn-red" href="https://cal.com/hello-terraflow-studio-snvz0j/30min" target="_blank" rel="noopener">Pick a time</a>
+        <p class="price">Free <small>30 minutes</small></p>
+        <a class="btn btn-line" href="https://cal.com/hello-terraflow-studio-snvz0j/30min" target="_blank" rel="noopener">Pick a time</a>
       </div>
 
-      <div class="offer paid">
+      <div class="offer">
         <p class="kicker">If the free one was useful</p>
         <h3>The whole marketing picture, not just the site</h3>
         <p>
@@ -472,8 +492,8 @@
           <li>Paid ads, what to run and what to stop</li>
         </ul>
         <div class="spacer"></div>
-        <p class="price">AED 50 <small>&middot; one payment</small></p>
-        <a class="btn btn-gold" href="https://buy.stripe.com/00w14neik3TW7a38lDbQY00" target="_blank" rel="noopener">Get the full teardown</a>
+        <p class="price">AED 50 <small>one payment</small></p>
+        <a class="btn btn-ocean" href="https://buy.stripe.com/00w14neik3TW7a38lDbQY00" target="_blank" rel="noopener">Get the full teardown</a>
         <p class="fine">Delivered within five working days. Not what you hoped for? Tell me and I refund it.</p>
       </div>
 
@@ -492,7 +512,13 @@
       If you would rather just take this and get on with it, that is completely fine. It is
       yours either way.
     </p>
-    <div class="sign">Alex<span>Terraflow Studio &middot; Dubai</span></div>
+    <div class="sign">Alex</div>
+
+    <div class="colophon">
+      <a href="https://terraflow.studio" target="_blank" rel="noopener">terraflow.studio</a>
+      <span class="tag">Design isn't just about grabbing attention, it's about holding it.</span>
+      <a href="mailto:hello@terraflow.studio">hello@terraflow.studio</a>
+    </div>
   </div>
 </footer>
 
