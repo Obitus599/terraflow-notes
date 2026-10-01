@@ -64,6 +64,22 @@ Sent through the reply engine, in the same thread, from the same cold mailbox. T
 `tg-webhook` allows exactly two destinations in a draft: the cal.com link from the vault and a
 `notes.terraflow.studio` page. Any other URL is refused, so a model cannot invent one.
 
+## Knowing they read it
+
+Every page carries the visit counter from `_beacon.html`, pasted just before `</body>` (the
+template already has it, and `./check` fails a page without it). It reports to the engine's
+`notes-view` function, which keeps one row per page load in `notes_view`.
+
+- Telegram says **"is reading their notes"** once per visit, and only after 15 seconds on screen
+  or a scroll past 40%. A bare page load is not a read: Outlook's link scanner opens pages too.
+- Telegram says **"clicked the AED 50 teardown"** or **"clicked book a free call"** every time
+  either offer is clicked.
+- Open any page once with `?me` on the end of the address, on each of your own devices. That
+  browser is then never counted, so checking your own work does not ping you.
+
+The cold campaign itself has open and click tracking off for deliverability. This counter is the
+only read signal there is, and it only covers visits after 1 October 2026, when it went in.
+
 ## DNS and hosting
 
 GitHub Pages from `master`, `/`. `notes` is four A records at GoDaddy pointing at

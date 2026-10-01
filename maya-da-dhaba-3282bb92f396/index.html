@@ -800,5 +800,48 @@
   });
 })();
 </script>
+<script>
+/* Visit counter. Tells Terraflow when this page is read and whether either offer is clicked.
+   No cookies, nothing stored on your device. Opening any page once with ?me in the address
+   marks that browser as Terraflow's own, and it is never counted again. */
+(function () {
+  try {
+    if (/[?&]me\b/.test(location.search)) localStorage.setItem("tf_me", "1");
+    if (localStorage.getItem("tf_me")) return;
+  } catch (e) {}
+  if (!navigator.sendBeacon || !window.crypto) return;
+  var URL_ = "https://zyrjljjzzijtbksebxcl.supabase.co/functions/v1/notes-view";
+  var slug = location.pathname.split("/").filter(Boolean)[0] || "";
+  var visit = Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(10)), function (b) {
+    return ("0" + b.toString(16)).slice(-2);
+  }).join("");
+  var secs = 0, scroll = 0, on = document.visibilityState === "visible", since = Date.now();
+  function tick() { var now = Date.now(); if (on) secs += (now - since) / 1000; since = now; }
+  function reach() {
+    var h = document.documentElement, p = Math.round(100 * (h.scrollTop + innerHeight) / h.scrollHeight);
+    if (p > scroll) scroll = Math.min(100, p);
+  }
+  function send(t, click) {
+    tick();
+    var b = { slug: slug, visit: visit, t: t, secs: Math.round(secs), scroll: scroll };
+    if (click) b.click = click;
+    try { navigator.sendBeacon(URL_, new Blob([JSON.stringify(b)], { type: "text/plain" })); } catch (e) {}
+  }
+  addEventListener("scroll", reach, { passive: true });
+  document.addEventListener("visibilitychange", function () {
+    tick(); on = document.visibilityState === "visible";
+    if (!on) send("ping");
+  });
+  setInterval(function () { if (on) send("ping"); }, 15000);
+  document.addEventListener("click", function (e) {
+    var a = e.target && e.target.closest ? e.target.closest("a") : null;
+    if (!a) return;
+    if (a.href.indexOf("buy.stripe.com") > -1) send("click", "paid");
+    else if (a.href.indexOf("cal.com") > -1) send("click", "call");
+  });
+  reach();
+  send("load");
+})();
+</script>
 </body>
 </html>

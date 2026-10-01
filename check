@@ -48,6 +48,7 @@ grep -q 'api.fontshare.com/v2/css' "$f" && ok "font source" "Fontshare" || bad "
 grep -q 'https://terraflow.studio' "$f" && ok "link to the studio" "present" || bad "link to the studio" "missing"
 grep -q 'cal.com/hello-terraflow-studio' "$f" && ok "free call" "wired" || bad "free call" "cal.com link missing"
 grep -q 'buy.stripe.com/' "$f" && ok "paid teardown" "wired" || bad "paid teardown" "stripe link missing"
+grep -q 'functions/v1/notes-view' "$f" && ok "visit counter" "wired" || bad "visit counter" "missing, nobody will know if they read it (paste _beacon.html before </body>)"
 grep -q 'noindex' "$f" && ok "search engines" "excluded" || bad "search engines" "no noindex, this page would get indexed"
 grep -q 'what is already working\|already working' "$f" && ok "the good news section" "present" \
   || bad "the good news section" "every teardown names something that works"
