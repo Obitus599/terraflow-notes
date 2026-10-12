@@ -61,8 +61,8 @@ h1{font-size:30px;line-height:1.1;font-weight:600;letter-spacing:-.01em;margin:2
 .rule b{color:var(--moon);font-weight:600}
 
 .tools{display:flex;flex-direction:column;gap:8px;margin:0 0 6px}
-.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px}
-.seg button{height:38px;border:0;border-radius:9px;background:transparent;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer}
+.seg{display:grid;grid-template-columns:repeat(var(--segn,3),1fr);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{min-width:0;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:38px;border:0;border-radius:9px;background:transparent;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--raised);color:var(--moon)}
 .row2{display:flex;gap:8px}
 .search{flex:1;min-width:0;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--moon);padding:0 14px;font:inherit;font-size:16px}
@@ -117,6 +117,7 @@ h1{font-size:30px;line-height:1.1;font-weight:600;letter-spacing:-.01em;margin:2
 
 .sendrow{display:flex;gap:8px;margin:8px 0 0}.sendbtn{flex:1;min-width:0;height:48px;border-radius:12px;border:0;background:var(--moon);color:var(--onyx);font-weight:600;font-size:15px;cursor:pointer}
 .leadtag{display:inline-block;margin-top:8px;font-size:12px;font-weight:600;color:var(--good);background:var(--good-soft);padding:3px 8px;border-radius:999px}
+.sync{color:var(--quiet)}.sync.ok{color:var(--good)}.sync.wait{color:var(--meh)}
 .empty{color:var(--muted);text-align:center;padding:40px 0}
 .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--quiet)}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--moon);color:var(--onyx);font-weight:600;font-size:14px;padding:10px 16px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -127,7 +128,7 @@ h1{font-size:30px;line-height:1.1;font-weight:600;letter-spacing:-.01em;margin:2
 <header class="top">
   <div class="brandrow">
     <div class="wordmark">TERRAFLOW<span>.STUDIO</span></div>
-    <div class="progress"><b id="doneN">0</b> / <span id="totN">135</span> visited</div>
+    <div class="progress"><span id="sync" class="sync">Connecting</span> · <b id="doneN">0</b> / <span id="totN">135</span> visited</div>
   </div>
   <div class="bar"><i id="barFill"></i></div>
   <nav class="chips" id="chips" aria-label="Jump to cluster"></nav>
@@ -146,11 +147,7 @@ h1{font-size:30px;line-height:1.1;font-weight:600;letter-spacing:-.01em;margin:2
 </section>
 
 <div class="tools">
-  <div class="seg" role="group" aria-label="Area">
-    <button id="f-all" aria-pressed="true" data-area="all">All</button>
-    <button id="f-d1" aria-pressed="false" data-area="DIP 1">DIP 1</button>
-    <button id="f-d2" aria-pressed="false" data-area="DIP 2">DIP 2</button>
-  </div>
+  <div class="seg" role="group" aria-label="Area" id="seg"></div>
   <div class="row2">
     <input class="search" id="q" type="search" placeholder="Search company or type" autocomplete="off">
     <button class="toggle" id="hideDone" aria-pressed="false">Hide visited</button>
@@ -159,7 +156,7 @@ h1{font-size:30px;line-height:1.1;font-weight:600;letter-spacing:-.01em;margin:2
 
 <div class="sendrow"><button class="sendbtn" id="sendMarks">Send my marks to Alex on WhatsApp</button><button class="toggle" id="copyMarks">Copy</button></div>
 <main id="list"></main>
-<p class="foot">Tap a number to call. Sites checked and screenshotted 12 Oct 2026. Every site on this list loaded. Marks you made on the old list still send with the WhatsApp button. Your ticks save on this phone only.</p>
+<p class="foot">Tap a number to call. Sites checked and screenshotted 12 Oct 2026. Every tap is saved to Terraflow straight away. With no signal, taps wait on this phone and send when you are back online. Your ticks save on this phone only.</p>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -173,6 +170,12 @@ const PKG = {
 const BR = {start:2500, floor:1500};
 const fmt = n => n.toLocaleString("en-US");
 const KEY = "dip-walk-v1";
+const LIST = "dip-walk-18f068c1766c";
+const API = "https://zyrjljjzzijtbksebxcl.supabase.co/functions/v1/walk-mark";
+const QKEY = KEY + "-queue";
+let Q = [];
+try { Q = JSON.parse(localStorage.getItem(QKEY) || "[]") || []; } catch(e) { Q = []; }
+const saveQ = () => { try { localStorage.setItem(QKEY, JSON.stringify(Q)); } catch(e) {} };
 let S = {};
 try { S = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e) { S = {}; }
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} };
@@ -250,7 +253,7 @@ function stats() {
   document.getElementById("barFill").style.width = (done / all.length * 100) + "%";
   document.getElementById("chips").innerHTML = DATA.map(c => {
     const left = c.members.filter(m => !st(idOf(m)).status).length;
-    return `<button class="chip ${c.name.startsWith("DIP 2") ? "d2" : ""} ${left ? "" : "done"}" data-jump="${c.n}" aria-label="Stop ${c.n}, ${left} left">${c.n}</button>`;
+    return `<button class="chip ${AREAS.indexOf(c.name.split(":")[0]) % 2 ? "d2" : ""} ${left ? "" : "done"}" data-jump="${c.n}" aria-label="Stop ${c.n}, ${left} left">${c.n}</button>`;
   }).join("");
 }
 
@@ -267,8 +270,8 @@ document.addEventListener("click", e => {
   }
   const b = e.target.closest("[data-act]"); if (!b) return;
   const cardEl = b.closest(".card"), id = cardEl.dataset.id, s = st(id);
-  if (b.dataset.act === "brand") { s.brand = !s.brand; save(); cardEl.outerHTML = card(findM(id)); }
-  if (b.dataset.act === "status") { s.status = s.status === b.dataset.v ? "" : b.dataset.v; save(); cardEl.outerHTML = card(findM(id)); stats(); }
+  if (b.dataset.act === "brand") { s.brand = !s.brand; save(); cardEl.outerHTML = card(findM(id)); record(id, "brand", s.brand ? "on" : "off"); }
+  if (b.dataset.act === "status") { s.status = s.status === b.dataset.v ? "" : b.dataset.v; save(); cardEl.outerHTML = card(findM(id)); stats(); record(id, "status", s.status); }
   if (b.dataset.act === "copy") {
     const ph = b.dataset.phone;
     const ok = () => toast("Number copied");
@@ -283,7 +286,15 @@ function syncTools() {
   document.getElementById("q").value = query;
   document.getElementById("hideDone").setAttribute("aria-pressed", hideDone);
 }
-document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => { area = b.dataset.area; syncTools(); render(); }));
+const AREAS = [...new Set(DATA.map(c => c.name.split(":")[0]))].sort((a, b) => (a === "Ras Al Khor") - (b === "Ras Al Khor") || a.localeCompare(b));
+const short = a => a.replace("Ras Al Khor Industrial ", "Industrial ").replace(/^Ras Al Khor$/, "Other");
+(function () {
+  const seg = document.getElementById("seg");
+  const opts = ["all", ...AREAS];
+  seg.style.setProperty("--segn", opts.length);
+  seg.innerHTML = opts.map((a, i) => `<button id="f-${i}" aria-pressed="${a === "all"}" data-area="${esc(a)}">${a === "all" ? "All" : esc(short(a))}</button>`).join("");
+  seg.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { area = b.dataset.area; syncTools(); render(); }));
+})();
 document.getElementById("q").addEventListener("input", e => { query = e.target.value; render(); });
 document.getElementById("hideDone").addEventListener("click", () => { hideDone = !hideDone; syncTools(); render(); });
 function marksText() {
@@ -304,7 +315,58 @@ document.getElementById("copyMarks").addEventListener("click", () => {
   const t = marksText(); if (!t) { toast("Nothing marked yet"); return; }
   try { navigator.clipboard.writeText(t).then(() => toast("Marks copied"), () => toast("Copy blocked, use the WhatsApp button")); } catch(e) { toast("Copy blocked, use the WhatsApp button"); }
 });
+function nameOf(id) {
+  for (const c of DATA) for (const m of c.members) if (idOf(m) === id) return {name: m.name, stop: c.n};
+  return {name: (LEGACY[id] || id), stop: null};
+}
+function setSync() {
+  const el = document.getElementById("sync");
+  if (Q.length) { el.className = "sync wait"; el.textContent = Q.length + " waiting to send"; }
+  else { el.className = "sync ok"; el.textContent = "Saved"; }
+}
+function record(id, action, value, backfill) {
+  const n = nameOf(id);
+  Q.push({list: LIST, company: id, name: n.name, stop: n.stop == null ? undefined : n.stop, action, value, backfill: !!backfill});
+  saveQ(); setSync(); flush();
+}
+let flushing = false;
+async function flush() {
+  if (flushing || !Q.length) { setSync(); return; }
+  flushing = true;
+  while (Q.length) {
+    try {
+      const r = await fetch(API, {method: "POST", headers: {"content-type": "text/plain"}, body: JSON.stringify(Q[0]), keepalive: true});
+      if (r.ok || r.status === 400) { Q.shift(); saveQ(); }
+      else break;
+    } catch(e) { break; }
+  }
+  flushing = false; setSync();
+}
+async function pull() {
+  try {
+    const r = await fetch(API + "?list=" + encodeURIComponent(LIST));
+    if (!r.ok) throw new Error("read " + r.status);
+    const j = await r.json(), server = j.marks || {};
+    const pending = new Set(Q.map(q => q.company + "|" + q.action));
+    for (const id in server) {
+      const sv = server[id], s = st(id);
+      if (!pending.has(id + "|status") && sv.status !== undefined) s.status = sv.status;
+      if (!pending.has(id + "|brand") && sv.brand !== undefined) s.brand = sv.brand;
+    }
+    // Marks saved on this phone before marks were recorded: send them once.
+    for (const id in S) {
+      const s = S[id], sv = server[id] || {};
+      if (s.status && sv.status === undefined && !pending.has(id + "|status")) record(id, "status", s.status, true);
+      if (s.brand && sv.brand === undefined && !pending.has(id + "|brand")) record(id, "brand", "on", true);
+    }
+    save(); render();
+  } catch(e) { setSync(); }
+  flush();
+}
+window.addEventListener("online", flush);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") pull(); });
 render();
+pull();
 </script>
 
 </body>
