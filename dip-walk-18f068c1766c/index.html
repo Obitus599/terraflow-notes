@@ -115,6 +115,7 @@ h1{font-size:30px;line-height:1.1;font-weight:600;letter-spacing:-.01em;margin:2
 .st[aria-pressed="true"].i{background:var(--good-soft);color:var(--good);border-color:transparent}
 .st[aria-pressed="true"].c{background:var(--bad-soft);color:var(--bad);border-color:transparent}
 
+.sendrow{display:flex;gap:8px;margin:8px 0 0}.sendbtn{flex:1;min-width:0;height:48px;border-radius:12px;border:0;background:var(--moon);color:var(--onyx);font-weight:600;font-size:15px;cursor:pointer}
 .empty{color:var(--muted);text-align:center;padding:40px 0}
 .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--quiet)}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--moon);color:var(--onyx);font-weight:600;font-size:14px;padding:10px 16px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -155,6 +156,7 @@ h1{font-size:30px;line-height:1.1;font-weight:600;letter-spacing:-.01em;margin:2
   </div>
 </div>
 
+<div class="sendrow"><button class="sendbtn" id="sendMarks">Send my marks to Alex on WhatsApp</button><button class="toggle" id="copyMarks">Copy</button></div>
 <main id="list"></main>
 <p class="foot">Tap a number to call. Sites checked 12 Oct 2026. Dead sites were confirmed from two separate connections. Some businesses with dead sites may have closed, so look at the shopfront before you knock. Your ticks save on this phone only.</p>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -281,6 +283,22 @@ function syncTools() {
 document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => { area = b.dataset.area; syncTools(); render(); }));
 document.getElementById("q").addEventListener("input", e => { query = e.target.value; render(); });
 document.getElementById("hideDone").addEventListener("click", () => { hideDone = !hideDone; syncTools(); render(); });
+function marksText() {
+  const groups = {closed: [], interested: [], visited: []};
+  for (const c of DATA) for (const m of c.members) { const s = st(idOf(m)); if (s.status) groups[s.status].push(`Stop ${c.n}: ${m.name}${s.brand ? " (+branding)" : ""}`); }
+  const n = groups.closed.length + groups.interested.length + groups.visited.length;
+  if (!n) return "";
+  const part = (t, a) => a.length ? `${t} (${a.length})\n` + a.join("\n") + "\n\n" : "";
+  return `DIP walk list marks\n\n` + part("Interested", groups.interested) + part("Shut down", groups.closed) + part("Visited, no interest", groups.visited);
+}
+document.getElementById("sendMarks").addEventListener("click", () => {
+  const t = marksText(); if (!t) { toast("Nothing marked yet"); return; }
+  location.href = "https://wa.me/?text=" + encodeURIComponent(t);
+});
+document.getElementById("copyMarks").addEventListener("click", () => {
+  const t = marksText(); if (!t) { toast("Nothing marked yet"); return; }
+  try { navigator.clipboard.writeText(t).then(() => toast("Marks copied"), () => toast("Copy blocked, use the WhatsApp button")); } catch(e) { toast("Copy blocked, use the WhatsApp button"); }
+});
 render();
 </script>
 
