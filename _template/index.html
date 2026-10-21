@@ -542,23 +542,22 @@
       </div>
 
       <div class="offer">
-        <p class="kicker">If the free one was useful</p>
-        <h3>The whole marketing picture, not just the site</h3>
+        <p class="kicker">If you would rather not do it yourself</p>
+        <h3>We fix them for you</h3>
         <p>
-          Same treatment, applied to everything that brings you customers. Written up the same
-          way, with the evidence attached.
+          Everything on this page, done by us, on your current site. One fixed price agreed before
+          we start, so there are no surprises.
         </p>
         <ul>
-          <li>Google listing, reviews and maps ranking</li>
-          <li>What you rank for against the other {{CITY}} {{operators}}</li>
-          <li>Your Instagram and TikTok against theirs</li>
-          <li>Where your booking money leaks, start to finish</li>
-          <li>Paid ads, what to run and what to stop</li>
+          <li>{{FIX 1, in a few words}}</li>
+          <li>{{FIX 2}}</li>
+          <li>{{FIX 3}}</li>
+          <li>Checked on a phone before we hand it back</li>
         </ul>
         <div class="spacer"></div>
-        <p class="price">AED 50 <small>one payment</small></p>
-        <a class="btn btn-ocean" href="https://buy.stripe.com/00w14neik3TW7a38lDbQY00" target="_blank" rel="noopener">Get the full teardown</a>
-        <p class="fine">Delivered within five working days. Not what you hoped for? Tell me and I refund it.</p>
+        <p class="price">From AED 4,000 <small>fixed price, quoted first</small></p>
+        <a class="btn btn-ocean" data-offer="fix" href="mailto:hello@terraflow.studio?subject=Fix%20the%20site%20notes%20for%20{{BUSINESS URL-ENCODED}}" target="_blank" rel="noopener">Get them fixed</a>
+        <p class="fine">Reply with a yes and I'll send the quote. Nothing starts until you agree to it.</p>
       </div>
 
     </div>
@@ -773,7 +772,7 @@
   document.addEventListener("click", function (e) {
     var a = e.target && e.target.closest ? e.target.closest("a") : null;
     if (!a) return;
-    if (a.href.indexOf("buy.stripe.com") > -1) send("click", "paid");
+    if (a.href.indexOf("buy.stripe.com") > -1 || a.getAttribute("data-offer") === "fix") send("click", "paid");
     else if (a.href.indexOf("cal.com") > -1) send("click", "call");
   });
   reach();

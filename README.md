@@ -1,8 +1,9 @@
 # Terraflow notes pages
 
 One page per prospect who says yes to a free teardown, served at `notes.terraflow.studio`.
-Every page carries the findings, a free 30 minute call, and the paid AED 50 full marketing
-teardown. The first one was Popeye Jetski, 11 September 2026, and it is the base for the rest.
+Every page carries the findings, a free 30 minute call, and an offer to fix them for a fixed
+price (from AED 4,000; this replaced the AED 50 marketing teardown on 21 Oct 2026, after the
+9 Oct pivot away from social and ads). The first one was Popeye Jetski, 11 September 2026, and it is the base for the rest.
 
 ## Making one
 
@@ -72,7 +73,7 @@ template already has it, and `./check` fails a page without it). It reports to t
 
 - Telegram says **"is reading their notes"** once per visit, and only after 15 seconds on screen
   or a scroll past 40%. A bare page load is not a read: Outlook's link scanner opens pages too.
-- Telegram says **"clicked the AED 50 teardown"** or **"clicked book a free call"** every time
+- Telegram says **"clicked get them fixed"** or **"clicked book a free call"** every time
   either offer is clicked.
 - Open any page once with `?me` on the end of the address, on each of your own devices. That
   browser is then never counted, so checking your own work does not ping you.
