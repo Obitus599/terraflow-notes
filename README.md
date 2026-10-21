@@ -21,8 +21,25 @@ them money until they fix them, so the link is the credential, the same pattern 
 call sheet. `robots.txt` blocks everything and every page carries `noindex, nofollow`.
 
 The repository is public because GitHub Pages needs it to be. Nothing goes in here that would
-embarrass a prospect if somebody read the commit history. Evidence and screenshots stay in
-`~/terraflow/outbound/teardowns/<domain>-<date>/`, never in this repo.
+embarrass a prospect if somebody read the commit history. Raw evidence (full-page captures,
+network logs, scripts) stays in `~/terraflow/outbound/teardowns/<domain>-<date>/`. Only the
+finished, marked-up page images go in the page's own `img/` folder, and anything that would
+embarrass them without being the point (review ratings, staff names) is blurred first.
+
+## The visual layout (since 21 Oct 2026)
+
+Alex's brief: super easy to read, plain English, built for a phone, very visual. The reader gives
+it two minutes on a phone, so the page is one finding per screen:
+
+1. a plain headline (the same words as its row in "The short version"),
+2. a picture of their live site with the problem outlined in red,
+3. the same spot fixed, outlined in green: their page re-rendered with the fix injected, or an
+   HTML mock when the fix is a new element,
+4. "What it means" in two short sentences, "The fix" in one or two, and an effort chip.
+
+No paragraph where a picture would do. Three to five findings, then "What is already working"
+as a ticked list. The Playwright capture scripts for the first one are in
+`~/terraflow/outbound/teardowns/antiquebookshop.com.au-20261021/visual/`.
 
 ## What never changes
 
