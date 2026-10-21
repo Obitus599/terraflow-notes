@@ -42,7 +42,7 @@ a { color:inherit; }
 /* hero */
 .hero { padding:40px 0 8px; }
 .kick { font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--n500); margin:0 0 14px; }
-.name { font-size:clamp(44px,13vw,84px); font-weight:700; line-height:.92; letter-spacing:-.05em; margin:0 0 20px; }
+.name { font-size:clamp(32px,8.6vw,52px); font-weight:700; line-height:.92; letter-spacing:-.05em; margin:0 0 20px; }
 .lede { font-size:20px; line-height:1.45; color:var(--n300); margin:0; }
 .lede b { color:var(--moon); font-weight:600; }
 .time { display:inline-flex; gap:8px; align-items:center; margin-top:18px; font-size:14px; color:var(--n500); }
@@ -140,6 +140,41 @@ html.js .rv { opacity:0; transform:translateY(14px); transition:opacity .5s ease
 html.js .rv.in { opacity:1; transform:none; }
 @media (prefers-reduced-motion: reduce) { html.js .rv { opacity:1; transform:none; transition:none; } }
 @media (min-width:700px) { body { font-size:19px; } .hero { padding-top:64px; } }
+
+/* ---- brand layer, carried over from the first template: hairline grid, grain, giant cropped
+   name, marquee, iridescent bands, counting figures, scrolling wordmark ---- */
+html, body { overflow-x:clip; }
+.grid-lines { position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background-image:repeating-linear-gradient(to right, transparent, transparent calc(50% - 1px), #161616 calc(50% - 1px), #161616 50%); }
+@media (min-width:700px) { .grid-lines { background-image:repeating-linear-gradient(to right, transparent, transparent calc(25% - 1px), #161616 calc(25% - 1px), #161616 25%); } }
+.grain-page { position:fixed; inset:0; z-index:40; pointer-events:none; opacity:.035;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>"); }
+.nameplate { padding:34px 0 0; overflow:hidden; }
+.nameplate .big { margin:0; padding:0 var(--gut); font-weight:700; font-size:clamp(64px,19vw,260px); line-height:.82; letter-spacing:-.055em; white-space:nowrap; color:var(--moon); }
+.nameplate .sub { display:flex; flex-wrap:wrap; gap:6px 20px; justify-content:space-between; max-width:1440px; margin:18px auto 0; padding:0 var(--gut);
+  font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--n500); }
+.marquee { margin-top:26px; border-top:1px solid var(--n900); border-bottom:1px solid var(--n900); overflow:hidden; padding:13px 0; }
+.marquee .track, .endmark .track { display:flex; width:max-content; animation:slide 38s linear infinite; }
+.marquee span { font-size:12px; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--n500); padding-right:34px; white-space:nowrap; }
+.marquee span b { color:var(--n300); font-weight:600; } .marquee .d { color:var(--ocean); font-style:normal; }
+@keyframes slide { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+.iri { position:relative; height:200px; overflow:hidden; background:#05070c; }
+.iri canvas { position:absolute; inset:0; width:100%; height:100%; display:block; }
+.iri .grain { position:absolute; inset:0; opacity:.16; mix-blend-mode:overlay; pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='.5'/></svg>"); }
+.iri .caption { position:absolute; inset:auto 0 0 0; margin:0 auto; max-width:600px; padding:0 var(--gut) 20px;
+  font-size:clamp(20px,5.4vw,30px); font-weight:600; letter-spacing:-.035em; line-height:1.12; text-shadow:0 2px 30px rgba(0,0,0,.55); }
+.bleed { margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); }
+.tally { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--n800); border:1px solid var(--n800); margin:28px 0 0; }
+.tally > div { background:var(--onyx); padding:16px 12px; }
+.tally dt { font-size:10.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--n600); margin:0 0 8px; line-height:1.3; }
+.tally dd { margin:0; font-size:clamp(24px,7vw,34px); font-weight:700; letter-spacing:-.04em; font-variant-numeric:tabular-nums; line-height:1; }
+.tally .accent dd { color:var(--ocean); } .tally .u { font-size:13px; font-weight:500; color:var(--n500); letter-spacing:0; }
+.endmark { display:block; overflow:hidden; padding:30px 0 10px; text-decoration:none; }
+.endmark .track { animation-duration:44s; }
+.endmark .big { padding-right:56px; font-weight:700; font-size:clamp(56px,19vw,250px); line-height:.82; letter-spacing:-.055em; white-space:nowrap; color:#151515; }
+.endmark .big i { font-style:normal; color:var(--ocean); }
+@media (prefers-reduced-motion: reduce) { .marquee .track, .endmark .track { animation:none; } }
 </style>
 <script>document.documentElement.className += " js";</script>
 </head>
@@ -150,6 +185,11 @@ html.js .rv.in { opacity:1; transform:none; }
   <a href="https://terraflow.studio" target="_blank" rel="noopener">TF.S</a>
   <a href="https://terraflow.studio" target="_blank" rel="noopener">Terraflow.Studio</a>
 </div></div>
+<div class="grid-lines" aria-hidden="true"></div>
+<div class="grain-page" aria-hidden="true"></div>
+<div class="nameplate"><p class="big" aria-hidden="true">{{BUSINESS IN CAPS}}</p><div class="sub"><span>{{WHAT THEY DO}} &middot; {{CITY}}</span><span>Site notes &middot; {{DD Mon YYYY}}</span></div></div>
+<div class="marquee" aria-hidden="true"><div class="track"><span><b>Free site notes</b> <i class="d">&middot;</i> {{N}} findings <i class="d">&middot;</i> {{the hook in six words}} <i class="d">&middot;</i> checked on the live site <i class="d">&middot;</i> </span><span><b>Free site notes</b> <i class="d">&middot;</i> {{N}} findings <i class="d">&middot;</i> {{the hook in six words}} <i class="d">&middot;</i> checked on the live site <i class="d">&middot;</i> </span><span><b>Free site notes</b> <i class="d">&middot;</i> {{N}} findings <i class="d">&middot;</i> {{the hook in six words}} <i class="d">&middot;</i> checked on the live site <i class="d">&middot;</i> </span><span><b>Free site notes</b> <i class="d">&middot;</i> {{N}} findings <i class="d">&middot;</i> {{the hook in six words}} <i class="d">&middot;</i> checked on the live site <i class="d">&middot;</i> </span></div></div>
+<div class="iri"><canvas data-iri="warm" aria-hidden="true"></canvas><div class="grain" aria-hidden="true"></div><p class="caption"><b>{{N}} findings.</b> {{One line that makes them scroll.}}</p></div>
 
 <main class="col">
 
@@ -164,9 +204,10 @@ html.js .rv.in { opacity:1; transform:none; }
 
 <header class="hero">
   <p class="kick">Site notes for {{THEIR FIRST NAME}} &middot; {{DD Mon YYYY}}</p>
-  <h1 class="name">{{BUSINESS NAME}}</h1>
+  <h1 class="name">{{HEADLINE: what the page found, in their words}}</h1>
   <p class="lede">I looked at your site the way {{a customer}} would, <b>on a phone</b>. Here's what I found. Every picture below is your live site, taken today.</p>
   <span class="time"><i></i> Two minutes to read</span>
+  <dl class="tally"><div class="accent"><dt>{{METRIC}}</dt><dd><span data-count="{{N}}">{{N}}</span> <span class="u">{{unit}}</span></dd></div><div><dt>{{METRIC}}</dt><dd><span data-count="{{N}}">{{N}}</span> <span class="u">{{unit}}</span></dd></div><div><dt>{{METRIC}}</dt><dd><span data-count="{{N}}">{{N}}</span> <span class="u">{{unit}}</span></dd></div></dl>
 </header>
 
 <!-- Red dot = costs them now. Amber = worth doing. Green = what works (always last, always there). -->
@@ -222,17 +263,11 @@ html.js .rv.in { opacity:1; transform:none; }
   <p class="p rv">{{One line on what is sound and what sits on top of it.}}</p>
 </section>
 
+<div class="iri bleed" style="margin-top:56px"><canvas data-iri="cool" aria-hidden="true"></canvas><div class="grain" aria-hidden="true"></div><p class="caption">Everything you need. One studio.</p></div>
+
 <!-- offers -->
 <section class="offers">
   <p class="num rv"><b>?</b> If you want a hand</p>
-
-  <div class="offer rv">
-    <p class="k">No charge</p>
-    <h3>Twenty minutes on a call</h3>
-    <p>I'll walk whoever looks after your site through these {{n}} fixes, so nobody has to guess what I meant.</p>
-    <p class="price">Free <small>20 minutes</small></p>
-    <a class="btn line" href="https://cal.com/hello-terraflow-studio-snvz0j/30min" target="_blank" rel="noopener">Pick a time</a>
-  </div>
 
   <div class="offer paid rv">
     <p class="k">If you'd rather not do it yourself</p>
@@ -243,10 +278,19 @@ html.js .rv.in { opacity:1; transform:none; }
       <li>{{FIX 3}}</li>
       <li>Checked on a phone before we hand it back</li>
     </ul>
-    <p class="price">From AED 4,000 <small>fixed price, quoted first</small></p>
-    <a class="btn ocean" data-offer="fix" href="mailto:hello@terraflow.studio?subject=Fix%20the%20site%20notes%20for%20{{BUSINESS URL-ENCODED}}" target="_blank" rel="noopener">Get them fixed</a>
-    <p class="fine">Reply with a yes and I'll send the quote. Nothing starts until you agree to it.</p>
+    <p class="price">From AED 4,000 <small>fixed price, agreed first</small></p>
+    <a class="btn ocean" data-offer="fix" href="https://cal.com/hello-terraflow-studio-snvz0j/30min?notes=Fix%20the%20site%20notes%20for%20{{BUSINESS URL-ENCODED}}" target="_blank" rel="noopener">Book a call to get them fixed</a>
+    <p class="fine">Pick a time that suits you. We agree what gets fixed on the call, you get a fixed price in writing, and nothing starts until you say yes.</p>
   </div>
+
+  <div class="offer rv">
+    <p class="k">No charge</p>
+    <h3>Doing it yourself?</h3>
+    <p>Everything you need is on this page. If it helps, bring whoever looks after your site to a call and I'll walk them through it.</p>
+    <p class="price">Free <small>20 minutes</small></p>
+    <a class="btn line" href="https://cal.com/hello-terraflow-studio-snvz0j/30min" target="_blank" rel="noopener">Pick a time</a>
+  </div>
+</div>
 </section>
 
 <footer>
@@ -257,7 +301,7 @@ html.js .rv.in { opacity:1; transform:none; }
     <a href="https://terraflow.studio" target="_blank" rel="noopener">terraflow.studio</a>
     <a href="mailto:hello@terraflow.studio">hello@terraflow.studio</a>
   </div>
-  <a class="end" href="https://terraflow.studio" target="_blank" rel="noopener" aria-label="Terraflow Studio">TERRAFLOW<i>.</i>STUDIO</a>
+  <a class="endmark bleed" href="https://terraflow.studio" target="_blank" rel="noopener" aria-label="Terraflow Studio"><span class="track"><span class="big">TERRAFLOW<i>.</i>STUDIO</span><span class="big">TERRAFLOW<i>.</i>STUDIO</span><span class="big">TERRAFLOW<i>.</i>STUDIO</span><span class="big">TERRAFLOW<i>.</i>STUDIO</span></span></a>
 </footer>
 
 </main>
@@ -275,6 +319,83 @@ html.js .rv.in { opacity:1; transform:none; }
     es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
   }, { rootMargin: "0px 0px -8% 0px" });
   els.forEach(function (e) { io.observe(e); });
+})();
+(function () {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function count(el) {
+    var target = parseFloat(el.getAttribute("data-count")), start = performance.now(), dur = 900;
+    function step(now) { var p = Math.min(1, (now - start) / dur); el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); else el.textContent = target; }
+    if (!reduce) requestAnimationFrame(step);
+  }
+  if ("IntersectionObserver" in window) {
+    var tio = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { [].forEach.call(e.target.querySelectorAll("[data-count]"), count); tio.unobserve(e.target); } }); }, { threshold: .3 });
+    [].forEach.call(document.querySelectorAll(".tally"), function (t) { tio.observe(t); });
+  }
+  var PALETTES = {
+    warm: [
+      [0.24, 0.21, 0.38, 0.17, 0.30, "255,138,76", .40],
+      [0.50, 0.13, 0.70, 0.23, 0.28, "0,153,255", .58],
+      [0.76, 0.19, 0.34, 0.11, 0.30, "255,74,140", .34],
+      [0.62, 0.09, 0.16, 0.27, 0.21, "255,209,102", .26]
+    ],
+    cool: [
+      [0.22, 0.21, 0.34, 0.17, 0.30, "0,153,255", .62],
+      [0.52, 0.13, 0.66, 0.23, 0.27, "0,209,178", .42],
+      [0.78, 0.19, 0.38, 0.11, 0.29, "122,86,255", .46],
+      [0.66, 0.09, 0.18, 0.27, 0.20, "255,110,180", .26]
+    ]
+  };
+
+  [].slice.call(document.querySelectorAll("canvas[data-iri]")).forEach(function (cv) {
+    if (!cv.getContext) return;
+    var ctx = cv.getContext("2d");
+    if (!ctx) return;
+    var spec = PALETTES[cv.getAttribute("data-iri")] || PALETTES.cool;
+    var t = Math.random() * 10, raf = null, rect;
+
+    function size() {
+      var r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
+      cv.width = Math.max(1, Math.round(r.width * d));
+      cv.height = Math.max(1, Math.round(r.height * d));
+      ctx.setTransform(d, 0, 0, d, 0, 0);
+      return r;
+    }
+    rect = size();
+    window.addEventListener("resize", function () { rect = size(); draw(); });
+
+    function blob(x, y, r, rgb, a) {
+      var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, "rgba(" + rgb + "," + a + ")");
+      g.addColorStop(1, "rgba(" + rgb + ",0)");
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    }
+    function draw() {
+      var w = rect.width, h = rect.height;
+      if (!w || !h) return;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#05070c"; ctx.fillRect(0, 0, w, h);
+      ctx.globalCompositeOperation = "lighter";
+      ctx.filter = "blur(56px)";
+      var s = Math.max(w, h);
+      spec.forEach(function (p, i) {
+        var fx = i % 2 ? Math.cos : Math.sin;
+        var fy = i % 2 ? Math.sin : Math.cos;
+        blob(w * (p[0] + 0.13 * fx(t * p[1])), h * (p[2] + 0.19 * fy(t * p[3])), s * p[4], p[5], p[6]);
+      });
+      ctx.filter = "none";
+      ctx.globalCompositeOperation = "source-over";
+    }
+    function loop() { t += 0.006; draw(); raf = requestAnimationFrame(loop); }
+
+    draw();
+    if (reduce || !("IntersectionObserver" in window)) return;
+    new IntersectionObserver(function (e) {
+      if (e[0].isIntersecting) { if (!raf) loop(); }
+      else if (raf) { cancelAnimationFrame(raf); raf = null; }
+    }, { threshold: 0 }).observe(cv);
+  });
+
 })();
 </script>
 <script>
