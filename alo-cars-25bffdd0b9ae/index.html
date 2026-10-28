@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alo Cars site notes | Terraflow Studio</title>
+<meta name="description" content="2 things on alocarsdubai.com, with pictures, checked on the live site on 28 Oct 2026.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap">
+<style>
+/* Terraflow notes, visual edition. Phone first: one column, one idea per screen, a picture for
+   every finding. Onyx ground, Moon type, Ocean only on the fix offer. Red marks a problem on
+   their site, green marks the same spot fixed. */
+:root {
+  --onyx:#0A0A0A; --n900:#171717; --n850:#1d1d1d; --n800:#262626; --n700:#404040; --n600:#525252;
+  --n500:#737373; --n400:#A3A3A3; --n300:#D4D4D4; --moon:#FAFAFA;
+  --ocean:#0099FF; --red:#FF3B30; --green:#22C55E; --amber:#F5A524;
+  --gut:20px;
+}
+* { box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+body {
+  margin:0; background:var(--onyx); color:var(--moon);
+  font-family:Switzer, "Helvetica Neue", Arial, sans-serif;
+  font-size:18px; line-height:1.5; letter-spacing:-.01em; -webkit-font-smoothing:antialiased;
+}
+img { display:block; max-width:100%; height:auto; }
+a { color:inherit; }
+.col { max-width:600px; margin:0 auto; padding:0 var(--gut); }
+
+/* top bar */
+.bar { position:sticky; top:0; z-index:20; background:rgba(10,10,10,.9); backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--n900); }
+.bar .col { display:flex; justify-content:space-between; align-items:center; height:52px; }
+.bar a { text-decoration:none; font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--n400); }
+.bar a:first-child { color:var(--moon); letter-spacing:.06em; }
+.progress { position:fixed; top:0; left:0; height:3px; width:0; background:var(--ocean); z-index:30; }
+
+/* hero */
+.hero { padding:40px 0 8px; }
+.kick { font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--n500); margin:0 0 14px; }
+.name { font-size:clamp(32px,8.6vw,52px); font-weight:700; line-height:.92; letter-spacing:-.05em; margin:0 0 20px; }
+.lede { font-size:20px; line-height:1.45; color:var(--n300); margin:0; }
+.lede b { color:var(--moon); font-weight:600; }
+.time { display:inline-flex; gap:8px; align-items:center; margin-top:18px; font-size:14px; color:var(--n500); }
+.time i { width:8px; height:8px; border-radius:50%; background:var(--green); display:inline-block; }
+
+/* the short version */
+.summary { margin:32px 0 8px; border:1px solid var(--n800); background:var(--n900); }
+.summary h2 { margin:0; padding:16px 18px; font-size:13px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--n400); border-bottom:1px solid var(--n800); }
+.summary a { display:flex; gap:14px; align-items:flex-start; padding:16px 18px; text-decoration:none; border-bottom:1px solid var(--n800); }
+.summary a:last-child { border-bottom:0; }
+.dot { flex:none; width:12px; height:12px; border-radius:50%; margin-top:7px; }
+.dot.r { background:var(--red); } .dot.a { background:var(--amber); } .dot.g { background:var(--green); }
+.summary .t { flex:1; font-size:17px; line-height:1.35; font-weight:500; }
+.summary .t small { display:block; margin-top:4px; font-size:14px; font-weight:400; color:var(--n500); }
+.summary .go { flex:none; color:var(--n600); font-size:20px; line-height:1.2; }
+
+/* findings */
+.finding { padding:56px 0 8px; }
+.num { display:flex; align-items:center; gap:10px; margin:0 0 14px; font-size:13px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--n500); }
+.num b { display:inline-grid; place-items:center; width:30px; height:30px; background:var(--moon); color:var(--onyx); font-size:15px; letter-spacing:0; }
+.finding h2 { font-size:clamp(28px,7.6vw,40px); line-height:1.05; letter-spacing:-.04em; font-weight:700; margin:0 0 22px; }
+
+figure { margin:0 0 22px; }
+figcaption { margin-top:10px; font-size:14px; color:var(--n500); line-height:1.4; }
+.shot { border:1px solid var(--n700); background:#fff; position:relative; overflow:hidden; }
+.tag { display:inline-block; margin-bottom:8px; padding:4px 9px; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+.tag.r { background:var(--red); color:#fff; } .tag.g { background:var(--green); color:#04210f; }
+
+/* now vs fixed, two phones side by side */
+.pair { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.phone { border:2px solid var(--n700); border-radius:22px; padding:8px; background:#000; }
+.phone .scr { border-radius:14px; overflow:hidden; aspect-ratio:390/844; background:#fff; }
+.phone .scr img { width:100%; height:100%; object-fit:cover; object-position:top; }
+.pair .phone.r { border-color:var(--red); } .pair .phone.g { border-color:var(--green); }
+
+.arrow { text-align:center; font-size:26px; color:var(--n600); margin:6px 0 10px; line-height:1; }
+
+/* Google result mock */
+.serp { background:#fff; color:#202124; padding:16px; font-family:Switzer, Arial, sans-serif; border:1px solid var(--n700); }
+.serp .u { font-size:13px; color:#4d5156; }
+.serp .h { font-size:19px; color:#1a0dab; margin:4px 0 6px; line-height:1.25; }
+.serp .d { font-size:14px; line-height:1.5; color:#4d5156; }
+.serp mark { background:#FF3B3033; outline:2px solid var(--red); outline-offset:1px; border-radius:2px; color:#202124; }
+
+/* the map button we would add */
+.mapbtn { display:flex; align-items:center; gap:12px; padding:14px 16px; background:#fff; color:#202124; border:3px solid var(--green); font-family:Switzer, Arial, sans-serif; }
+.mapbtn .pin { width:34px; height:34px; flex:none; border-radius:50%; background:#1a73e8; position:relative; }
+.mapbtn .pin::after { content:""; position:absolute; inset:11px; border-radius:50%; background:#fff; }
+.mapbtn b { display:block; font-size:16px; } .mapbtn span { font-size:13px; color:#4d5156; }
+
+/* means / fix blocks */
+.means, .fix { padding:16px 18px; margin:0 0 12px; font-size:17px; line-height:1.45; }
+.means { background:var(--n900); border-left:4px solid var(--red); }
+.fix { background:var(--n900); border-left:4px solid var(--green); }
+.means b, .fix b { display:block; font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; margin-bottom:6px; }
+.means b { color:var(--red); } .fix b { color:var(--green); }
+.effort { display:inline-block; margin-top:10px; padding:4px 10px; border:1px solid var(--n700); font-size:13px; color:var(--n300); }
+
+/* what works */
+.works { list-style:none; margin:0 0 20px; padding:0; border:1px solid var(--n800); }
+.works li { display:flex; gap:12px; padding:14px 16px; border-bottom:1px solid var(--n800); font-size:17px; line-height:1.35; }
+.works li:last-child { border-bottom:0; }
+.works li::before { content:""; flex:none; width:22px; height:22px; margin-top:1px; border-radius:50%;
+  background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%2304210f' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat; }
+.works li span { color:var(--n500); }
+.p { color:var(--n300); font-size:17px; margin:0 0 16px; }
+
+/* offers */
+.offers { padding:56px 0 8px; }
+.offer { border:1px solid var(--n800); padding:22px 20px; margin-bottom:14px; }
+.offer.paid { border-color:var(--ocean); }
+.offer .k { font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--n500); margin:0 0 8px; }
+.offer h3 { font-size:24px; line-height:1.15; letter-spacing:-.03em; margin:0 0 10px; }
+.offer p { margin:0 0 14px; color:var(--n400); font-size:16px; }
+.offer ul { margin:0 0 16px; padding:0; list-style:none; }
+.offer li { padding:8px 0; border-bottom:1px solid var(--n850); font-size:16px; }
+.offer li:last-child { border-bottom:0; }
+.price { font-size:28px; font-weight:700; letter-spacing:-.03em; margin:0 0 14px; }
+.price small { font-size:13px; font-weight:400; color:var(--n500); letter-spacing:0; margin-left:6px; }
+.btn { display:block; text-align:center; padding:16px; font-size:16px; font-weight:600; text-decoration:none; }
+.btn.line { border:1px solid var(--n600); color:var(--moon); }
+.btn.ocean { background:var(--ocean); color:#fff; }
+.fine { font-size:13px; color:var(--n600); margin:12px 0 0; }
+
+footer { padding:48px 0 60px; overflow:hidden; }
+footer p { color:var(--n400); font-size:17px; margin:0 0 14px; }
+.sign { font-size:28px; font-weight:700; letter-spacing:-.03em; margin:22px 0 34px; }
+.colophon { display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px; padding-top:18px; border-top:1px solid var(--n900); font-size:13px; color:var(--n600); }
+.colophon a { color:var(--n400); text-decoration:none; }
+.end { display:block; margin-top:36px; font-size:clamp(40px,12vw,96px); font-weight:700; letter-spacing:-.05em; line-height:.9; color:var(--n850); text-decoration:none; }
+.end i { font-style:normal; color:var(--ocean); }
+
+/* gentle reveal */
+html.js .rv { opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease; }
+html.js .rv.in { opacity:1; transform:none; }
+@media (prefers-reduced-motion: reduce) { html.js .rv { opacity:1; transform:none; transition:none; } }
+@media (min-width:700px) { body { font-size:19px; } .hero { padding-top:64px; } }
+
+/* ---- brand layer, carried over from the first template: hairline grid, grain, giant cropped
+   name, marquee, iridescent bands, counting figures, scrolling wordmark ---- */
+html, body { overflow-x:clip; }
+.grid-lines { position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background-image:repeating-linear-gradient(to right, transparent, transparent calc(50% - 1px), #161616 calc(50% - 1px), #161616 50%); }
+@media (min-width:700px) { .grid-lines { background-image:repeating-linear-gradient(to right, transparent, transparent calc(25% - 1px), #161616 calc(25% - 1px), #161616 25%); } }
+.grain-page { position:fixed; inset:0; z-index:40; pointer-events:none; opacity:.035;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>"); }
+.nameplate { padding:34px 0 0; overflow:hidden; }
+.nameplate .big { margin:0; padding:0 var(--gut); font-weight:700; font-size:clamp(64px,19vw,260px); line-height:.82; letter-spacing:-.055em; white-space:nowrap; color:var(--moon); }
+.nameplate .sub { display:flex; flex-wrap:wrap; gap:6px 20px; justify-content:space-between; max-width:1440px; margin:18px auto 0; padding:0 var(--gut);
+  font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--n500); }
+.marquee { margin-top:26px; border-top:1px solid var(--n900); border-bottom:1px solid var(--n900); overflow:hidden; padding:13px 0; }
+.marquee .track, .endmark .track { display:flex; width:max-content; animation:slide 38s linear infinite; }
+.marquee span { font-size:12px; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--n500); padding-right:34px; white-space:nowrap; }
+.marquee span b { color:var(--n300); font-weight:600; } .marquee .d { color:var(--ocean); font-style:normal; }
+@keyframes slide { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+.iri { position:relative; height:200px; overflow:hidden; background:#05070c; }
+.iri canvas { position:absolute; inset:0; width:100%; height:100%; display:block; }
+.iri .grain { position:absolute; inset:0; opacity:.16; mix-blend-mode:overlay; pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='.5'/></svg>"); }
+.iri .caption { position:absolute; inset:auto 0 0 0; margin:0 auto; max-width:600px; padding:0 var(--gut) 20px;
+  font-size:clamp(20px,5.4vw,30px); font-weight:600; letter-spacing:-.035em; line-height:1.12; text-shadow:0 2px 30px rgba(0,0,0,.55); }
+.bleed { margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); }
+.tally { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--n800); border:1px solid var(--n800); margin:28px 0 0; }
+.tally > div { background:var(--onyx); padding:16px 12px; }
+.tally dt { font-size:10.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--n600); margin:0 0 8px; line-height:1.3; }
+.tally dd { margin:0; font-size:clamp(24px,7vw,34px); font-weight:700; letter-spacing:-.04em; font-variant-numeric:tabular-nums; line-height:1; }
+.tally .accent dd { color:var(--ocean); } .tally .u { font-size:13px; font-weight:500; color:var(--n500); letter-spacing:0; }
+.endmark { display:block; overflow:hidden; padding:30px 0 10px; text-decoration:none; }
+.endmark .track { animation-duration:44s; }
+.endmark .big { padding-right:56px; font-weight:700; font-size:clamp(56px,19vw,250px); line-height:.82; letter-spacing:-.055em; white-space:nowrap; color:#151515; }
+.endmark .big i { font-style:normal; color:var(--ocean); }
+@media (prefers-reduced-motion: reduce) { .marquee .track, .endmark .track { animation:none; } }
+</style>
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<div class="bar"><div class="col">
+  <a href="https://terraflow.studio" target="_blank" rel="noopener">TF.S</a>
+  <a href="https://terraflow.studio" target="_blank" rel="noopener">Terraflow.Studio</a>
+</div></div>
+<div class="grid-lines" aria-hidden="true"></div>
+<div class="grain-page" aria-hidden="true"></div>
+<div class="nameplate"><p class="big" aria-hidden="true">ALO CARS</p><div class="sub"><span>Car dealer &middot; Ras Al Khor</span><span>Site notes &middot; 28 Oct 2026</span></div></div>
+<div class="marquee" aria-hidden="true"><div class="track"><span><b>Free site notes</b> <i class="d">&middot;</i> 2 findings <i class="d">&middot;</i> buyers can't WhatsApp you <i class="d">&middot;</i> checked on the live site <i class="d">&middot;</i> </span><span><b>Free site notes</b> <i class="d">&middot;</i> 2 findings <i class="d">&middot;</i> buyers can't WhatsApp you <i class="d">&middot;</i> checked on the live site <i class="d">&middot;</i> </span><span><b>Free site notes</b> <i class="d">&middot;</i> 2 findings <i class="d">&middot;</i> buyers can't WhatsApp you <i class="d">&middot;</i> checked on the live site <i class="d">&middot;</i> </span><span><b>Free site notes</b> <i class="d">&middot;</i> 2 findings <i class="d">&middot;</i> buyers can't WhatsApp you <i class="d">&middot;</i> checked on the live site <i class="d">&middot;</i> </span></div></div>
+<div class="iri"><canvas data-iri="warm" aria-hidden="true"></canvas><div class="grain" aria-hidden="true"></div><p class="caption"><b>2 findings.</b> The first one takes half a day to fix.</p></div>
+
+<main class="col">
+
+<!-- HOW THIS PAGE WORKS. The reader is on a phone and gives it two minutes. One finding per
+     screen: a plain headline, a PICTURE of their own live site with the problem marked in red,
+     the same spot fixed in green where you can show it, then one line on what it means and one
+     on the fix. Never a paragraph where a picture would do. Images live in ./img, phone width
+     (720px wide max, under 150 KB each, JPEG). Capture them with Playwright: outline the problem
+     in #FF3B30 before the screenshot, apply the fix with injected CSS and outline it in #22C55E.
+     Blur anything that would embarrass them and isn't the point (ratings, staff names).
+     See ~/terraflow/outbound/teardowns/antiquebookshop.com.au-20261021/visual/*.cjs. -->
+
+<header class="hero">
+  <p class="kick">Site notes for Alo Cars &middot; 28 Oct 2026</p>
+  <h1 class="name">Buyers can see your cars, but they can't WhatsApp you.</h1>
+  <p class="lede">I looked at your site the way a buyer would, <b>on a phone</b>. Here's what I found. Every picture below is your live site, taken today.</p>
+  <span class="time"><i></i> Two minutes to read</span>
+  <dl class="tally"><div class="accent"><dt>WhatsApp buttons</dt><dd><span data-count="0">0</span> <span class="u">on the site</span></dd></div><div><dt>Cars on the home page</dt><dd><span data-count="3">3</span> <span class="u">on a phone</span></dd></div><div><dt>Year in the footer</dt><dd><span>2020</span></dd></div></dl>
+</header>
+
+<section class="summary rv" aria-label="The short version">
+  <h2>The short version</h2>
+  <a href="#one"><span class="dot r"></span><span class="t">No WhatsApp button anywhere<small>Fix: half a day</small></span><span class="go">&#8250;</span></a>
+  <a href="#two"><span class="dot a"></span><span class="t">Footer still says 2020<small>Fix: ten minutes</small></span><span class="go">&#8250;</span></a>
+  <a href="#works"><span class="dot g"></span><span class="t">Your cars show with photos, year and kilometres<small>All correct, nothing to do</small></span><span class="go">&#8250;</span></a>
+</section>
+
+<section class="finding" id="one">
+  <p class="num rv"><b>1</b> Fix first</p>
+  <h2 class="rv">No WhatsApp button anywhere</h2>
+  <figure class="rv">
+    <div class="pair">
+      <div><span class="tag r">Today</span><div class="phone r"><div class="scr"><img src="img/contact-now.jpg" alt="Top of the Alo Cars home page on a phone, no WhatsApp or call button" loading="lazy" width="390" height="844"></div></div></div>
+      <div><span class="tag g">Fixed</span><div class="phone g"><div class="scr"><img src="img/contact-fixed.jpg" alt="The same page with a WhatsApp and call bar at the bottom" loading="lazy" width="390" height="844"></div></div></div>
+    </div>
+    <figcaption>Same page, with a WhatsApp and call bar that stays on screen.</figcaption>
+  </figure>
+  <div class="means rv"><b>What it means</b>Your number can be tapped, but there's no way to start a WhatsApp chat. A buyer who likes a car has to copy the number across by hand, and some will message the next dealer instead.</div>
+  <div class="fix rv"><b>The fix</b>A WhatsApp and call bar fixed to the bottom of every page. On a car, the chat opens with that car's name already typed in.<br><span class="effort">Half a day</span></div>
+</section>
+
+<section class="finding" id="two">
+  <p class="num rv"><b>2</b> Worth doing</p>
+  <h2 class="rv">Footer still says 2020</h2>
+  <figure class="rv">
+    <span class="tag r">Today</span>
+    <div class="shot"><img src="img/year-now.jpg" alt="The footer showing copyright 2020" loading="lazy" width="720" height="329"></div>
+    <figcaption>The footer at the bottom of every page.</figcaption>
+  </figure>
+  <div class="arrow rv" aria-hidden="true">&#8595;</div>
+  <figure class="rv">
+    <span class="tag g">Fixed</span>
+    <div class="shot"><img src="img/year-fixed.jpg" alt="The footer showing 2026" loading="lazy" width="720" height="329"></div>
+    <figcaption>The year, current and updating itself.</figcaption>
+  </figure>
+  <div class="means rv"><b>What it means</b>Buyers notice small things like this when they decide if a dealer is still trading. A 2020 footer makes a busy showroom look closed.</div>
+  <div class="fix rv"><b>The fix</b>Make the year update itself.<br><span class="effort">Ten minutes</span></div>
+</section>
+
+<section class="finding" id="works">
+  <p class="num rv"><b>&#10003;</b> What is already working</p>
+  <h2 class="rv">Your cars show with photos, year and kilometres</h2>
+  <ul class="works rv">
+    <li><div>Your cars show with photos<br><span>Year, colour and kilometres on each one. I counted 3 on the home page.</span></div></li>
+    <li><div>Tapping a car keeps the buyer on your own site</div></li>
+    <li><div>Your opening hours are listed</div></li>
+  </ul>
+  <p class="p rv">The basics are there. What's missing is the part that turns a look into a message.</p>
+</section>
+
+<div class="iri bleed" style="margin-top:56px"><canvas data-iri="cool" aria-hidden="true"></canvas><div class="grain" aria-hidden="true"></div><p class="caption">Everything you need. One studio.</p></div>
+
+<!-- offers -->
+<section class="offers">
+  <p class="num rv"><b>?</b> If you want a hand</p>
+
+  <div class="offer paid rv">
+    <p class="k">If you'd rather not do it yourself</p>
+    <h3>We fix them for you</h3>
+    <ul>
+      <li>A WhatsApp and call bar on every page</li>
+      <li>A footer year that updates itself</li>
+      <li>Checked on a phone before we hand it back</li>
+    </ul>
+    <p class="price">From AED 4,000 <small>fixed price, agreed first</small></p>
+    <a class="btn ocean" data-offer="fix" href="https://cal.com/hello-terraflow-studio-snvz0j/30min?notes=Fix%20the%20site%20notes%20for%20Alo%20Cars" target="_blank" rel="noopener">Book a call to get them fixed</a>
+    <p class="fine">Pick a time that suits you. We agree what gets fixed on the call, you get a fixed price in writing, and nothing starts until you say yes.</p>
+  </div>
+
+  <div class="offer rv">
+    <p class="k">No charge</p>
+    <h3>Doing it yourself?</h3>
+    <p>Everything you need is on this page. If it helps, bring whoever looks after your site to a call and I'll walk them through it.</p>
+    <p class="price">Free <small>20 minutes</small></p>
+    <a class="btn line" href="https://cal.com/hello-terraflow-studio-snvz0j/30min" target="_blank" rel="noopener">Pick a time</a>
+  </div>
+</div>
+</section>
+
+<footer>
+  <p>That's the lot. The WhatsApp bar is half a day of work, and it's the fix that puts buyers in your chats.</p>
+  <p>If you'd rather take this and get on with it, that's completely fine. It's yours either way.</p>
+  <div class="sign">Alex</div>
+  <div class="colophon">
+    <a href="https://terraflow.studio" target="_blank" rel="noopener">terraflow.studio</a>
+    <a href="mailto:hello@terraflow.studio">hello@terraflow.studio</a>
+  </div>
+  <a class="endmark bleed" href="https://terraflow.studio" target="_blank" rel="noopener" aria-label="Terraflow Studio"><span class="track"><span class="big">TERRAFLOW<i>.</i>STUDIO</span><span class="big">TERRAFLOW<i>.</i>STUDIO</span><span class="big">TERRAFLOW<i>.</i>STUDIO</span><span class="big">TERRAFLOW<i>.</i>STUDIO</span></span></a>
+</footer>
+
+</main>
+
+<script>
+(function () {
+  var bar = document.getElementById("progress");
+  addEventListener("scroll", function () {
+    var h = document.documentElement;
+    bar.style.width = (100 * h.scrollTop / Math.max(1, h.scrollHeight - innerHeight)) + "%";
+  }, { passive: true });
+  var els = document.querySelectorAll(".rv");
+  if (!("IntersectionObserver" in window)) { els.forEach(function (e) { e.classList.add("in"); }); return; }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { rootMargin: "0px 0px -8% 0px" });
+  els.forEach(function (e) { io.observe(e); });
+})();
+(function () {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function count(el) {
+    var target = parseFloat(el.getAttribute("data-count")), start = performance.now(), dur = 900;
+    function step(now) { var p = Math.min(1, (now - start) / dur); el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); else el.textContent = target; }
+    if (!reduce) requestAnimationFrame(step);
+  }
+  if ("IntersectionObserver" in window) {
+    var tio = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { [].forEach.call(e.target.querySelectorAll("[data-count]"), count); tio.unobserve(e.target); } }); }, { threshold: .3 });
+    [].forEach.call(document.querySelectorAll(".tally"), function (t) { tio.observe(t); });
+  }
+  var PALETTES = {
+    warm: [
+      [0.24, 0.21, 0.38, 0.17, 0.30, "255,138,76", .40],
+      [0.50, 0.13, 0.70, 0.23, 0.28, "0,153,255", .58],
+      [0.76, 0.19, 0.34, 0.11, 0.30, "255,74,140", .34],
+      [0.62, 0.09, 0.16, 0.27, 0.21, "255,209,102", .26]
+    ],
+    cool: [
+      [0.22, 0.21, 0.34, 0.17, 0.30, "0,153,255", .62],
+      [0.52, 0.13, 0.66, 0.23, 0.27, "0,209,178", .42],
+      [0.78, 0.19, 0.38, 0.11, 0.29, "122,86,255", .46],
+      [0.66, 0.09, 0.18, 0.27, 0.20, "255,110,180", .26]
+    ]
+  };
+
+  [].slice.call(document.querySelectorAll("canvas[data-iri]")).forEach(function (cv) {
+    if (!cv.getContext) return;
+    var ctx = cv.getContext("2d");
+    if (!ctx) return;
+    var spec = PALETTES[cv.getAttribute("data-iri")] || PALETTES.cool;
+    var t = Math.random() * 10, raf = null, rect;
+
+    function size() {
+      var r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
+      cv.width = Math.max(1, Math.round(r.width * d));
+      cv.height = Math.max(1, Math.round(r.height * d));
+      ctx.setTransform(d, 0, 0, d, 0, 0);
+      return r;
+    }
+    rect = size();
+    window.addEventListener("resize", function () { rect = size(); draw(); });
+
+    function blob(x, y, r, rgb, a) {
+      var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, "rgba(" + rgb + "," + a + ")");
+      g.addColorStop(1, "rgba(" + rgb + ",0)");
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    }
+    function draw() {
+      var w = rect.width, h = rect.height;
+      if (!w || !h) return;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#05070c"; ctx.fillRect(0, 0, w, h);
+      ctx.globalCompositeOperation = "lighter";
+      ctx.filter = "blur(56px)";
+      var s = Math.max(w, h);
+      spec.forEach(function (p, i) {
+        var fx = i % 2 ? Math.cos : Math.sin;
+        var fy = i % 2 ? Math.sin : Math.cos;
+        blob(w * (p[0] + 0.13 * fx(t * p[1])), h * (p[2] + 0.19 * fy(t * p[3])), s * p[4], p[5], p[6]);
+      });
+      ctx.filter = "none";
+      ctx.globalCompositeOperation = "source-over";
+    }
+    function loop() { t += 0.006; draw(); raf = requestAnimationFrame(loop); }
+
+    draw();
+    if (reduce || !("IntersectionObserver" in window)) return;
+    new IntersectionObserver(function (e) {
+      if (e[0].isIntersecting) { if (!raf) loop(); }
+      else if (raf) { cancelAnimationFrame(raf); raf = null; }
+    }, { threshold: 0 }).observe(cv);
+  });
+
+})();
+</script>
+<script>
+/* Visit counter. Tells Terraflow when this page is read and whether either offer is clicked.
+   No cookies, nothing stored on your device. Opening any page once with ?me in the address
+   marks that browser as Terraflow's own, and it is never counted again. */
+(function () {
+  try {
+    if (/[?&]me\b/.test(location.search)) localStorage.setItem("tf_me", "1");
+    if (localStorage.getItem("tf_me")) return;
+  } catch (e) {}
+  if (!navigator.sendBeacon || !window.crypto) return;
+  var URL_ = "https://zyrjljjzzijtbksebxcl.supabase.co/functions/v1/notes-view";
+  var slug = location.pathname.split("/").filter(Boolean)[0] || "";
+  var visit = Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(10)), function (b) {
+    return ("0" + b.toString(16)).slice(-2);
+  }).join("");
+  var secs = 0, scroll = 0, on = document.visibilityState === "visible", since = Date.now();
+  function tick() { var now = Date.now(); if (on) secs += (now - since) / 1000; since = now; }
+  function reach() {
+    var h = document.documentElement, p = Math.round(100 * (h.scrollTop + innerHeight) / h.scrollHeight);
+    if (p > scroll) scroll = Math.min(100, p);
+  }
+  function send(t, click) {
+    tick();
+    var b = { slug: slug, visit: visit, t: t, secs: Math.round(secs), scroll: scroll };
+    if (click) b.click = click;
+    try { navigator.sendBeacon(URL_, new Blob([JSON.stringify(b)], { type: "text/plain" })); } catch (e) {}
+  }
+  addEventListener("scroll", reach, { passive: true });
+  document.addEventListener("visibilitychange", function () {
+    tick(); on = document.visibilityState === "visible";
+    if (!on) send("ping");
+  });
+  setInterval(function () { if (on) send("ping"); }, 15000);
+  document.addEventListener("click", function (e) {
+    var a = e.target && e.target.closest ? e.target.closest("a") : null;
+    if (!a) return;
+    if (a.href.indexOf("buy.stripe.com") > -1 || a.getAttribute("data-offer") === "fix") send("click", "paid");
+    else if (a.href.indexOf("cal.com") > -1) send("click", "call");
+  });
+  reach();
+  send("load");
+})();
+</script>
+</body>
+</html>
