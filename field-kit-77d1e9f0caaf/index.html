@@ -55,15 +55,32 @@ body>.btn{background:var(--moon);color:var(--onyx);margin-top:26px}
 .who div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}.who b{font-size:18px}.who p{color:var(--muted);font-size:14px;margin-top:4px}
 .foot{font-size:12px;color:var(--quiet);margin-top:20px}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--moon);color:var(--onyx);font-weight:600;padding:8px 14px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none}.toast.on{opacity:1}
+
+.score{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.score div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+.score b{display:block;font-size:32px;font-weight:300;line-height:1;font-variant-numeric:tabular-nums}.score span{font-size:12px;color:var(--muted)}
+.flow{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:4px 16px}
+.f{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:13px 0;border-top:1px solid var(--line)}.f:first-child{border-top:0}
+.f i{font-style:normal;width:34px;height:34px;border-radius:50%;background:var(--moon);color:var(--onyx);display:grid;place-items:center;font-weight:600;font-size:15px}
+.f b{font-size:16px}.f p{color:var(--muted);font-size:14px;margin-top:1px}
+.trades{display:flex;gap:6px;overflow-x:auto;padding:10px 0 10px;scrollbar-width:none}.trades::-webkit-scrollbar{display:none}
+.trades button{flex:0 0 auto;height:38px;padding:0 14px;border-radius:19px;border:1px solid var(--line-2);background:transparent;color:var(--muted);font:inherit;font-size:14px;cursor:pointer}
+.trades button[aria-pressed="true"]{background:var(--moon);color:var(--onyx);border-color:var(--moon);font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn.light{background:var(--moon);color:var(--onyx);margin-top:0}.btn.ghost{background:transparent;color:var(--moon);border:1px solid var(--line-2)}
+body>.btn.light{margin-top:26px}.two .btn{font-size:14px;padding:15px 8px}
+.lists{display:grid;gap:8px}
+.lists a{display:grid;grid-template-columns:1fr auto;gap:2px 10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:13px 14px;text-decoration:none;color:var(--moon)}
+.lists b{font-size:17px}.lists span{grid-column:1;font-size:13px;color:var(--muted)}.lists em{grid-row:1/3;grid-column:2;align-self:center;font-style:normal;font-size:12px;color:var(--quiet)}
 </style></head><body><header class="top"><div class="wordmark">TERRAFLOW<span>.STUDIO</span></div><div class="tag">Door to door · Nov 2026</div></header>
 
 <h1>Sell a website or an app. Get paid today.</h1>
-<p class="lede">We need AED 16,000 in the bank by 30 Nov.</p>
+<p class="lede">AED 16,000 in the bank by 30 Nov. That's 4 websites, or 1 app deposit and 2 websites.</p>
 
-<section class="goal">
-  <div class="way"><div class="blocks"><i></i><i></i><i></i><i></i></div><p><b>4 websites</b> at about 4,000 each</p></div>
-  <div class="or">or</div>
-  <div class="way"><div class="blocks"><i class="big"></i><i></i><i></i></div><p><b>1 app deposit</b> (8,000) <b>+ 2 websites</b></p></div>
+<section class="score" aria-label="Scoreboard">
+  <div><b id="sVisited">0</b><span>doors done</span></div>
+  <div><b id="sInt">0</b><span>interested</span></div>
+  <div><b id="sLeft">543</b><span>doors left</span></div>
 </section>
 
 <section class="today">
@@ -75,47 +92,65 @@ body>.btn{background:var(--moon);color:var(--onyx);margin-top:26px}
   <details class="more"><summary>See the whole week</summary><div id="week"></div></details>
 </section>
 
-<h2 class="sec"><span>1</span>What we sell</h2>
+<h2 class="sec"><span>1</span>At every door</h2>
+<section class="flow">
+  <div class="f"><i>1</i><div><b>Open their card on the list</b><p>It has a photo of their site on a phone and what's wrong with it.</p></div></div>
+  <div class="f"><i>2</i><div><b>Tap "Their site now"</b><p>Hand the owner the phone. Let them scroll their own site.</p></div></div>
+  <div class="f"><i>3</i><div><b>Tap "Their new site" or "Their app"</b><p>A demo opens with their name on it. This is the moment that sells.</p></div></div>
+  <div class="f"><i>4</i><div><b>Say the price on the card</b><p>Half today, half when it's live.</p></div></div>
+  <div class="f"><i>5</i><div><b>Tap WhatsApp on the card</b><p>It sends them the offer with their name and the price you agreed. You get a ping when they open it.</p></div></div>
+  <div class="f"><i>6</i><div><b>Tap Interested, Visited or Shut down</b><p>So nobody knocks the same door twice.</p></div></div>
+</section>
+
+<h2 class="sec"><span>2</span>Try the demos first</h2>
+<p class="pay">Pick a trade and open both. Do this tonight so nothing surprises you at the door.</p>
+<div class="trades" id="trades"></div>
+<div class="two">
+  <a class="btn light" id="dSite" href="#">Open demo website</a>
+  <a class="btn light" id="dApp" href="#">Open demo app</a>
+</div>
+<a class="btn ghost" id="dOffer" href="#">Open the offer the owner gets</a>
+
+<h2 class="sec"><span>3</span>Prices</h2>
 <section class="prod">
   <div class="phead"><div class="pname">Website</div><div class="ptime">Live in 7 days</div></div>
-  <p class="pfor">For any business on the list. Their site looks bad on a phone and we rebuild it.</p>
   <div class="prices"><div><span>Say</span><b>5,000</b></div><div><span>Lowest</span><b class="low">3,000</b></div></div>
   <p class="psmall">Big site with car listings, a shop or booking: say 12,000, lowest 8,000.</p>
 </section>
 <section class="prod app">
   <div class="phead"><div class="pname">App</div><div class="ptime">Ready in 6 to 8 weeks</div></div>
-  <p class="pfor">For places where the same customers come back: salons, gyms, clinics, car rental, nurseries. Their own app for booking, offers and reminders.</p>
   <div class="prices"><div><span>Say</span><b>16,000</b></div><div><span>Lowest</span><b class="low">12,000</b></div></div>
-  <p class="psmall">On the lists these have a green "Also pitch an app" tag.</p>
+  <p class="psmall">For places where the same customers come back. Those cards have a green "Also pitch an app" tag.</p>
 </section>
-<p class="pay"><b>Same deal for both:</b> half today, half when it's live.</p>
 
-<h2 class="sec"><span>2</span>What to say</h2>
+<h2 class="sec"><span>4</span>What to say</h2>
 <div class="tabs" role="group"><button data-tab="web" aria-pressed="true">Selling a website</button><button data-tab="app" aria-pressed="false">Selling an app</button></div>
 <section class="steps" id="tab-web">
   <div class="step"><i>1</i><div><b>Find the owner</b><p>"Hi, is the owner around? I'm Alex. I build websites here in Dubai."</p></div></div>
-  <div class="step"><i>2</i><div><b>Show them their own site</b><p>Open their site on your phone and hand it over. Point at the problem written on their card. Then stay quiet and let them scroll.</p></div></div>
-  <div class="step"><i>3</i><div><b>Give one price</b><p>"I'll rebuild it in a week. 5,000, fixed. Half today, half when it's live and you're happy."</p></div></div>
-  <div class="step"><i>4</i><div><b>Ask for the money</b><p>"If you're in, I start tomorrow. Send the 2,500 now and I'll WhatsApp your receipt before I leave."</p></div></div>
+  <div class="step"><i>2</i><div><b>Their site now</b><p>"I looked at your site on my phone this morning. Have a look." Hand it over and stay quiet.</p></div></div>
+  <div class="step"><i>3</i><div><b>Their new site</b><p>"I put this together to show you what it could be." Open the demo with their name on it.</p></div></div>
+  <div class="step"><i>4</i><div><b>One price</b><p>"A week to build. 5,000, fixed. Half today, half when it's live and you're happy."</p></div></div>
+  <div class="step"><i>5</i><div><b>Ask for the money</b><p>"If you're in, I start tomorrow. I'll WhatsApp you the offer now. Send the 2,500 and you get the receipt before I leave."</p></div></div>
 </section>
 <section class="steps" id="tab-app" hidden>
   <div class="step"><i>1</i><div><b>Find the owner</b><p>"Hi, is the owner around? I'm Alex. I build apps and websites here in Dubai."</p></div></div>
   <div class="step"><i>2</i><div><b>Ask how people book</b><p>"How do your regulars book with you right now? Phone? WhatsApp?" Let them describe the mess.</p></div></div>
-  <div class="step"><i>3</i><div><b>Paint the app</b><p>"Imagine your own app on their phone, with your name on it. They book in two taps and you send them an offer when it's a slow day."</p></div></div>
-  <div class="step"><i>4</i><div><b>Give the price and ask</b><p>"16,000, fixed. 8,000 today starts the build, the rest when it's in the App Store." If that's too much: "Start with the website at 5,000 and add the app later."</p></div></div>
+  <div class="step"><i>3</i><div><b>Their app</b><p>Open the demo app with their name on it. Book something in front of them. Then tap Owner view and send an offer to every customer.</p></div></div>
+  <div class="step"><i>4</i><div><b>One price</b><p>"16,000, fixed. 8,000 today starts the build. The rest when it's in the App Store."</p></div></div>
+  <div class="step"><i>5</i><div><b>If it's too much</b><p>"Start with the website at 5,000. We add the app when you're ready."</p></div></div>
 </section>
 
-<h2 class="sec"><span>3</span>If they say...</h2>
+<h2 class="sec"><span>5</span>If they say...</h2>
 <section class="obj">
   <details><summary>"Too expensive"</summary><p>Website: "I can do a one-page version for 4,000, same week." App: "Then let's start with the website at 5,000." Drop once. Never go under the lowest price.</p></details>
   <details><summary>"My guy does our website"</summary><p>"No problem. Show him this on a phone and ask him to fix it." Leave your number and tap Visited.</p></details>
-  <details><summary>"Send me the details"</summary><p>"Sure, what's your WhatsApp?" Send the company profile right there. Tap Interested and come back in 2 days.</p></details>
+  <details><summary>"Send me the details"</summary><p>Tap WhatsApp on their card. The offer lands on their phone while you're standing there. Tap Interested and come back in 2 days.</p></details>
   <details><summary>"Next month"</summary><p>"The 7-day launch only works if we start this week. Next month I can't promise the date."</p></details>
   <details><summary>"Show me your work"</summary><p>Open the company profile at the bottom of this page. In Al Quoz, mention Artlink in Al Quoz 3.</p></details>
   <details><summary>"Do you do ads or Instagram?"</summary><p>"We build the website and the app. Your ads and your Google listing send people there, so it goes first."</p></details>
 </section>
 
-<h2 class="sec"><span>4</span>Get paid</h2>
+<h2 class="sec"><span>6</span>Get paid</h2>
 <section class="steps">
   <div class="step"><i>1</i><div><b>Take half now</b><p>Bank transfer to Terraflow Solutions FZCO (Alex sends the account details on WhatsApp) or cash.</p></div></div>
   <div class="step"><i>2</i><div><b>Send the receipt before you leave</b><p>Tap the box to copy it, fill the blanks, send it on WhatsApp.</p>
@@ -130,28 +165,32 @@ Thanks, Alex. Terraflow Solutions FZCO</pre></button></div></div>
 </section>
 <p class="pay">Don't start any work until the money lands. A yes without a deposit doesn't count.</p>
 
-<h2 class="sec"><span>5</span>Who does what</h2>
+<h2 class="sec"><span>7</span>Who does what</h2>
 <section class="who">
-  <div><b>Ashwini</b><p>Walks in first, finds the owner, opens their site on the phone, taps the result on the list.</p></div>
-  <div><b>Alex</b><p>Talks price and takes the money.</p></div>
+  <div><b>Ashwini</b><p>Walks in first, finds the owner, opens their card, taps the result.</p></div>
+  <div><b>Alex</b><p>Shows the demo, says the price, takes the money.</p></div>
 </section>
 <p class="pay">Never pitch a cashier. Get the owner's name and when they're in, then move on.</p>
 
-<a class="btn" href="https://notes.terraflow.studio/profile-5fada2235759/Terraflow-Company-Profile.pdf">Show our work (company profile)</a>
-<p class="foot">Websites sold after Mon 23 Nov can't go live by the 30th, so from the 24th sell apps and collect balances. Lists checked 16 Nov 2026.</p>
+<h2 class="sec"><span>8</span>All the lists</h2>
+<section class="lists" id="lists"></section>
+
+<a class="btn light" href="https://notes.terraflow.studio/profile-5fada2235759/Terraflow-Company-Profile.pdf">Show our work (company profile)</a>
+<p class="foot">Websites sold after Mon 23 Nov can't go live by the 30th, so from the 24th sell apps and collect balances. Every site on the lists was opened on a phone on 16 Nov 2026.</p>
 <div class="toast" id="toast">Copied</div>
 <script>
-var L={rakd:["Dealer route","https://notes.terraflow.studio/ras-al-khor-dealers-bdc3d36192d9/"],rak:["Ras Al Khor list","https://notes.terraflow.studio/ras-al-khor-58cdc2d57569/"],aq:["Al Quoz list","https://notes.terraflow.studio/al-quoz-walk-a460453645cc/"],city:["City list","https://notes.terraflow.studio/city-walk-6a38817ef7b9/"]};
+var N="https://notes.terraflow.studio/";
+var L={rakd:["Dealer route","ras-al-khor-dealers-bdc3d36192d9",12],rak:["Ras Al Khor list","ras-al-khor-58cdc2d57569",246],aq:["Al Quoz list","al-quoz-walk-a460453645cc",81],city:["City list","city-walk-6a38817ef7b9",85],dip:["DIP list","dip-walk-18f068c1766c",131]};
 var W=[
- ["2026-11-17","Tue 17 Nov","Ras Al Khor car market","12 car dealers first. Each one has a page showing what's wrong with their site. Then the shops around Gulf Motors.",["rakd","rak"]],
+ ["2026-11-17","Tue 17 Nov","Ras Al Khor car market","12 car dealers first. Each has its own page showing what's wrong with their site. Then the shops around Gulf Motors.",["rakd","rak"]],
  ["2026-11-18","Wed 18 Nov","Al Quoz","Stops 1 to 12 on the list.",["aq"]],
- ["2026-11-19","Thu 19 Nov","Al Quoz","Stops 13 to 25. Drop in on Artlink and ask to use them as a reference.",["aq"]],
+ ["2026-11-19","Thu 19 Nov","Al Quoz","Stop 13 to the end. Drop in on Artlink and ask to use them as a reference.",["aq"]],
  ["2026-11-20","Fri 20 Nov","Karama and Satwa","On foot. Lots of salons and clinics, so pitch apps here.",["city"]],
  ["2026-11-21","Sat 21 Nov","Jumeirah and Barsha","By car. The stops are spread out.",["city"]],
  ["2026-11-22","Sun 22 Nov","Go back to every Interested","Second visits are where people pay.",["rak","aq","city"]],
  ["2026-11-23","Mon 23 Nov","Go back to every Interested","Last day to sell a website that can go live by the 30th.",["rak","aq","city"]]
 ];
-function btns(a,cls){return a.map(function(k){return '<a class="'+cls+'" href="'+L[k][1]+'">Open '+L[k][0]+'</a>'}).join("")}
+function btns(a){return a.map(function(k){return '<a class="btn" href="'+N+L[k][1]+'/">Open '+L[k][0]+'</a>'}).join("")}
 (function(){
  var d=new Date(),iso=d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);
  var t=W.filter(function(w){return w[0]===iso})[0],lab="Today";
@@ -159,10 +198,22 @@ function btns(a,cls){return a.map(function(k){return '<a class="'+cls+'" href="'
  document.getElementById("tday").textContent=lab+" · "+t[1];
  document.getElementById("tplace").textContent=t[2];
  document.getElementById("tnote").textContent=t[3];
- document.getElementById("tbtns").innerHTML=btns(t[4],"btn");
- document.getElementById("week").innerHTML=W.map(function(w){return '<div class="wrow"><div><b>'+w[1]+'</b><span>'+w[2]+'</span></div><div class="wl">'+w[4].map(function(k){return '<a href="'+L[k][1]+'">'+L[k][0].replace(" list","")+'</a>'}).join("")+'</div></div>'}).join("");
+ document.getElementById("tbtns").innerHTML=btns(t[4]);
+ document.getElementById("week").innerHTML=W.map(function(w){return '<div class="wrow"><div><b>'+w[1]+'</b><span>'+w[2]+'</span></div><div class="wl">'+w[4].map(function(k){return '<a href="'+N+L[k][1]+'/">'+L[k][0].replace(" list","")+'</a>'}).join("")+'</div></div>'}).join("");
+ document.getElementById("lists").innerHTML=["rakd","rak","aq","city","dip"].map(function(k){return '<a href="'+N+L[k][1]+'/"><b>'+L[k][0]+'</b><span>'+L[k][2]+(k==="rakd"?" dealers, each with its own page":" businesses")+'</span><em id="ls-'+k+'"></em></a>'}).join("");
 })();
+var TR=[["garage","Garage","Al Noor Auto Garage"],["dealer","Car dealer","Gulf Star Motors"],["salon","Salon","Layla Beauty Lounge"],["clinic","Clinic","Wasl Dental Clinic"],["gym","Gym","Iron District Gym"],["rental","Car rental","Marina Rent A Car"],["nursery","Nursery","Little Palms Nursery"],["shop","Shop","Karama Home Store"],["trade","Other","Falcon Technical Services"]],cur=0;
+function setDemo(){var t=TR[cur],q="?n="+encodeURIComponent(t[2])+"&t="+t[0];
+ document.getElementById("dSite").href=N+"demo-site-7bb2fa94b6f3/"+q;document.getElementById("dApp").href=N+"demo-app-9e9d5c1271b9/"+q;
+ document.getElementById("dOffer").href=N+"offer-bf99d178f73a/"+q+"&k=web&p=5000&me";
+ document.getElementById("trades").innerHTML=TR.map(function(x,i){return '<button data-tr="'+i+'" aria-pressed="'+(i===cur)+'">'+x[1]+'</button>'}).join("")}
+setDemo();
+document.getElementById("trades").addEventListener("click",function(e){var b=e.target.closest("[data-tr]");if(b){cur=+b.dataset.tr;setDemo()}});
 document.querySelectorAll("[data-tab]").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll("[data-tab]").forEach(function(x){x.setAttribute("aria-pressed",x===b)});document.getElementById("tab-web").hidden=b.dataset.tab!=="web";document.getElementById("tab-app").hidden=b.dataset.tab!=="app"})});
 document.querySelectorAll("[data-copy]").forEach(function(b){b.addEventListener("click",function(){var t=document.getElementById(b.dataset.copy).textContent;var ok=function(){var e=document.getElementById("toast");e.classList.add("on");setTimeout(function(){e.classList.remove("on")},1400)};try{navigator.clipboard.writeText(t).then(ok,ok)}catch(e){}})});
+(function(){var tot=543,v=0,it=0,API="https://zyrjljjzzijtbksebxcl.supabase.co/functions/v1/walk-mark?list=";
+ ["rak","aq","city","dip"].forEach(function(k){fetch(API+L[k][1]).then(function(r){return r.json()}).then(function(j){var a=0,b=0,m=j.marks||{};for(var id in m){if(m[id].status){a++;if(m[id].status==="interested")b++}}
+  v+=a;it+=b;document.getElementById("sVisited").textContent=v;document.getElementById("sInt").textContent=it;document.getElementById("sLeft").textContent=Math.max(0,tot-v);
+  document.getElementById("ls-"+k).textContent=a?a+" done"+(b?", "+b+" interested":""):"not started"}).catch(function(){})})})();
 </script>
 </body></html>
