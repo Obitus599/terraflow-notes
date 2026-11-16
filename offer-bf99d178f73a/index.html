@@ -23,6 +23,8 @@ h2{font-size:22px;font-weight:600;letter-spacing:-.015em;margin:34px 0 10px}
 .steps b{display:block;font-size:13px;color:var(--muted);font-weight:600}.steps span{font-size:16px}
 .start{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}.small{font-size:13px;color:var(--muted);margin-top:8px}
 .foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--quiet)}.foot p{margin-top:8px}
+
+[hidden]{display:none!important}
 </style></head><body><header class="top"><div class="wordmark">TERRAFLOW<span>.STUDIO</span></div><div class="tag">Dubai</div></header>
 <p class="for">Offer for <b id="nm">your business</b></p>
 <h1 id="h1"></h1>
@@ -69,7 +71,7 @@ h2{font-size:22px;font-weight:600;letter-spacing:-.015em;margin:34px 0 10px}
   var a=Math.ceil(p/2); $("half1").textContent="AED "+f(a); $("half2").textContent="AED "+f(p-a); $("half2l").textContent=C.h2;
   C.g.forEach(function(x){var li=document.createElement("li");li.textContent=x;$("gets").appendChild(li)});
   C.s.forEach(function(x){var li=document.createElement("li"),b=document.createElement("b"),s=document.createElement("span");b.textContent=x[0];s.textContent=x[1];li.appendChild(b);li.appendChild(s);$("steps").appendChild(li)});
-  var u=new URLSearchParams(); if(n)u.set("n",n); if(t)u.set("t",t); if(ph&&k==="web")u.set("p",ph);
+  var bb=(q.get("b")||"").replace(/[^a-z0-9.\-]/gi,""),u=new URLSearchParams(); if(bb)u.set("b",bb); if(n)u.set("n",n); if(t&&k==="app")u.set("t",t); if(ph&&k==="web")u.set("p",ph); if(k==="web"&&!bb)$("demo").hidden=true;
   $("demo").href=C.d+"?"+u.toString(); $("demo").textContent=C.b;
 })();
 </script>
