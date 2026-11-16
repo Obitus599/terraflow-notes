@@ -96,20 +96,19 @@ body>.btn.light{margin-top:26px}.two .btn{font-size:14px;padding:15px 8px}
 <section class="flow">
   <div class="f"><i>1</i><div><b>Open their card on the list</b><p>It has a photo of their site on a phone and what's wrong with it.</p></div></div>
   <div class="f"><i>2</i><div><b>Tap "Their site now"</b><p>Hand the owner the phone. Let them scroll their own site.</p></div></div>
-  <div class="f"><i>3</i><div><b>Tap "Their new site" or "Their app"</b><p>Their new site is built from their own logo, photos, products and prices. No button on a card means their site gave us too little to build from, so show the app or stay on their current site.</p></div></div>
+  <div class="f"><i>3</i><div><b>If the card has a green tag, tap "Their app"</b><p>Book something in front of them, then open Owner view and send an offer to every customer.</p></div></div>
   <div class="f"><i>4</i><div><b>Say the price on the card</b><p>Half today, half when it's live.</p></div></div>
   <div class="f"><i>5</i><div><b>Tap WhatsApp on the card</b><p>It sends them the offer with their name and the price you agreed. You get a ping when they open it.</p></div></div>
   <div class="f"><i>6</i><div><b>Tap Interested, Visited or Shut down</b><p>So nobody knocks the same door twice.</p></div></div>
 </section>
 
-<h2 class="sec"><span>2</span>See what the owner sees</h2>
-<p class="pay">Five real businesses from the lists. Open each one tonight so nothing surprises you at the door.</p>
+<h2 class="sec"><span>2</span>Try the app and the offer</h2>
+<p class="pay">Pick a trade and open both tonight, so nothing surprises you at the door.</p>
 <div class="trades" id="trades"></div>
 <div class="two">
-  <a class="btn light" id="dSite" href="#">Their new site</a>
-  <a class="btn light" id="dApp" href="#">Their app</a>
+  <a class="btn light" id="dApp" href="#">Open the app demo</a>
+  <a class="btn light" id="dOffer" href="#">Open the offer</a>
 </div>
-<a class="btn ghost" id="dOffer" href="#">Open the offer the owner gets</a>
 
 <h2 class="sec"><span>3</span>Prices</h2>
 <section class="prod">
@@ -128,7 +127,7 @@ body>.btn.light{margin-top:26px}.two .btn{font-size:14px;padding:15px 8px}
 <section class="steps" id="tab-web">
   <div class="step"><i>1</i><div><b>Find the owner</b><p>"Hi, is the owner around? I'm Alex. I build websites here in Dubai."</p></div></div>
   <div class="step"><i>2</i><div><b>Their site now</b><p>"I looked at your site on my phone this morning. Have a look." Hand it over and stay quiet.</p></div></div>
-  <div class="step"><i>3</i><div><b>Their new site</b><p>"I rebuilt it with your own photos to show you what it could be." Open the demo and tap WhatsApp on one of their products.</p></div></div>
+  <div class="step"><i>3</i><div><b>Show our work</b><p>"This is what we build." Open the company profile at the bottom of this page.</p></div></div>
   <div class="step"><i>4</i><div><b>One price</b><p>"A week to build. 5,000, fixed. Half today, half when it's live and you're happy."</p></div></div>
   <div class="step"><i>5</i><div><b>Ask for the money</b><p>"If you're in, I start tomorrow. I'll WhatsApp you the offer now. Send the 2,500 and you get the receipt before I leave."</p></div></div>
 </section>
@@ -202,10 +201,10 @@ function btns(a){return a.map(function(k){return '<a class="btn" href="'+N+L[k][
  document.getElementById("week").innerHTML=W.map(function(w){return '<div class="wrow"><div><b>'+w[1]+'</b><span>'+w[2]+'</span></div><div class="wl">'+w[4].map(function(k){return '<a href="'+N+L[k][1]+'/">'+L[k][0].replace(" list","")+'</a>'}).join("")+'</div></div>'}).join("");
  document.getElementById("lists").innerHTML=["rakd","rak","aq","city","dip"].map(function(k){return '<a href="'+N+L[k][1]+'/"><b>'+L[k][0]+'</b><span>'+L[k][2]+(k==="rakd"?" dealers, each with its own page":" businesses")+'</span><em id="ls-'+k+'"></em></a>'}).join("");
 })();
-var TR=[["trade", "Wallwrap Creations", "Wallwrap Creations", "wallwrapcreations.com"], ["shop", "Acme Building Material", "Acme Building Materials", "acmedubai.com"], ["trade", "Derakbikes.com", "Derakbikes.com", "derakbikes.com"], ["dealer", "Sahara Motors", "Sahara Motors", "saharamotorsuae.com"], ["trade", "AlphaLine", "AlphaLine", "alphaemirates.com"]],cur=0;
-function setDemo(){var t=TR[cur],q="?n="+encodeURIComponent(t[2])+"&t="+t[0]+"&b="+t[3];
- document.getElementById("dSite").href=N+"demo-site-7bb2fa94b6f3/?b="+t[3];document.getElementById("dApp").href=N+"demo-app-9e9d5c1271b9/"+q;
- document.getElementById("dOffer").href=N+"offer-bf99d178f73a/"+q+"&k=web&p=5000&me";
+var TR=[["salon","Salon","Layla Beauty Lounge"],["gym","Gym","Iron District Gym"],["clinic","Clinic","Wasl Dental Clinic"],["dealer","Car dealer","Gulf Star Motors"],["garage","Garage","Al Noor Auto Garage"],["rental","Car rental","Marina Rent A Car"],["nursery","Nursery","Little Palms Nursery"]],cur=0;
+function setDemo(){var t=TR[cur],q="?n="+encodeURIComponent(t[2])+"&t="+t[0];
+ document.getElementById("dApp").href=N+"demo-app-9e9d5c1271b9/"+q;
+ document.getElementById("dOffer").href=N+"offer-bf99d178f73a/"+q+"&k=app&p=16000&me";
  document.getElementById("trades").innerHTML=TR.map(function(x,i){return '<button data-tr="'+i+'" aria-pressed="'+(i===cur)+'">'+x[1]+'</button>'}).join("")}
 setDemo();
 document.getElementById("trades").addEventListener("click",function(e){var b=e.target.closest("[data-tr]");if(b){cur=+b.dataset.tr;setDemo()}});
