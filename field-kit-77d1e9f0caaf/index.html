@@ -80,7 +80,7 @@ body>.btn.light{margin-top:26px}.two .btn{font-size:14px;padding:15px 8px}
 <section class="score" aria-label="Scoreboard">
   <div><b id="sVisited">0</b><span>doors done</span></div>
   <div><b id="sInt">0</b><span>interested</span></div>
-  <div><b id="sLeft">543</b><span>doors left</span></div>
+  <div><b id="sLeft">548</b><span>doors left</span></div>
 </section>
 
 <section class="today">
@@ -179,10 +179,10 @@ Thanks, Alex. Terraflow Solutions FZCO</pre></button></div></div>
 <div class="toast" id="toast">Copied</div>
 <script>
 var N="https://notes.terraflow.studio/";
-var L={rakd:["Dealer route","ras-al-khor-dealers-bdc3d36192d9",12],rak:["Ras Al Khor list","ras-al-khor-58cdc2d57569",246],aq:["Al Quoz list","al-quoz-walk-a460453645cc",81],city:["City list","city-walk-6a38817ef7b9",85],dip:["DIP list","dip-walk-18f068c1766c",131]};
+var L={rakd:["Dealer route","ras-al-khor-dealers-bdc3d36192d9",12],rak:["Ras Al Khor list","ras-al-khor-58cdc2d57569",246],aq:["Al Quoz list","al-quoz-walk-a460453645cc",81],city:["City list","city-walk-6a38817ef7b9",85],dip:["DIP list","dip-walk-18f068c1766c",136],calls:["Shipping call list","shipping-calls-f609312a515e",121]};
 var W=[
  ["2026-11-17","Tue 17 Nov","Ras Al Khor car market","12 car dealers first. Each has its own page showing what's wrong with their site. Then the shops around Gulf Motors.",["rakd","rak"]],
- ["2026-11-18","Wed 18 Nov","Al Quoz","Stops 1 to 12 on the list.",["aq"]],
+ ["2026-11-18","Wed 18 Nov","Dubai Investment Park","Tap Shipping only and do those 12 doors first, then walk the stops in order. Between doors, work the call list from the top.",["dip","calls"]],
  ["2026-11-19","Thu 19 Nov","Al Quoz","Stop 13 to the end. Drop in on Artlink and ask to use them as a reference.",["aq"]],
  ["2026-11-20","Fri 20 Nov","Karama and Satwa","On foot. Lots of salons and clinics, so pitch apps here.",["city"]],
  ["2026-11-21","Sat 21 Nov","Jumeirah and Barsha","By car. The stops are spread out.",["city"]],
@@ -199,7 +199,7 @@ function btns(a){return a.map(function(k){return '<a class="btn" href="'+N+L[k][
  document.getElementById("tnote").textContent=t[3];
  document.getElementById("tbtns").innerHTML=btns(t[4]);
  document.getElementById("week").innerHTML=W.map(function(w){return '<div class="wrow"><div><b>'+w[1]+'</b><span>'+w[2]+'</span></div><div class="wl">'+w[4].map(function(k){return '<a href="'+N+L[k][1]+'/">'+L[k][0].replace(" list","")+'</a>'}).join("")+'</div></div>'}).join("");
- document.getElementById("lists").innerHTML=["rakd","rak","aq","city","dip"].map(function(k){return '<a href="'+N+L[k][1]+'/"><b>'+L[k][0]+'</b><span>'+L[k][2]+(k==="rakd"?" dealers, each with its own page":" businesses")+'</span><em id="ls-'+k+'"></em></a>'}).join("");
+ document.getElementById("lists").innerHTML=["rakd","rak","aq","city","dip","calls"].map(function(k){return '<a href="'+N+L[k][1]+'/"><b>'+L[k][0]+'</b><span>'+L[k][2]+(k==="rakd"?" dealers, each with its own page":k==="calls"?" firms to call":" businesses")+'</span><em id="ls-'+k+'"></em></a>'}).join("");
 })();
 var TR=[["salon","Salon","Layla Beauty Lounge"],["gym","Gym","Iron District Gym"],["clinic","Clinic","Wasl Dental Clinic"],["dealer","Car dealer","Gulf Star Motors"],["garage","Garage","Al Noor Auto Garage"],["rental","Car rental","Marina Rent A Car"],["nursery","Nursery","Little Palms Nursery"]],cur=0;
 function setDemo(){var t=TR[cur],q="?n="+encodeURIComponent(t[2])+"&t="+t[0];
@@ -210,9 +210,10 @@ setDemo();
 document.getElementById("trades").addEventListener("click",function(e){var b=e.target.closest("[data-tr]");if(b){cur=+b.dataset.tr;setDemo()}});
 document.querySelectorAll("[data-tab]").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll("[data-tab]").forEach(function(x){x.setAttribute("aria-pressed",x===b)});document.getElementById("tab-web").hidden=b.dataset.tab!=="web";document.getElementById("tab-app").hidden=b.dataset.tab!=="app"})});
 document.querySelectorAll("[data-copy]").forEach(function(b){b.addEventListener("click",function(){var t=document.getElementById(b.dataset.copy).textContent;var ok=function(){var e=document.getElementById("toast");e.classList.add("on");setTimeout(function(){e.classList.remove("on")},1400)};try{navigator.clipboard.writeText(t).then(ok,ok)}catch(e){}})});
-(function(){var tot=543,v=0,it=0,API="https://zyrjljjzzijtbksebxcl.supabase.co/functions/v1/walk-mark?list=";
+(function(){var tot=548,v=0,it=0,API="https://zyrjljjzzijtbksebxcl.supabase.co/functions/v1/walk-mark?list=";
  ["rak","aq","city","dip"].forEach(function(k){fetch(API+L[k][1]).then(function(r){return r.json()}).then(function(j){var a=0,b=0,m=j.marks||{};for(var id in m){if(m[id].status){a++;if(m[id].status==="interested")b++}}
   v+=a;it+=b;document.getElementById("sVisited").textContent=v;document.getElementById("sInt").textContent=it;document.getElementById("sLeft").textContent=Math.max(0,tot-v);
   document.getElementById("ls-"+k).textContent=a?a+" done"+(b?", "+b+" interested":""):"not started"}).catch(function(){})})})();
+fetch("https://zyrjljjzzijtbksebxcl.supabase.co/functions/v1/walk-mark?list="+L.calls[1]).then(function(r){return r.json()}).then(function(j){var a=0,b=0,m=j.marks||{};for(var id in m){if(m[id].status){a++;if(m[id].status==="interested")b++}}document.getElementById("ls-calls").textContent=a?a+" called"+(b?", "+b+" interested":""):"not started"}).catch(function(){});
 </script>
 </body></html>
